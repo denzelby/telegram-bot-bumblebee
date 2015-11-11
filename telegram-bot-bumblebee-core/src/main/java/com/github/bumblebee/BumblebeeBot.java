@@ -1,7 +1,8 @@
-package telegram;
+package com.github.bumblebee;
 
 import feign.Logger;
 import feign.slf4j.Slf4jLogger;
+import telegram.TelegramBot;
 import telegram.api.BotApi;
 import telegram.api.FileApi;
 

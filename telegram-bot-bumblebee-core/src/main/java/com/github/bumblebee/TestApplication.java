@@ -2,7 +2,6 @@ package com.github.bumblebee;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import telegram.BumblebeeBot;
 import telegram.api.BotApi;
 import telegram.api.FileApi;
 import telegram.domain.BasicResponse;
