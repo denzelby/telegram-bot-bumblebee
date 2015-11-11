@@ -1,0 +1,18 @@
+group 'com.github.telegram'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    compile 'com.netflix.feign:feign-jaxrs:8.12.1'
+    compile 'com.netflix.feign:feign-gson:8.12.1'
+    compile 'com.netflix.feign:feign-okhttp:8.12.1'
+    compile 'com.netflix.feign:feign-slf4j:8.12.1'
+    compile 'org.slf4j:slf4j-api:1.7.12'
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    // will use spock later
+    //testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
