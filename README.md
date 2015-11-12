@@ -1,13 +1,13 @@
 # BumblebeeBot
 Telegram bot implementation
 
-## :telegram-bot-api
+## Module 'telegram-bot-api'
 Telegram Bot API client
 
-## :telegram-bot-service
+## Module 'telegram-bot-service'
 Helper services to pull updates from telegram (long polling, etc)
 
-## :telegram-bot-bumblebee-core
+## Module 'telegram-bot-bumblebee-core'
 BumblebeeBot implementation
 
 ## Todos:

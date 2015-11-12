@@ -12,7 +12,7 @@ class TelegramUpdateAction implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(TelegramUpdateAction.class);
 
-    public static final int POLL_TIMEOUT_SEC = 30;
+    public static final int POLL_TIMEOUT_SEC = 60;
     public static final int POLL_ITEMS_BATCH_SIZE = 100;
 
     private final BotApi botApi;
@@ -39,6 +39,7 @@ class TelegramUpdateAction implements Runnable {
         updates.stream().forEach(u -> handlers.forEach(handler -> handler.onUpdate(u)));
 
         // assuming that last update have highest offset (?)
+        // todo: verify
         if (updates.size() > 0) {
             Update lastUpdate = updates.get(updates.size() - 1);
             log.debug("offset: {} -> {}", lastUpdateOffset, lastUpdate.getUpdateId() + 1);

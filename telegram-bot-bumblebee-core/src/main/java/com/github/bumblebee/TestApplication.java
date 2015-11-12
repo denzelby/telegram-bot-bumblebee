@@ -15,7 +15,6 @@ import telegram.polling.TelegramUpdateService;
 
 import java.io.File;
 import java.text.MessageFormat;
-import java.util.concurrent.TimeUnit;
 
 // just ugly temporary test app
 public class TestApplication {
@@ -27,7 +26,7 @@ public class TestApplication {
         BumblebeeBot bee = new BumblebeeBot();
         BotApi bot = bee.create();
         FileApi fileApi = bee.createFileApi();
-        TelegramUpdateService updateService = new TelegramUpdateService(bot, 1, TimeUnit.SECONDS);
+        TelegramUpdateService updateService = new TelegramUpdateService(bot);
 
         updateService.onUpdate(update -> {
             log.info("Update: {}", update);
@@ -46,7 +45,7 @@ public class TestApplication {
             }
         });
 
-        updateService.onUpdate(new CommandHandler("/status", update -> {
+        updateService.onUpdate(new CommandHandler(update -> {
 
             String chatId = update.getMessage().getChat().getId().toString();
             bot.forwardMessage(chatId,
@@ -59,9 +58,9 @@ public class TestApplication {
             ForceReply keyboard = new ForceReply();
             bot.sendLocation(chatId, 53.931336f, 27.576950f, update.getMessage().getMessageId(),
                     keyboard);
-        }));
+        }, "/status"));
 
-        updateService.onUpdate(new CommandHandler("/pic", update -> {
+        updateService.onUpdate(new CommandHandler(update -> {
 
             String chatId = update.getMessage().getChat().getId().toString();
 
@@ -71,9 +70,9 @@ public class TestApplication {
             } catch (Exception e) {
                 log.error("fail", e);
             }
-        }));
+        }, "/pic"));
 
-        updateService.onUpdate(new CommandHandler("/audio", update -> {
+        updateService.onUpdate(new CommandHandler(update -> {
 
             String chatId = update.getMessage().getChat().getId().toString();
 
@@ -83,9 +82,9 @@ public class TestApplication {
             } catch (Exception e) {
                 log.error("fail", e);
             }
-        }));
+        }, "/audio"));
 
-        updateService.onUpdate(new CommandHandler("/doc", update -> {
+        updateService.onUpdate(new CommandHandler(update -> {
 
             String chatId = update.getMessage().getChat().getId().toString();
 
@@ -95,9 +94,9 @@ public class TestApplication {
             } catch (Exception e) {
                 log.error("fail", e);
             }
-        }));
+        }, "/doc"));
 
-        updateService.onUpdate(new CommandHandler("/voice", update -> {
+        updateService.onUpdate(new CommandHandler(update -> {
 
             String chatId = update.getMessage().getChat().getId().toString();
 
@@ -107,18 +106,18 @@ public class TestApplication {
             } catch (Exception e) {
                 log.error("fail", e);
             }
-        }));
+        }, "/voice"));
 
-        updateService.onUpdate(new CommandHandler("/usr", update -> {
+        updateService.onUpdate(new CommandHandler(update -> {
             BasicResponse<UserProfilePhotos> photos = bot.getUserProfilePhotos(update.getMessage().getFrom().getId());
 
             System.out.println("photos = " + photos);
 
             bot.sendPhoto(update.getMessage().getChat().getId().toString(),
                     photos.getResult().getPhotos()[0][0].getFileId());
-        }));
+        }, "/usr"));
 
-        updateService.onUpdate(new CommandHandler("/hook", update -> {
+        updateService.onUpdate(new CommandHandler(update -> {
 
             BasicResponse<Boolean> hook = bot.setWebhook("");
 
@@ -126,9 +125,9 @@ public class TestApplication {
                 throw new IllegalStateException("Failed to set hook");
             }
             log.info(hook.toString());
-        }));
+        }, "/hook"));
 
-        updateService.onUpdate(new CommandHandler("/getfile", update -> {
+        updateService.onUpdate(new CommandHandler(update -> {
 
             String fileId = bot.getUserProfilePhotos(update.getMessage().getFrom().getId())
                     .getResult().getPhotos()[0][0].getFileId();
@@ -141,7 +140,7 @@ public class TestApplication {
                             "size={1}\n" +
                             "url: {2}", f.getFileId(), f.getFileSize(), fileApi.getDownloadUrl(f)));
 
-        }));
+        }, "/getfile"));
 
         updateService.startPolling();
     }

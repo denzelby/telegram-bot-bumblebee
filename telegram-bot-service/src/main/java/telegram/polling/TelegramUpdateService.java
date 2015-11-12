@@ -7,8 +7,8 @@ import telegram.api.BotApi;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class TelegramUpdateService {
@@ -16,13 +16,17 @@ public class TelegramUpdateService {
     private static final Logger LOG = LoggerFactory.getLogger(TelegramUpdateService.class);
 
     private ScheduledExecutorService executor;
-    private ScheduledFuture<?> scheduledFuture;
+    private Future<?> future;
     private final Runnable customUpdateAction;
     private final List<UpdateHandler> handlers = new ArrayList<>();
 
     private final BotApi botApi;
-    private int pollInterval = 30;
+    private int pollInterval;
     private TimeUnit pollIntervalUnit = TimeUnit.SECONDS;
+
+    public TelegramUpdateService(BotApi botApi) {
+        this(botApi, 0, null, null);
+    }
 
     public TelegramUpdateService(BotApi botApi, int pollInterval, TimeUnit timeUnit) {
         this(botApi, pollInterval, timeUnit, null);
@@ -44,15 +48,15 @@ public class TelegramUpdateService {
         final Runnable action = (customUpdateAction != null)
                 ? customUpdateAction
                 : new TelegramUpdateAction(botApi, handlers);
-        scheduledFuture = executor.scheduleWithFixedDelay(action, 0, pollInterval, pollIntervalUnit);
+        future = executor.scheduleWithFixedDelay(action, 0, pollInterval, pollIntervalUnit);
 
         LOG.debug("Polling started");
     }
 
     public synchronized void stopPolling() {
 
-        if (scheduledFuture != null) {
-            scheduledFuture.cancel(false);
+        if (future != null) {
+            future.cancel(false);
         }
         if (executor != null) {
             executor.shutdown();
