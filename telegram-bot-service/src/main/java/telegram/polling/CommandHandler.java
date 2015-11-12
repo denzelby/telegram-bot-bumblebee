@@ -1,18 +1,15 @@
 package telegram.polling;
 
-import telegram.domain.Update;
-
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Update handler that reacts only on configured command
  */
-public class CommandHandler implements UpdateHandler {
+public class CommandHandler {
 
     private final List<String> commands;
     private final UpdateHandler commandHandler;
-
 
     public CommandHandler(UpdateHandler commandHandler, final String... commands) {
 
@@ -20,14 +17,13 @@ public class CommandHandler implements UpdateHandler {
         this.commandHandler = commandHandler;
     }
 
-    @Override
-    public void onUpdate(Update update) {
-
-        String text = update.getMessage().getText();
-        if (text != null) {
-            if (commands.stream().anyMatch(text::startsWith)) {
-                commandHandler.onUpdate(update);
-            }
-        }
+    public List<String> getCommands() {
+        return commands;
     }
+
+    public UpdateHandler getCommandHandler() {
+        return commandHandler;
+    }
+
+
 }

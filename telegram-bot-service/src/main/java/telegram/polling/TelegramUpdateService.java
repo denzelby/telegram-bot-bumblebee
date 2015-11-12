@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import telegram.api.BotApi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,13 +21,14 @@ public class TelegramUpdateService {
     private Future<?> future;
     private final Runnable customUpdateAction;
     private final List<UpdateHandler> handlers = new ArrayList<>();
+    private final Map<String, UpdateHandler> commandHandlers = new HashMap<>();
 
     private final BotApi botApi;
     private int pollInterval;
     private TimeUnit pollIntervalUnit = TimeUnit.SECONDS;
 
     public TelegramUpdateService(BotApi botApi) {
-        this(botApi, 0, null, null);
+        this(botApi, 1, TimeUnit.SECONDS, null);
     }
 
     public TelegramUpdateService(BotApi botApi, int pollInterval, TimeUnit timeUnit) {
@@ -47,7 +50,7 @@ public class TelegramUpdateService {
 
         final Runnable action = (customUpdateAction != null)
                 ? customUpdateAction
-                : new TelegramUpdateAction(botApi, handlers);
+                : new TelegramUpdateAction(botApi, commandHandlers, handlers);
         future = executor.scheduleWithFixedDelay(action, 0, pollInterval, pollIntervalUnit);
 
         LOG.debug("Polling started");
@@ -67,5 +70,12 @@ public class TelegramUpdateService {
 
     public void onUpdate(UpdateHandler handler) {
         handlers.add(handler);
+    }
+
+    public TelegramUpdateService bind(UpdateHandler handler, String... commandAliases) {
+        for (String alias : commandAliases) {
+            commandHandlers.put(alias, handler);
+        }
+        return this;
     }
 }
