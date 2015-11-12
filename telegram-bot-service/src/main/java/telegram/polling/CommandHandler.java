@@ -1,27 +1,29 @@
 package telegram.polling;
 
-import telegram.domain.Update;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Update handler that reacts only on configured command
  */
-public class CommandHandler implements UpdateHandler {
+public class CommandHandler {
 
-    private final String command;
+    private final List<String> commands;
     private final UpdateHandler commandHandler;
 
-    public CommandHandler(final String command, UpdateHandler commandHandler) {
+    public CommandHandler(UpdateHandler commandHandler, final String... commands) {
 
-        this.command = command;
+        this.commands = Arrays.asList(commands);
         this.commandHandler = commandHandler;
     }
 
-    @Override
-    public void onUpdate(Update update) {
-
-        String text = update.getMessage().getText();
-        if (text != null && text.startsWith(command)) {
-            commandHandler.onUpdate(update);
-        }
+    public List<String> getCommands() {
+        return commands;
     }
+
+    public UpdateHandler getCommandHandler() {
+        return commandHandler;
+    }
+
+
 }

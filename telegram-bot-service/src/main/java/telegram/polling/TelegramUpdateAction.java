@@ -7,22 +7,26 @@ import telegram.domain.BasicResponse;
 import telegram.domain.Update;
 
 import java.util.List;
+import java.util.Map;
 
 class TelegramUpdateAction implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(TelegramUpdateAction.class);
 
-    public static final int POLL_TIMEOUT_SEC = 30;
-    public static final int POLL_ITEMS_BATCH_SIZE = 100;
+    private static final int POLL_TIMEOUT_SEC = 60;
+    private static final int POLL_ITEMS_BATCH_SIZE = 100;
 
     private final BotApi botApi;
-    private final List<UpdateHandler> handlers;
+    private final Map<String, UpdateHandler> commandHandlers;
+    private final List<UpdateHandler> updateHandlers;
+    private final CommandParser commandParser = new CommandParser();
 
     private long lastUpdateOffset;
 
-    public TelegramUpdateAction(BotApi botApi, List<UpdateHandler> handlers) {
+    public TelegramUpdateAction(BotApi botApi, Map<String, UpdateHandler> commandHandlers, List<UpdateHandler> updateHandlers) {
         this.botApi = botApi;
-        this.handlers = handlers;
+        this.commandHandlers = commandHandlers;
+        this.updateHandlers = updateHandlers;
     }
 
     @Override
@@ -36,13 +40,34 @@ class TelegramUpdateAction implements Runnable {
 
         List<Update> updates = updateResponse.getResult();
 
-        updates.stream().forEach(u -> handlers.forEach(handler -> handler.onUpdate(u)));
+        updates.stream().forEach(update -> {
+            // try invoking command
+            boolean consumed = invokeCommand(update);
+
+            if (!consumed) {
+                // run handler chain if not consumed, stop if handler returns true
+                updateHandlers.stream().anyMatch(handler -> handler.onUpdate(update));
+            }
+        });
 
         // assuming that last update have highest offset (?)
+        // todo: verify
         if (updates.size() > 0) {
             Update lastUpdate = updates.get(updates.size() - 1);
             log.debug("offset: {} -> {}", lastUpdateOffset, lastUpdate.getUpdateId() + 1);
             lastUpdateOffset = lastUpdate.getUpdateId() + 1;
         }
+    }
+
+    private boolean invokeCommand(Update update) {
+        final String text = update.getMessage().getText();
+        if (text != null && text.startsWith("/")) {
+            UpdateHandler handler = commandHandlers.get(commandParser.parse(update.getMessage().getText()));
+            if (handler != null) {
+                handler.onUpdate(update);
+                return true;
+            }
+        }
+        return false;
     }
 }
