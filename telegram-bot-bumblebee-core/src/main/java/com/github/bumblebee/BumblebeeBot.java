@@ -24,7 +24,7 @@ public final class BumblebeeBot {
     public BotApi create() {
 
         return new TelegramBot(token)
-                .withLogLevel(Logger.Level.FULL)
+                .withLogLevel(Logger.Level.BASIC)
                 .withLogger(new Slf4jLogger())
                 .create();
     }

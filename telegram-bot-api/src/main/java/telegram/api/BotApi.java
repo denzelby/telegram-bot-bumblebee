@@ -47,6 +47,12 @@ public interface BotApi {
 
     @RequestLine("POST /sendMessage")
     @Headers("Content-type: application/json")
+    BasicResponse<Message> sendMessage(@Param("chat_id") Integer chatId,
+                                       @Param("text") String text,
+                                       @Param("reply_to_message_id") Integer replyToMessageId);
+
+    @RequestLine("POST /sendMessage")
+    @Headers("Content-type: application/json")
     BasicResponse<Message> sendMessage(@Param("chat_id") Integer chatId, @Param("text") String text);
 
     @RequestLine("POST /forwardMessage")

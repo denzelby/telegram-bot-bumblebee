@@ -7,9 +7,11 @@ import feign.RequestTemplate;
 import feign.codec.EncodeException;
 import feign.codec.Encoder;
 import okio.Buffer;
+import org.apache.commons.io.IOUtils;
 import telegram.domain.request.InputFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.Collection;
@@ -50,12 +52,7 @@ public class MultipartEncoder implements Encoder {
 
             final Object value = param.getValue();
             if (value instanceof InputFile) {
-                InputFile inputFile = (InputFile) value;
-                builder.addFormDataPart(
-                        param.getKey(),
-                        inputFile.getFile().getName(),
-                        RequestBody.create(MediaType.parse(inputFile.getMimeType()), inputFile.getFile())
-                );
+                addInputFilePart(builder, param.getKey(), (InputFile) value);
             } else {
                 builder.addFormDataPart(param.getKey(), value.toString());
             }
@@ -71,5 +68,23 @@ public class MultipartEncoder implements Encoder {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void addInputFilePart(MultipartBuilder builder, String partName, InputFile inputFile) {
+
+        MediaType mediaType = MediaType.parse(inputFile.getMimeType());
+        RequestBody body;
+
+        if (inputFile.getFile() != null) {
+            body = RequestBody.create(mediaType, inputFile.getFile());
+        } else {
+            try (InputStream stream = inputFile.getStream()) {
+                body = RequestBody.create(mediaType, IOUtils.toByteArray(stream));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        builder.addFormDataPart(partName, inputFile.getFileName(), body);
     }
 }

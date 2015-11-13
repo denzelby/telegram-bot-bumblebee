@@ -5,6 +5,7 @@ import feign.RequestLine;
 
 public interface GooglePicsApi {
 
-    @RequestLine("GET /search/images?v=1.0&q={query}")
+    // https://developers.google.com/image-search/v1/jsondevguide
+    @RequestLine("GET /search/images?v=1.0&imgsz=medium|large&rsz=1&safe=active&q={query}")
     GooglePicsResponse queryPictures(@Param("query") String search);
 }

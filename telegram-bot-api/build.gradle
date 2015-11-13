@@ -9,6 +9,8 @@ dependencies {
     compile 'com.netflix.feign:feign-gson:8.12.1'
     compile 'com.netflix.feign:feign-okhttp:8.12.1'
     compile 'com.netflix.feign:feign-slf4j:8.12.1'
+    compile 'commons-io:commons-io:2.4'
+
     compile 'org.slf4j:slf4j-api:1.7.12'
 
     testCompile 'junit:junit:4.11'

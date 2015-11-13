@@ -65,7 +65,7 @@ class TelegramUpdateAction implements Runnable {
     private void updateLastUpdateOffset(List<Update> updates) {
         if (updates != null && updates.size() > 0) {
             Update lastUpdate = updates.get(updates.size() - 1);
-            log.debug("offset: {} -> {}", lastUpdateOffset, lastUpdate.getUpdateId() + 1);
+            log.trace("offset: {} -> {}", lastUpdateOffset, lastUpdate.getUpdateId() + 1);
             lastUpdateOffset = lastUpdate.getUpdateId() + 1;
         }
     }

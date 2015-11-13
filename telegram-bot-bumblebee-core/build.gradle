@@ -11,8 +11,9 @@ dependencies {
     compile project(':telegram-bot-api')
     compile project(':telegram-bot-service')
 
+    compile 'org.slf4j:slf4j-api:1.7.12'
     compile 'ch.qos.logback:logback-classic:1.1.3'
     compile 'ch.qos.logback:logback-core:1.1.3'
 }
 
-mainClassName = 'com.github.bumblebee.TestApplication'
+mainClassName = 'com.github.bumblebee.BumblebeeBotApp'
