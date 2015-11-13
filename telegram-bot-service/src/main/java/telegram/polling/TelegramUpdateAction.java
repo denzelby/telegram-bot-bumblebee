@@ -35,24 +35,35 @@ class TelegramUpdateAction implements Runnable {
         BasicResponse<List<Update>> updateResponse = botApi.getUpdates(lastUpdateOffset, POLL_ITEMS_BATCH_SIZE, POLL_TIMEOUT_SEC);
         if (!updateResponse.isOk() || updateResponse.getResult() == null) {
             log.error("Update failed, offset = {}", lastUpdateOffset);
+            updateLastUpdateOffset(updateResponse.getResult());
             return;
         }
 
         List<Update> updates = updateResponse.getResult();
 
         updates.stream().forEach(update -> {
-            // try invoking command
-            boolean consumed = invokeCommand(update);
+            try {
+                // try invoking command
+                boolean consumed = invokeCommand(update);
 
-            if (!consumed) {
-                // run handler chain if not consumed, stop if handler returns true
-                updateHandlers.stream().anyMatch(handler -> handler.onUpdate(update));
+                if (!consumed) {
+                    // run handler chain if not consumed, stop if handler returns true
+                    updateHandlers.stream().anyMatch(handler -> handler.onUpdate(update));
+                }
+            } catch (Exception e) {
+                log.error("Exception during update processing", e);
             }
         });
 
         // assuming that last update have highest offset (?)
         // todo: verify
         if (updates.size() > 0) {
+            updateLastUpdateOffset(updates);
+        }
+    }
+
+    private void updateLastUpdateOffset(List<Update> updates) {
+        if (updates != null && updates.size() > 0) {
             Update lastUpdate = updates.get(updates.size() - 1);
             log.debug("offset: {} -> {}", lastUpdateOffset, lastUpdate.getUpdateId() + 1);
             lastUpdateOffset = lastUpdate.getUpdateId() + 1;
