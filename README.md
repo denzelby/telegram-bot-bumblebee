@@ -11,5 +11,9 @@ Helper services to pull updates from telegram (long polling, etc)
 BumblebeeBot implementation
 
 ## Todos:
- - update handler chain
- - update handler command dispatcher (map<cmd, handler> before chain)
+ - ~~update handler chain~~
+ - ~~update handler command dispatcher (map<cmd, handler> before chain)~~
+ - ~~google picture search~~
+ - ~~youtube search~~
+ - exchange rates + scheduled execution of it
+ - use spring boot?
