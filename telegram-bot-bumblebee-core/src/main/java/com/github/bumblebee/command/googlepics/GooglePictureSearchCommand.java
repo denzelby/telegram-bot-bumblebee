@@ -61,8 +61,8 @@ public class GooglePictureSearchCommand extends SingleArgumentCommand {
 
     private GooglePicsResponse.PictureResult selectPicture(List<GooglePicsResponse.PictureResult> pictures) {
 
-        // prefer pictures with extensions
         Collections.shuffle(pictures);
+        // prefer pictures with extensions
         return pictures.stream()
                 .filter(pic -> !FilenameUtils.getExtension(pic.getUrl()).isEmpty())
                 .findAny()

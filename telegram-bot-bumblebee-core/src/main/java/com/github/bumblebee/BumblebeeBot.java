@@ -14,10 +14,11 @@ public final class BumblebeeBot {
 
     public static final String BOT_CONFIG_FILE = "bot.properties";
     private final String token;
+    private final Properties config;
 
     public BumblebeeBot() {
 
-        Properties config = loadConfiguration();
+        config = loadConfiguration();
         token = config.getProperty("bumblebee.token");
     }
 
@@ -32,6 +33,10 @@ public final class BumblebeeBot {
     public FileApi createFileApi() {
 
         return TelegramBot.createFileApi(token);
+    }
+
+    public Properties getConfig() {
+        return config;
     }
 
     private Properties loadConfiguration() {
