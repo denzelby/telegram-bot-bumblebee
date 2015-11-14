@@ -30,6 +30,6 @@ public class BumblebeeBotApp {
                 .bind(commands.googlePictureSearchCommand(), "/g", "/pic", "/p")
                 .bind(commands.youtubeSearchCommand(), "/y", "/youtube", "/v", "/video")
                 .bind(commands.statusCommand(), "/status")
-                .bind(commands.startCommand(), "/start");
+                .bind(commands.startCommand(), "/start", "/help");
     }
 }
