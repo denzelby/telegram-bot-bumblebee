@@ -44,19 +44,22 @@ public class GooglePictureSearchCommand extends SingleArgumentCommand {
             return;
         }
 
+        Integer messageId = update.getMessage().getMessageId();
         GooglePicsResponse response = googlePicsApi.queryPictures(argument);
         List<GooglePicsResponse.PictureResult> pictures = response.getResponseData().getResults();
         log.debug("{} results for {}", pictures.size(), argument);
+
         if (!pictures.isEmpty()) {
             // botApi.sendMessage(chatId, pictures.get(0).getUrl());
-            boolean isSent = sendAsPicture(selectPicture(pictures), chatId, argument);
+            boolean isSent = sendAsPicture(selectPicture(pictures), chatId, argument, messageId);
             if (isSent) {
                 return;
             }
             log.debug("Picture send failed for argument: {}", argument);
         }
 
-        botApi.sendMessage(chatId, randomPhrase.no(), update.getMessage().getMessageId());
+
+        botApi.sendMessage(chatId, randomPhrase.no(), messageId);
     }
 
     private GooglePicsResponse.PictureResult selectPicture(List<GooglePicsResponse.PictureResult> pictures) {
@@ -69,14 +72,25 @@ public class GooglePictureSearchCommand extends SingleArgumentCommand {
                 .orElseGet(() -> pictures.get(0));
     }
 
-    private boolean sendAsPicture(GooglePicsResponse.PictureResult pictureResult, Integer chatId, String argument) {
+    private boolean sendAsPicture(GooglePicsResponse.PictureResult pictureResult, Integer chatId, String argument, Integer messageId) {
+
+        InputFile photo = null;
+        String url = pictureResult.getUrl();
         try {
-            String url = pictureResult.getUrl();
-            InputFile photo = InputFile.photo(new URL(url).openStream(), getFileName(url));
-            botApi.sendPhoto(chatId.toString(), photo, argument);
-            return true;
+            photo = InputFile.photo(new URL(url).openStream(), getFileName(url));
         } catch (IOException e) {
             log.error("Error during picture download", e);
+        }
+
+        if (photo != null) {
+            try {
+                botApi.sendPhoto(chatId.toString(), photo, argument);
+            } catch (Exception e) {
+                log.error("Error sending photo", e);
+                // try send at least url
+                botApi.sendMessage(chatId, url, messageId);
+            }
+            return true;
         }
         return false;
     }
