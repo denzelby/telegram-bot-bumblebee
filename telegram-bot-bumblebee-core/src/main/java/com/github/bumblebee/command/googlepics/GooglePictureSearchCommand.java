@@ -91,9 +91,8 @@ public class GooglePictureSearchCommand extends SingleArgumentCommand {
                 // try send at least url
                 botApi.sendMessage(chatId, url, messageId);
             }
-            return true;
         }
-        return false;
+        return true;
     }
 
     private String getFileName(String url) {
