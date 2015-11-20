@@ -6,6 +6,7 @@ import telegram.api.BotApi;
 import telegram.domain.BasicResponse;
 import telegram.domain.Update;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ class TelegramUpdateAction implements Runnable {
 
     private static final int POLL_TIMEOUT_SEC = 60;
     private static final int POLL_ITEMS_BATCH_SIZE = 100;
+    private static final int UPDATE_EXPIRATION_SEC = 2 * 60;
 
     private final BotApi botApi;
     private final Map<String, UpdateHandler> commandHandlers;
@@ -43,6 +45,10 @@ class TelegramUpdateAction implements Runnable {
 
         updates.stream().forEach(update -> {
             try {
+                if (isOutdatedUpdate(update)) {
+                    log.debug("Outdated update skipped");
+                    return;
+                }
                 // try invoking command
                 boolean consumed = invokeCommand(update);
 
@@ -60,6 +66,13 @@ class TelegramUpdateAction implements Runnable {
         if (updates.size() > 0) {
             updateLastUpdateOffset(updates);
         }
+    }
+
+    private boolean isOutdatedUpdate(Update update) {
+
+        final Integer unixTime = update.getMessage().getDate();
+        return unixTime != null && Instant.ofEpochSecond(unixTime).isBefore(
+                        Instant.now().minusSeconds(UPDATE_EXPIRATION_SEC));
     }
 
     private void updateLastUpdateOffset(List<Update> updates) {
