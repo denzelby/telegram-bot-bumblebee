@@ -80,6 +80,7 @@ public class GooglePictureSearchCommand extends SingleArgumentCommand {
             photo = InputFile.photo(new URL(url).openStream(), getFileName(url));
         } catch (IOException e) {
             log.error("Error during picture download", e);
+            botApi.sendMessage(chatId, url, messageId);
         }
 
         if (photo != null) {
