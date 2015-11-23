@@ -1,0 +1,6 @@
+{
+  "name": "Telegram Bumblebee bot",
+  "description": "Telegram Bumblebee bot",
+  "image": "heroku/gradle",
+  "addons": []
+}
