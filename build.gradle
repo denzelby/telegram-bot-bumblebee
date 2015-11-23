@@ -13,5 +13,5 @@ subprojects {
 
 // heroku default task
 task stage {
-    dependsOn build
+    dependsOn ":telegram-bot-bumblebee-core:build"
 }
