@@ -8,6 +8,8 @@ import feign.gson.GsonDecoder;
 import feign.slf4j.Slf4jLogger;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import telegram.api.BotApi;
 import telegram.domain.Update;
 import telegram.domain.request.InputFile;
@@ -17,6 +19,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
+@Component
 public class GooglePictureSearchCommand extends SingleArgumentCommand {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(GooglePictureSearchCommand.class);
@@ -24,11 +27,13 @@ public class GooglePictureSearchCommand extends SingleArgumentCommand {
 
     private final BotApi botApi;
     private final GooglePicsApi googlePicsApi;
-    private final RandomPhraseService randomPhrase = new RandomPhraseService();
+    private final RandomPhraseService randomPhrase;
 
-    public GooglePictureSearchCommand(BotApi botApi) {
+    @Autowired
+    public GooglePictureSearchCommand(BotApi botApi, RandomPhraseService randomPhraseService) {
 
         this.botApi = botApi;
+        this.randomPhrase = randomPhraseService;
         googlePicsApi = Feign.builder()
                 .decoder(new GsonDecoder())
                 .logLevel(Logger.Level.BASIC)

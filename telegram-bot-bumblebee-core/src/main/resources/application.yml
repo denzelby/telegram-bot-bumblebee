@@ -1,0 +1,15 @@
+# Telegram bot token
+bumblebee:
+  token:
+  commands:
+    StartCommand: /start
+    StatusCommand: /status
+    YoutubeSearchCommand: /v /video
+    GooglePictureSearchCommand: /p /g /pic
+
+# Commands
+## Youtube search
+youtube:
+  api:
+    projectName:
+    key:

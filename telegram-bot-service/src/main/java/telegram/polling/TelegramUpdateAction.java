@@ -8,9 +8,8 @@ import telegram.domain.Update;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
-class TelegramUpdateAction implements Runnable {
+public class TelegramUpdateAction implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(TelegramUpdateAction.class);
 
@@ -19,16 +18,14 @@ class TelegramUpdateAction implements Runnable {
     private static final int UPDATE_EXPIRATION_SEC = 2 * 60;
 
     private final BotApi botApi;
-    private final Map<String, UpdateHandler> commandHandlers;
-    private final List<UpdateHandler> updateHandlers;
+    private final HandlerRegistry handlerRegistry;
     private final CommandParser commandParser = new CommandParser();
 
     private long lastUpdateOffset;
 
-    public TelegramUpdateAction(BotApi botApi, Map<String, UpdateHandler> commandHandlers, List<UpdateHandler> updateHandlers) {
+    public TelegramUpdateAction(BotApi botApi, HandlerRegistry handlerRegistry) {
         this.botApi = botApi;
-        this.commandHandlers = commandHandlers;
-        this.updateHandlers = updateHandlers;
+        this.handlerRegistry = handlerRegistry;
     }
 
     @Override
@@ -54,7 +51,9 @@ class TelegramUpdateAction implements Runnable {
 
                 if (!consumed) {
                     // run handler chain if not consumed, stop if handler returns true
-                    updateHandlers.stream().anyMatch(handler -> handler.onUpdate(update));
+                    handlerRegistry
+                            .getHandlerChain().stream()
+                            .anyMatch(handler -> handler.onUpdate(update));
                 }
             } catch (Exception e) {
                 log.error("Exception during update processing", e);
@@ -86,7 +85,7 @@ class TelegramUpdateAction implements Runnable {
     private boolean invokeCommand(Update update) {
         final String text = update.getMessage().getText();
         if (text != null && text.startsWith("/")) {
-            UpdateHandler handler = commandHandlers.get(commandParser.parse(update.getMessage().getText()));
+            UpdateHandler handler = handlerRegistry.get(commandParser.parse(update.getMessage().getText()));
             if (handler != null) {
                 handler.onUpdate(update);
                 return true;
