@@ -9,12 +9,15 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import telegram.api.BotApi;
 import telegram.domain.Update;
 
 import java.io.IOException;
 import java.util.List;
 
+@Component
 public class YoutubeSearchCommand extends SingleArgumentCommand {
 
     private static final Logger log = LoggerFactory.getLogger(YoutubeSearchCommand.class);
@@ -23,22 +26,24 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
     private static final Long NUMBER_OF_VIDEOS_RETURNED = 1L;
 
     private final BotApi botApi;
-    private final RandomPhraseService randomPhraseService;
     private final YouTube youtube;
     private final String googleApiKey;
+    private RandomPhraseService randomPhraseService;
 
-    public YoutubeSearchCommand(BotApi botApi, RandomPhraseService randomPhraseService, String googleAppName,
-                                String googleApiKey) {
+    @Autowired
+    public YoutubeSearchCommand(BotApi botApi, RandomPhraseService randomPhraseService, YoutubeSearchConfig config) {
 
-        checkGoogleApiCredentials(googleAppName, googleApiKey);
+        if (!config.isAvailable()) {
+            throw new IllegalStateException("Youtube api configuration missing");
+        }
 
         this.botApi = botApi;
         this.randomPhraseService = randomPhraseService;
-        this.googleApiKey = googleApiKey;
+        this.googleApiKey = config.getKey();
 
         this.youtube = new YouTube
                 .Builder(new ApacheHttpTransport(), new JacksonFactory(), req -> {})
-                .setApplicationName(googleAppName)
+                .setApplicationName(config.getProjectName())
                 .build();
     }
 

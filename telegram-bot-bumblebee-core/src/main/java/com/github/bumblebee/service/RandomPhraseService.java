@@ -1,7 +1,10 @@
 package com.github.bumblebee.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Random;
 
+@Service
 public class RandomPhraseService {
 
     private static final String[] SURPRISE_PHRASES = {"Wut?", "Whaaat?"};

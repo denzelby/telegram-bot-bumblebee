@@ -1,6 +1,8 @@
 package com.github.bumblebee.command.start;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import telegram.api.BotApi;
 import telegram.domain.Update;
 import telegram.domain.request.ParseMode;
@@ -13,11 +15,13 @@ import java.io.StringWriter;
 /**
  * Provide info about supported features
  */
+@Component
 public class StartCommand implements UpdateHandler {
 
     private final BotApi botApi;
     private final String helpText;
 
+    @Autowired
     public StartCommand(BotApi botApi) {
         this.botApi = botApi;
 
@@ -38,4 +42,5 @@ public class StartCommand implements UpdateHandler {
 
         return true;
     }
+
 }

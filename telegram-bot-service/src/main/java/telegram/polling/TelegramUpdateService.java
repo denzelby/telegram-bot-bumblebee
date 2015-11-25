@@ -3,15 +3,13 @@ package telegram.polling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import telegram.api.BotApi;
+import telegram.domain.Update;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class TelegramUpdateService {
 
@@ -19,27 +17,32 @@ public class TelegramUpdateService {
 
     private ScheduledExecutorService executor;
     private Future<?> future;
-    private final Runnable customUpdateAction;
-    private final List<UpdateHandler> handlers = new ArrayList<>();
-    private final Map<String, UpdateHandler> commandHandlers = new HashMap<>();
+    private final Runnable updateAction;
 
-    private final BotApi botApi;
-    private int pollInterval;
-    private TimeUnit pollIntervalUnit = TimeUnit.SECONDS;
+    private final int pollInterval;
+    private final TimeUnit pollIntervalUnit;
 
-    public TelegramUpdateService(BotApi botApi) {
-        this(botApi, 1, TimeUnit.SECONDS, null);
+    /**
+     * Construct TelegramUpdateService with predefined update action
+     */
+    public TelegramUpdateService(BotApi botApi, Consumer<Update> updateConsumer) {
+        this(new LongPollingUpdateAction(botApi, updateConsumer));
     }
 
-    public TelegramUpdateService(BotApi botApi, int pollInterval, TimeUnit timeUnit) {
-        this(botApi, pollInterval, timeUnit, null);
+    /**
+     * Construct TelegramUpdateService with custom update action and default repeat interval (1 second)
+     */
+    public TelegramUpdateService(Runnable updateAction) {
+        this(updateAction, 1, TimeUnit.SECONDS);
     }
 
-    public TelegramUpdateService(BotApi botApi, int pollInterval, TimeUnit timeUnit, Runnable customUpdateAction) {
-        this.botApi = botApi;
+    /**
+     * Construct TelegramUpdateService with given custom update action and interval
+     */
+    public TelegramUpdateService(Runnable updateAction, int pollInterval, TimeUnit timeUnit) {
+        this.updateAction = updateAction;
         this.pollInterval = pollInterval;
         this.pollIntervalUnit = timeUnit;
-        this.customUpdateAction = customUpdateAction;
     }
 
     public synchronized void startPolling() {
@@ -48,10 +51,7 @@ public class TelegramUpdateService {
             executor = Executors.newSingleThreadScheduledExecutor();
         }
 
-        final Runnable action = (customUpdateAction != null)
-                ? customUpdateAction
-                : new TelegramUpdateAction(botApi, commandHandlers, handlers);
-        future = executor.scheduleWithFixedDelay(action, 0, pollInterval, pollIntervalUnit);
+        future = executor.scheduleWithFixedDelay(updateAction, 0, pollInterval, pollIntervalUnit);
 
         LOG.debug("Polling started");
     }
@@ -68,14 +68,4 @@ public class TelegramUpdateService {
         LOG.debug("Polling stopped");
     }
 
-    public void onUpdate(UpdateHandler handler) {
-        handlers.add(handler);
-    }
-
-    public TelegramUpdateService bind(UpdateHandler handler, String... commandAliases) {
-        for (String alias : commandAliases) {
-            commandHandlers.put(alias, handler);
-        }
-        return this;
-    }
 }
