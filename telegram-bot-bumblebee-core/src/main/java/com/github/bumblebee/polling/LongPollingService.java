@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telegram.api.BotApi;
 import telegram.polling.HandlerRegistry;
-import telegram.polling.TelegramUpdateAction;
+import telegram.polling.TelegramUpdateConsumer;
 import telegram.polling.TelegramUpdateService;
 
 @Service
@@ -15,7 +15,7 @@ public class LongPollingService {
     @Autowired
     public LongPollingService(BotApi botApi, HandlerRegistry handlerRegistry) {
 
-        updateService = new TelegramUpdateService(new TelegramUpdateAction(botApi, handlerRegistry));
+        updateService = new TelegramUpdateService(botApi, new TelegramUpdateConsumer(handlerRegistry));
     }
 
     public void startPolling() {
