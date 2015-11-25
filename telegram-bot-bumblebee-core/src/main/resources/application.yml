@@ -6,6 +6,9 @@ bumblebee:
     StatusCommand: /status
     YoutubeSearchCommand: /v /video
     GooglePictureSearchCommand: /p /g /pic
+  webhook:
+    enabled: false # false - long polling will be used, true - webhooks
+    url:
 
 # Commands
 ## Youtube search

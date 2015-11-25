@@ -302,11 +302,11 @@ public interface BotApi {
     // Webhook
     @RequestLine("POST /setWebhook")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Boolean> setWebhook(@Param("url") String url, @Param("certificate") InputFile certificate);
+    SetWebHookResponse setWebhook(@Param("url") String url, @Param("certificate") InputFile certificate);
 
     @RequestLine("POST /setWebhook")
-    @Headers("Content-type: multipart/form-data")
-    BasicResponse<Boolean> setWebhook(@Param("url") String url);
+    @Headers("Content-type: application/json")
+    SetWebHookResponse setWebhook(@Param("url") String url);
 
     // Get file
     @RequestLine("GET /getFile?file_id={file_id}")
