@@ -1,7 +1,5 @@
 package telegram.polling;
 
-import com.sun.istack.internal.Nullable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +30,7 @@ public class HandlerRegistry {
         return this;
     }
 
-    public @Nullable UpdateHandler get(String alias) {
+    public UpdateHandler get(String alias) {
         return commands.get(alias);
     }
 
