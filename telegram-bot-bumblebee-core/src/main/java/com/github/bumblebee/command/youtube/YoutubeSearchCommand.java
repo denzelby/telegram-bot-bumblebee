@@ -34,7 +34,7 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
     public YoutubeSearchCommand(BotApi botApi, RandomPhraseService randomPhraseService, YoutubeSearchConfig config) {
 
         if (!config.isAvailable()) {
-            throw new IllegalStateException("");
+            throw new IllegalStateException("Youtube api configuration missing");
         }
 
         this.botApi = botApi;
