@@ -2,7 +2,7 @@
 bumblebee:
   token:
   commands:
-    StartCommand: /start
+    StartCommand: /start /help
     StatusCommand: /status
     YoutubeSearchCommand: /v /video
     GooglePictureSearchCommand: /p /g /pic
