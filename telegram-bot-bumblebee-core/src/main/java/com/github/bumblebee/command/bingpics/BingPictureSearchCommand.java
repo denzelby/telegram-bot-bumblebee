@@ -21,7 +21,9 @@ import telegram.domain.request.InputFile;
 
 import java.net.URL;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,6 +34,7 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
     private final BotApi botApi;
     private final BingSearchApi imageSearchApi;
     private final RandomPhraseService randomPhrase;
+    private final Set<String> ignoredTypes = new HashSet<>();
 
     @Autowired
     public BingPictureSearchCommand(BotApi botApi, BingSearchConfig config, RandomPhraseService randomPhraseService) {
@@ -44,6 +47,8 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
                 .logger(new Slf4jLogger())
                 .requestInterceptor(new BasicAuthRequestInterceptor("", config.getAccountKey()))
                 .target(BingSearchApi.class, BingSearchApi.API_ROOT);
+
+        this.ignoredTypes.add("image/animatedgif");
     }
 
     @Override
@@ -74,7 +79,10 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
         log.info("> {}: {} results", argument, searchResults.size());
         // skip images without extension
         List<BingSearchResultItem> pictures = searchResults.stream()
-                .filter(pic -> !FilenameUtils.getExtension(pic.getMediaUrl()).isEmpty())
+                .filter(pic ->
+                        !ignoredTypes.contains(pic.getContentType()) &&
+                        !FilenameUtils.getExtension(pic.getMediaUrl()).isEmpty()
+                )
                 .collect(Collectors.toList());
         log.info("{} pictures after filtering", pictures.size());
 
@@ -84,6 +92,7 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
         for (BingSearchResultItem picture : pictures) {
             try {
                 url = picture.getMediaUrl();
+                log.info("Sending ({}): {}", picture.getContentType(), url);
                 sendImage(url, chatId, argument);
                 return;
             } catch (ImageSendException e) {
@@ -98,7 +107,6 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
 
     private void sendImage(String url, Integer chatId, String caption) throws ImageSendException {
 
-        log.info("Sending: {}", url);
         try {
             InputFile photo = InputFile.photo(new URL(url).openStream(), getFileName(url));
 

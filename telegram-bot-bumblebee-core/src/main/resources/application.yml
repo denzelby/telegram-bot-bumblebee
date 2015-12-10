@@ -5,8 +5,8 @@ bumblebee:
   commands:
     StartCommand: /start /help
     StatusCommand: /status
-    YoutubeSearchCommand: /v, /y
-    BingPictureSearchCommand: /g, /p, /i
+    YoutubeSearchCommand: /v /y
+    BingPictureSearchCommand: /g /p /i
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
