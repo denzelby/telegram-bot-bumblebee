@@ -1,11 +1,13 @@
-# Telegram bot token
 bumblebee:
+  # Telegram bot token
   token:
+  # Command mapping
   commands:
     StartCommand: /start /help
     StatusCommand: /status
-    YoutubeSearchCommand: /v /video
-    GooglePictureSearchCommand: /p /g /pic
+    YoutubeSearchCommand: /v /y
+    BingPictureSearchCommand: /g /p /i
+  # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
     url:
@@ -16,3 +18,8 @@ youtube:
   api:
     projectName:
     key:
+
+# Bing Search API
+bing:
+  api:
+    accountKey:
