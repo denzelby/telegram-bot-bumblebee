@@ -16,3 +16,8 @@ youtube:
   api:
     projectName:
     key:
+
+# Bing Search API
+bing:
+  api:
+    accountKey:
