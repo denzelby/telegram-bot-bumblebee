@@ -110,12 +110,4 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
         return name;
     }
 
-    public static void main(String[] args) {
-        final BingSearchConfig cfg = new BingSearchConfig();
-        cfg.setAccountKey("VugNVj0MWwXMI9HhqkLSrXdTf6Ps5b/C5lrkz3Y57m8=");
-
-        final BingPictureSearchCommand cmd = new BingPictureSearchCommand(null, cfg, null);
-        cmd.handleCommand(null, null, "audi a4 b8");
-    }
-
 }
