@@ -1,7 +1,11 @@
 package com.github.bumblebee.command.bingpics;
 
 import com.github.bumblebee.command.SingleArgumentCommand;
+import com.github.bumblebee.command.bingpics.response.BingSearchData;
+import com.github.bumblebee.command.bingpics.response.BingSearchResponse;
+import com.github.bumblebee.command.bingpics.response.BingSearchResultItem;
 import com.github.bumblebee.service.RandomPhraseService;
+import com.google.common.base.Optional;
 import feign.Feign;
 import feign.Logger;
 import feign.auth.BasicAuthRequestInterceptor;
@@ -15,10 +19,10 @@ import telegram.api.BotApi;
 import telegram.domain.Update;
 import telegram.domain.request.InputFile;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BingPictureSearchCommand extends SingleArgumentCommand {
@@ -39,7 +43,7 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
                 .logLevel(Logger.Level.BASIC)
                 .logger(new Slf4jLogger())
                 .requestInterceptor(new BasicAuthRequestInterceptor("", config.getAccountKey()))
-                .target(BingSearchApi.class, "https://api.datamarket.azure.com/Bing/Search/v1");
+                .target(BingSearchApi.class, BingSearchApi.API_ROOT);
     }
 
     @Override
@@ -52,52 +56,57 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
 
         Integer messageId = update.getMessage().getMessageId();
         BingSearchResponse response = imageSearchApi.queryPictures('\'' + argument + '\'');
-        BingSearchResponse.BingSearchData data = response.getData();
+        BingSearchData data = response.getData();
 
         if (data != null && data.getResults() != null && !data.getResults().isEmpty()) {
-            final List<BingSearchResponse.BingSearchResult> pictures = data.getResults();
-            log.debug("{} results for {}", pictures.size(), argument);
-            // botApi.sendMessage(chatId, pictures.get(0).getUrl());
-            boolean isSent = sendAsPicture(selectPicture(pictures).getMediaUrl(), chatId, argument, messageId);
-            if (isSent) {
-                return;
-            }
-            log.debug("Picture send failed for argument: {}", argument);
+            final List<BingSearchResultItem> pictures = data.getResults();
+            sendRandomPicture(pictures, chatId, argument, messageId);
+            return;
+        } else {
+            log.error("Bad Bing response: {}", data);
         }
 
         botApi.sendMessage(chatId, randomPhrase.no(), messageId);
     }
 
-    private BingSearchResponse.BingSearchResult selectPicture(List<BingSearchResponse.BingSearchResult> pictures) {
+    private void sendRandomPicture(List<BingSearchResultItem> searchResults, Integer chatId, String argument, Integer messageId) {
+
+        log.info("> {}: {} results", argument, searchResults.size());
+        // skip images without extension
+        List<BingSearchResultItem> pictures = searchResults.stream()
+                .filter(pic -> !FilenameUtils.getExtension(pic.getMediaUrl()).isEmpty())
+                .collect(Collectors.toList());
+        log.info("{} pictures after filtering", pictures.size());
 
         Collections.shuffle(pictures);
-        // prefer pictures with extensions
-        return pictures.stream()
-                .filter(pic -> !FilenameUtils.getExtension(pic.getMediaUrl()).isEmpty())
-                .findAny()
-                .orElseGet(() -> pictures.get(0));
-    }
 
-    private boolean sendAsPicture(String url, Integer chatId, String argument, Integer messageId) {
-
-        InputFile photo = null;
-        try {
-            photo = InputFile.photo(new URL(url).openStream(), getFileName(url));
-        } catch (IOException e) {
-            log.error("Error during picture download", e);
-            botApi.sendMessage(chatId, url, messageId);
-        }
-
-        if (photo != null) {
+        String url = null;
+        for (BingSearchResultItem picture : pictures) {
             try {
-                botApi.sendPhoto(chatId.toString(), photo, argument);
-            } catch (Exception e) {
-                log.error("Error sending photo", e);
-                // try send at least url
-                botApi.sendMessage(chatId, url, messageId);
+                url = picture.getMediaUrl();
+                sendImage(url, chatId, argument);
+                return;
+            } catch (ImageSendException e) {
+                log.error("Image send failed, retrying...", e);
+
+                pictures.remove(picture);
             }
         }
-        return true;
+
+        botApi.sendMessage(chatId, Optional.fromNullable(url).or(randomPhrase.no()), messageId);
+    }
+
+    private void sendImage(String url, Integer chatId, String caption) throws ImageSendException {
+
+        log.info("Sending: {}", url);
+        try {
+            InputFile photo = InputFile.photo(new URL(url).openStream(), getFileName(url));
+
+            botApi.sendPhoto(chatId.toString(), photo, caption);
+        } catch (Exception e) {
+            log.error("Failed to send: {}", url);
+            throw new ImageSendException(e);
+        }
     }
 
     private String getFileName(String url) {
@@ -106,6 +115,12 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
         // if no extension defined - let's guess it
         if (FilenameUtils.getExtension(name).isEmpty()) {
             name += ".jpg";
+        } else {
+            // skip url params
+            int urlParamsIndex = name.indexOf('?');
+            if (urlParamsIndex > 0) {
+                name = name.substring(0, urlParamsIndex);
+            }
         }
         return name;
     }

@@ -8,7 +8,7 @@ import java.util.Random;
 public class RandomPhraseService {
 
     private static final String[] SURPRISE_PHRASES = {"Wut?", "Whaaat?"};
-    private static final String[] NO_PHRASES = {"No", "Mmmm... No.", "NO WAY", "Not today"};
+    private static final String[] NO_PHRASES = {"No", "Mmmm... No", "NO WAY", "Not today"};
 
     private Random random = new Random();
 

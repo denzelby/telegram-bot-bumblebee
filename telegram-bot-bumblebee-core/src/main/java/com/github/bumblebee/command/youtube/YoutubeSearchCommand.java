@@ -24,6 +24,7 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
 
     private static final String VIDEO_URL = "https://www.youtube.com/watch?v=";
     private static final Long NUMBER_OF_VIDEOS_RETURNED = 1L;
+    private static final int RETRY_COUNT = 5;
 
     private final BotApi botApi;
     private final YouTube youtube;
@@ -55,16 +56,31 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
             return;
         }
 
+        int retries = RETRY_COUNT;
+        while (retries-- > 0) {
+            boolean isSent = sendVideo(chatId, argument);
+            if (isSent) {
+                return;
+            } else {
+                log.info("Video search failed, retrying... (attempt {})", RETRY_COUNT - retries);
+            }
+        }
+
+        String message = randomPhraseService.no() + ". No, really, I've tried " + RETRY_COUNT + " times.";
+        botApi.sendMessage(chatId, message, update.getMessage().getMessageId());
+    }
+
+    private boolean sendVideo(Integer chatId, String argument) {
         try {
             String videoId = searchVideo(argument);
             if (videoId != null) {
                 botApi.sendMessage(chatId, VIDEO_URL + videoId);
-                return;
+                return true;
             }
         } catch (IOException e) {
             log.error("Error during youtube search", e);
         }
-        botApi.sendMessage(chatId, randomPhraseService.no(), update.getMessage().getMessageId());
+        return false;
     }
 
     private String searchVideo(String searchQuery) throws IOException {
@@ -91,12 +107,4 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
         return null;
     }
 
-    private void checkGoogleApiCredentials(String googleAppName, String googleApiKey) {
-        if (googleAppName == null) {
-            throw new IllegalStateException("Google project name is not defined!");
-        }
-        if (googleApiKey == null) {
-            throw new IllegalStateException("Google api key is not defined!");
-        }
-    }
 }
