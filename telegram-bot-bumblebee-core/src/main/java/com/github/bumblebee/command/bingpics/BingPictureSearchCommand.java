@@ -97,8 +97,6 @@ public class BingPictureSearchCommand extends SingleArgumentCommand {
                 return;
             } catch (ImageSendException e) {
                 log.error("Image send failed, retrying...", e);
-
-                pictures.remove(picture);
             }
         }
 
