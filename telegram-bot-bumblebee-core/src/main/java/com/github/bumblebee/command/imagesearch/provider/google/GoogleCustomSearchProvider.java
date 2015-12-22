@@ -1,8 +1,8 @@
-package com.github.bumblebee.command.imagesearch.provider.googlepics;
+package com.github.bumblebee.command.imagesearch.provider.google;
 
 import com.github.bumblebee.command.imagesearch.domain.Image;
 import com.github.bumblebee.command.imagesearch.domain.ImageProvider;
-import com.github.bumblebee.command.imagesearch.provider.googlepics.response.GoogleCustomSearchResponse;
+import com.github.bumblebee.command.imagesearch.provider.google.response.GoogleCustomSearchResponse;
 import feign.Feign;
 import feign.gson.GsonDecoder;
 import feign.slf4j.Slf4jLogger;

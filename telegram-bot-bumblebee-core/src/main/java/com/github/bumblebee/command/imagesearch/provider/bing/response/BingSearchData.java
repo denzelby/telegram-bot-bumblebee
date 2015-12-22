@@ -1,4 +1,4 @@
-package com.github.bumblebee.command.imagesearch.provider.bingpics.response;
+package com.github.bumblebee.command.imagesearch.provider.bing.response;
 
 import java.util.List;
 

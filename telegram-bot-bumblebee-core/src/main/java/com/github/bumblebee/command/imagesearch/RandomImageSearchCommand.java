@@ -1,7 +1,7 @@
 package com.github.bumblebee.command.imagesearch;
 
-import com.github.bumblebee.command.imagesearch.provider.bingpics.BingPictureSearchProvider;
-import com.github.bumblebee.command.imagesearch.provider.googlepics.GoogleCustomSearchProvider;
+import com.github.bumblebee.command.imagesearch.provider.bing.BingPictureSearchProvider;
+import com.github.bumblebee.command.imagesearch.provider.google.GoogleCustomSearchProvider;
 import com.github.bumblebee.service.RandomPhraseService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;

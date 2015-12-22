@@ -1,4 +1,4 @@
-package com.github.bumblebee.command.imagesearch.provider.googlepics;
+package com.github.bumblebee.command.imagesearch.provider.google;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

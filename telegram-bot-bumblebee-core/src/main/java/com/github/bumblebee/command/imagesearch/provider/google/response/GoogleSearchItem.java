@@ -1,4 +1,4 @@
-package com.github.bumblebee.command.imagesearch.provider.googlepics.response;
+package com.github.bumblebee.command.imagesearch.provider.google.response;
 
 import com.github.bumblebee.command.imagesearch.domain.Image;
 

@@ -1,4 +1,4 @@
-package com.github.bumblebee.command.imagesearch.provider.googlepics.response;
+package com.github.bumblebee.command.imagesearch.provider.google.response;
 
 import java.util.List;
 

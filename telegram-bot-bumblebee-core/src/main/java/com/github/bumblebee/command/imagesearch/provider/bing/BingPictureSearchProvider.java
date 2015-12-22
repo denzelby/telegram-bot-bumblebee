@@ -1,10 +1,10 @@
-package com.github.bumblebee.command.imagesearch.provider.bingpics;
+package com.github.bumblebee.command.imagesearch.provider.bing;
 
 import com.github.bumblebee.command.imagesearch.domain.Image;
 import com.github.bumblebee.command.imagesearch.domain.ImageProvider;
-import com.github.bumblebee.command.imagesearch.provider.bingpics.response.BingSearchData;
-import com.github.bumblebee.command.imagesearch.provider.bingpics.response.BingSearchResponse;
-import com.github.bumblebee.command.imagesearch.provider.bingpics.response.BingSearchResultItem;
+import com.github.bumblebee.command.imagesearch.provider.bing.response.BingSearchData;
+import com.github.bumblebee.command.imagesearch.provider.bing.response.BingSearchResponse;
+import com.github.bumblebee.command.imagesearch.provider.bing.response.BingSearchResultItem;
 import feign.Feign;
 import feign.Logger;
 import feign.auth.BasicAuthRequestInterceptor;
