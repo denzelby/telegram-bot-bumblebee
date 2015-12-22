@@ -1,19 +1,6 @@
-# BumblebeeBot
-Telegram bot implementation
+# Bumblebee - telegram bot
 
-## Module 'telegram-bot-api'
-Telegram Bot API client
-
-## Module 'telegram-bot-service'
-Helper services to pull updates from telegram (long polling, etc)
-
-## Module 'telegram-bot-bumblebee-core'
-BumblebeeBot implementation
-
-## Todos:
- - ~~update handler chain~~
- - ~~update handler command dispatcher (map<cmd, handler> before chain)~~
- - ~~google picture search~~
- - ~~youtube search~~
- - exchange rates + scheduled execution of it
- - use spring boot?
+Supported commands:
+ * Image search (with Google and Bing providers)
+ * Youtube search
+ * More to come...

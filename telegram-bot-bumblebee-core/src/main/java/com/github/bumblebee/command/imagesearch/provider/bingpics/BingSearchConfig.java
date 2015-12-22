@@ -1,9 +1,9 @@
-package com.github.bumblebee.command.bingpics;
+package com.github.bumblebee.command.imagesearch.provider.bingpics;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "bing.api")
 public class BingSearchConfig {
 

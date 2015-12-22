@@ -1,4 +1,4 @@
-package com.github.bumblebee.command.bingpics;
+package com.github.bumblebee.command.imagesearch.exception;
 
 public class ImageSendException extends Exception {
 
