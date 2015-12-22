@@ -6,7 +6,8 @@ bumblebee:
     StartCommand: /start /help
     StatusCommand: /status
     YoutubeSearchCommand: /v /y
-    BingPictureSearchCommand: /g /p /i
+    FirstImageSearchCommand: /g /p /i
+    RandomImageSearchCommand: /rg /rp /ri /gr /rr /ir
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
@@ -18,6 +19,12 @@ youtube:
   api:
     projectName:
     key:
+
+## Google search API
+google:
+  api:
+    key:
+    customSearchId:
 
 # Bing Search API
 bing:

@@ -1,6 +1,6 @@
-package com.github.bumblebee.command.bingpics;
+package com.github.bumblebee.command.imagesearch.provider.bingpics;
 
-import com.github.bumblebee.command.bingpics.response.BingSearchResponse;
+import com.github.bumblebee.command.imagesearch.provider.bingpics.response.BingSearchResponse;
 import feign.Param;
 import feign.RequestLine;
 
