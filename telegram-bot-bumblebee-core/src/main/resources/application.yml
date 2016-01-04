@@ -8,6 +8,12 @@ bumblebee:
     YoutubeSearchCommand: /v /y
     FirstImageSearchCommand: /g /p /i
     RandomImageSearchCommand: /rg /rp /ri /gr /rr /ir
+    # Currency 'hunger games'
+    CurrencyPlaceBidCommand: /bid
+    CurrencyShowActualBidsCommand: /bids
+    CurrencyActualExchangeRateCommand: /rate
+    CurrencyUSDActualExchangeRateCommand: /usd
+    CurrencyEURActualExchangeRateCommand: /eur
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
@@ -30,3 +36,12 @@ google:
 bing:
   api:
     accountKey:
+
+spring:
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name:
+#  jpa:
+#    hibernate.ddl-auto: validate
