@@ -22,17 +22,17 @@ public class BYRExchangeRateRetrieveService {
         this.parser = parser;
     }
 
-    public double getCurrentExchangeRate(String currencyName) {
+    public Double getCurrentExchangeRate(String currencyName) {
 
         return getExchangeRate(LocalDate.now(), currencyName);
     }
 
-    public double getExchangeRate(LocalDate date, SupportedCurrency currency) {
+    public Double getExchangeRate(LocalDate date, SupportedCurrency currency) {
 
         return getExchangeRate(date, currency.name());
     }
 
-    public double getExchangeRate(LocalDate date, String currency) {
+    public Double getExchangeRate(LocalDate date, String currency) {
         try {
             List<Currency> exchangeRates = parser.getDailyRates(date);
 
@@ -41,7 +41,7 @@ public class BYRExchangeRateRetrieveService {
                     return rate.getRate();
                 }
             }
-            return 0;
+            return null;
         } catch (IOException | SAXException e) {
             throw new ExchangeRateRetrieveException(e);
         }

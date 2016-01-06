@@ -38,9 +38,13 @@ public class CurrencyActualExchangeRateCommand extends SingleArgumentCommand {
 
         String currencyName = getCurrencyNameOrDefault(argument, SupportedCurrency.USD);
         try {
-            int rate = (int) exchangeRateRetrieveService.getCurrentExchangeRate(currencyName);
-            String message = MessageFormat.format("BYR/{0}: {1}", currencyName, rate);
-            botApi.sendMessage(chatId, message);
+            Double rate = exchangeRateRetrieveService.getCurrentExchangeRate(currencyName);
+            if (rate != null) {
+                String message = MessageFormat.format("BYR/{0}: {1}", currencyName, rate);
+                botApi.sendMessage(chatId, message);
+            } else {
+                botApi.sendMessage(chatId, "NBRB doesn't know.", update.getMessage().getMessageId());
+            }
         } catch (Exception e) {
             log.error("Currency retrieve failed for " + currencyName, e);
             botApi.sendMessage(chatId, randomPhrase.no(), update.getMessage().getMessageId());
