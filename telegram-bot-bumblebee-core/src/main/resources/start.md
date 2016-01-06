@@ -2,7 +2,7 @@ Hello, I'm Bumblebee.
 
 I support following commands:
  - Image search. Usage: /g, /p, /i <search criteria>
- - Random image search. Usage: /gr, /pr, /ir <search criteria>
+ - Random image search. Usage: /r /gr, /pr, /ir <search criteria>
  - Youtube search. Usage: /v, /y, <search criteria>
  - Exchange rates (to BYR): /rate <currency>
    Examples:
