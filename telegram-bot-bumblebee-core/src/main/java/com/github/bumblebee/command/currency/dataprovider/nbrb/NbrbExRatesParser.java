@@ -1,5 +1,6 @@
 package com.github.bumblebee.command.currency.dataprovider.nbrb;
 
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class NBRBExRatesParser {
 
     private static final String API_URL = "http://nbrb.by/Services/XmlExRates.aspx?ondate=";

@@ -28,5 +28,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
     compile 'org.postgresql:postgresql:9.4.1207.jre7'
     compile 'org.flywaydb:flyway-core:3.2.1'
+    compile 'org.jfree:jfreechart:1.0.19'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

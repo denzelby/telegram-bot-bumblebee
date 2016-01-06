@@ -11,7 +11,7 @@ import telegram.domain.Update;
 import telegram.domain.User;
 
 @Component
-public class CurrencyPlaceBidCommand extends SingleArgumentCommand{
+public class CurrencyPlaceBidCommand extends SingleArgumentCommand {
 
     private final BotApi botApi;
     private final RandomPhraseService randomPhrase;

@@ -2,7 +2,7 @@ package com.github.bumblebee.command.currency;
 
 import com.github.bumblebee.command.SingleArgumentCommand;
 import com.github.bumblebee.command.currency.domain.SupportedCurrency;
-import com.github.bumblebee.command.currency.service.ByrExchangeRateRetrieveService;
+import com.github.bumblebee.command.currency.service.BYRExchangeRateRetrieveService;
 import com.github.bumblebee.command.currency.service.CurrencyBidEvalService;
 import com.github.bumblebee.service.RandomPhraseService;
 import org.slf4j.Logger;
@@ -22,12 +22,12 @@ public class CurrencyActualExchangeRateCommand extends SingleArgumentCommand {
 
     private final BotApi botApi;
     private final RandomPhraseService randomPhrase;
-    private final ByrExchangeRateRetrieveService exchangeRateRetrieveService;
+    private final BYRExchangeRateRetrieveService exchangeRateRetrieveService;
 
     @Autowired
     public CurrencyActualExchangeRateCommand(BotApi botApi, RandomPhraseService randomPhrase,
                                              CurrencyBidEvalService bidEvalService,
-                                             ByrExchangeRateRetrieveService exchangeRateRetrieveService) {
+                                             BYRExchangeRateRetrieveService exchangeRateRetrieveService) {
         this.botApi = botApi;
         this.randomPhrase = randomPhrase;
         this.exchangeRateRetrieveService = exchangeRateRetrieveService;

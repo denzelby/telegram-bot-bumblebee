@@ -26,5 +26,18 @@ public enum SupportedCurrency {
     GBP,
     CZK,
     SEK,
-    CHF
+    CHF;
+
+    public static SupportedCurrency parse(String currency) {
+        if (currency == null) {
+            return null;
+        }
+
+        for (SupportedCurrency supportedCurrency : SupportedCurrency.values()) {
+            if (supportedCurrency.name().equalsIgnoreCase(currency)) {
+                return supportedCurrency;
+            }
+        }
+        return null;
+    }
 }

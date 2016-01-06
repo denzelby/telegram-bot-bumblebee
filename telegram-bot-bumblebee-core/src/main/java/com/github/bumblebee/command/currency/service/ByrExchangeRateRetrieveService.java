@@ -4,6 +4,7 @@ import com.github.bumblebee.command.currency.dataprovider.nbrb.Currency;
 import com.github.bumblebee.command.currency.dataprovider.nbrb.NBRBExRatesParser;
 import com.github.bumblebee.command.currency.domain.SupportedCurrency;
 import com.github.bumblebee.command.currency.exception.ExchangeRateRetrieveException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -12,10 +13,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class ByrExchangeRateRetrieveService {
+public class BYRExchangeRateRetrieveService {
 
-    private NBRBExRatesParser parser = new NBRBExRatesParser();
+    private final NBRBExRatesParser parser;
 
+    @Autowired
+    public BYRExchangeRateRetrieveService(NBRBExRatesParser parser) {
+        this.parser = parser;
+    }
 
     public double getCurrentExchangeRate(String currencyName) {
 
