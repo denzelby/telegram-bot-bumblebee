@@ -7,7 +7,7 @@ bumblebee:
     StatusCommand: /status
     YoutubeSearchCommand: /v /y
     FirstImageSearchCommand: /g /p /i
-    RandomImageSearchCommand: /rg /rp /ri /gr /rr /ir
+    RandomImageSearchCommand: /r /rg /rp /ri /gr /rr /ir
     # Currency 'hunger games'
     CurrencyPlaceBidCommand: /bid
     CurrencyShowActualBidsCommand: /bids
