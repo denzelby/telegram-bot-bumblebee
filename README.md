@@ -6,3 +6,5 @@ Supported commands:
  * Image search (with Google and Bing providers)
  * Youtube search
  * More to come...
+
+Powered by spring-boot.
