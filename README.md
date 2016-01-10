@@ -1,3 +1,5 @@
+[![Build Status](https://drone.io/github.com/denzelby/telegram-bot-bumblebee/status.png)](https://drone.io/github.com/denzelby/telegram-bot-bumblebee/latest)
+
 # Bumblebee - telegram bot
 
 Supported commands:
