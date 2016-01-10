@@ -10,4 +10,4 @@ export PATH=$JAVA_HOME/bin:$PATH
 export BUILD_HOME=$OPENSHIFT_REPO_DIR/telegram-bot-bumblebee-core/build/libs
 
 cd $OPENSHIFT_REPO_DIR
-nohup java -Xms384m -Xmx412m -jar ${BUILD_HOME}/*.jar --server.port=${OPENSHIFT_DIY_PORT} --server.address=${OPENSHIFT_DIY_IP} --spring.profiles.active=openshift --spring.config.location=classpath:,file:${OPENSHIFT_DATA_DIR}/application.yml &
+nohup java -Xms384m -Xmx412m -jar ${BUILD_HOME}/*.jar --server.port=${OPENSHIFT_DIY_PORT} --server.address=${OPENSHIFT_DIY_IP} --spring.profiles.active=openshift --spring.config.location=classpath:,file:${OPENSHIFT_DATA_DIR}/application.yml --logging.path=${OPENSHIFT_LOG_DIR} &
