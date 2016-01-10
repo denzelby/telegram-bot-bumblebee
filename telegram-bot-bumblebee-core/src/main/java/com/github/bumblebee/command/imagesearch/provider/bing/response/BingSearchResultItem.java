@@ -1,9 +1,12 @@
-package com.github.bumblebee.command.bingpics.response;
+package com.github.bumblebee.command.imagesearch.provider.bing.response;
 
-public class BingSearchResultItem {
+import com.github.bumblebee.command.imagesearch.domain.Image;
+
+public class BingSearchResultItem implements Image {
     private String ContentType;
     private String MediaUrl;
 
+    @Override
     public String getContentType() {
         return ContentType;
     }
@@ -18,6 +21,11 @@ public class BingSearchResultItem {
 
     public void setMediaUrl(String mediaUrl) {
         MediaUrl = mediaUrl;
+    }
+
+    @Override
+    public String getUrl() {
+        return MediaUrl;
     }
 
     @Override

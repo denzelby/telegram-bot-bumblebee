@@ -1,4 +1,4 @@
-package com.github.bumblebee.command.bingpics.response;
+package com.github.bumblebee.command.imagesearch.provider.bing.response;
 
 public class BingSearchResponse {
     BingSearchData d;

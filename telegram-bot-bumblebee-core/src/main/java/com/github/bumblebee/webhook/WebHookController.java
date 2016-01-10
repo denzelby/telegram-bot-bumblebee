@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import telegram.domain.Update;
-import telegram.polling.HandlerRegistry;
-import telegram.polling.TelegramUpdateConsumer;
-
-import javax.annotation.PostConstruct;
 
 @RestController
 public class WebHookController {
@@ -22,9 +18,7 @@ public class WebHookController {
     private static final Logger log = LoggerFactory.getLogger(WebHookController.class);
 
     @Autowired
-    private HandlerRegistry handlerRegistry;
-
-    private TelegramUpdateConsumer updateConsumer;
+    private WebHookUpdateProcessor updateProcessor;
 
     @Autowired
     private TelegramWebHookRegistrator hookRegistrator;
@@ -32,21 +26,16 @@ public class WebHookController {
     @Autowired
     private WebHookConfig hookConfig;
 
-    @PostConstruct
-    public void init() {
-        this.updateConsumer = new TelegramUpdateConsumer(handlerRegistry);
-    }
-
     /**
-     * Telegram will send updates to this method
-     * @param update
+     * Telegram will send updates to this method after webhook registration
+     * @param update https://core.telegram.org/bots/api#update
      */
     @RequestMapping(method = RequestMethod.POST, path = "/webhook", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleUpdates(@RequestBody Update update) {
 
         log.debug("Webhook update: {}", update.getUpdateId());
 
-        this.updateConsumer.accept(update);
+        this.updateProcessor.process(update);
     }
 
     /**
