@@ -1,16 +1,16 @@
-Hello, I'm Bumblebee.
+Hello, I'm *Bumblebee*.
 
 I support following commands:
- - Image search. Usage: /g, /p, /i <search criteria>
- - Random image search. Usage: /r /gr, /pr, /ir <search criteria>
- - Youtube search. Usage: /v, /y, <search criteria>
- - Exchange rates (to BYR): /rate <currency>
+ - *Image search*. Usage: /g, /p, /i <search criteria>
+ - *Random image search*. Usage: /r /gr, /pr, /ir <search criteria>
+ - *Youtube search*. Usage: /v, /y, <search criteria>
+ - *Exchange rates* (to BYR): /rate <currency>
    Examples:
      /rate usd
      /rate eur
      /rate rub
    Aliases: /usd = /rate usd, /eur = /rate usd
- - Exchange rate charts (to BYR): /chart <currencies> <from> <to>
+ - *Exchange rate charts* (to BYR): /chart <currencies> <from> <to>
    Examples:
      /chart - show bar chart for current month for USD and EUR
      /chart usd eur rub - customize currencies
@@ -22,5 +22,5 @@ I support following commands:
    /bid +30 - place bid
    /bids - show current bids
    ...
- - Health check. Usage: /status
- - Help (show this message). Usage: /start, /help
+ - *Health check*. Usage: /status
+ - *Help* (show this message). Usage: /start, /help
