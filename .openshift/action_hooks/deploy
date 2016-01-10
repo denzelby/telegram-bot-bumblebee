@@ -10,20 +10,6 @@ if [ ! -d $OPENSHIFT_DATA_DIR/jdk1.8.0_65 ]
                 rm -f *.tar.gz
 fi
 
-if [ ! -d $OPENSHIFT_DATA_DIR/gradle-2.10 ]
-        then
-                cd $OPENSHIFT_DATA_DIR
-                wget https://services.gradle.org/distributions/gradle-2.10-bin.zip
-                unzip gradle-2.10-bin.zip
-                rm -f gradle-2.10-bin.zip
-fi
-
-if [ ! -d $OPENSHIFT_DATA_DIR/gradle ]
-        then
-                cd $OPENSHIFT_DATA_DIR
-				mkdir gradle
-fi
-
 if [ ! -d $OPENSHIFT_DATA_DIR/logs ]
         then
                 cd $OPENSHIFT_DATA_DIR
@@ -37,4 +23,4 @@ export GRADLE_OPTS="-Xms384m -Xmx412m"
 export JAVA_HOME=$OPENSHIFT_DATA_DIR/jdk1.8.0_65
 export PATH=$JAVA_HOME/bin:$GRADLE_HOME/bin:$PATH
 
-gradle stage
+bash gradlew stage
