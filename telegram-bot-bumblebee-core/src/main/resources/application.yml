@@ -15,6 +15,7 @@ bumblebee:
     CurrencyUSDActualExchangeRateCommand: /usd
     CurrencyEURActualExchangeRateCommand: /eur
     CurrencyChartCommand: /chart
+    BrentCommand: /brent
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
