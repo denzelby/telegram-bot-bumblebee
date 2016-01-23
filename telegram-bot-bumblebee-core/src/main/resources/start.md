@@ -22,5 +22,6 @@ I support following commands:
    /bid +30 - place bid
    /bids - show current bids
    ...
+ - *Brent* - cost of oil. Usage: /brent
  - *Health check*. Usage: /status
  - *Help* (show this message). Usage: /start, /help
