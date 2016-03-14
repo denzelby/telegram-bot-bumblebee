@@ -1,18 +1,20 @@
 package com.github.bumblebee.command.brent;
 
-import com.github.bumblebee.command.brent.meduza.MeduzaStockProvider;
-import com.github.bumblebee.command.brent.meduza.response.MeduzaStockResponse;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.github.bumblebee.command.brent.meduza.MeduzaStockProvider;
+import com.github.bumblebee.command.brent.meduza.response.MeduzaStockResponse;
+
 import telegram.api.BotApi;
 import telegram.domain.Update;
 import telegram.domain.request.ParseMode;
 import telegram.polling.UpdateHandler;
-
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
 
 @Component
 public class BrentCommand implements UpdateHandler {
@@ -40,7 +42,7 @@ public class BrentCommand implements UpdateHandler {
 
 
         MeduzaStockResponse stocks;
-        Integer chatId = update.getMessage().getChat().getId();
+        Long chatId = update.getMessage().getChat().getId();
 
         try {
             stocks = this.stockProvider.getCurrentStocks();
