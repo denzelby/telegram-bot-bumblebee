@@ -26,7 +26,7 @@ public class CurrencyPlaceBidCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Integer chatId, String argument) {
+    public void handleCommand(Update update, Long chatId, String argument) {
 
         try {
             CurrencyBid bid = new CurrencyBid();

@@ -1,7 +1,13 @@
 package com.github.bumblebee.command.currency.domain;
 
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "BB_CURRENCY_BID")
@@ -11,8 +17,8 @@ public class CurrencyBid {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer chatId;
-    private Integer ownerId;
+    private Long chatId;
+    private Long ownerId;
     private String ownerFirstName;
     private String ownerLastName;
     private String ownerUsername;
@@ -22,7 +28,7 @@ public class CurrencyBid {
     public CurrencyBid() {
     }
 
-    public CurrencyBid(Integer chatId, Integer ownerId, String ownerFirstName, String ownerLastName, String ownerUsername, Integer value) {
+    public CurrencyBid(Long chatId, Long ownerId, String ownerFirstName, String ownerLastName, String ownerUsername, Integer value) {
         this.chatId = chatId;
         this.ownerId = ownerId;
         this.ownerFirstName = ownerFirstName;
@@ -36,11 +42,11 @@ public class CurrencyBid {
         this.createdAt = new Date();
     }
 
-    public Integer getChatId() {
+    public Long getChatId() {
         return chatId;
     }
 
-    public void setChatId(Integer chatId) {
+    public void setChatId(Long chatId) {
         this.chatId = chatId;
     }
 
@@ -52,11 +58,11 @@ public class CurrencyBid {
         this.id = id;
     }
 
-    public Integer getOwnerId() {
+    public Long getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Integer ownerId) {
+    public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
     }
 

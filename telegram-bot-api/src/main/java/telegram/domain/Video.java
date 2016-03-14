@@ -5,10 +5,10 @@ public class Video {
     private String fileId;
     private Integer width;
     private Integer height;
-    private Integer duration;
+    private Long duration;
     private PhotoSize thumb;
     private String mimeType;
-    private Integer fileSize;
+    private Long fileSize;
 
     public String getFileId() {
         return fileId;
@@ -34,11 +34,11 @@ public class Video {
         this.height = height;
     }
 
-    public Integer getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 
@@ -58,11 +58,11 @@ public class Video {
         this.mimeType = mimeType;
     }
 
-    public Integer getFileSize() {
+    public Long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
+    public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
     }
 

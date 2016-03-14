@@ -1,11 +1,13 @@
 package com.github.bumblebee.command.currency;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.github.bumblebee.command.currency.domain.SupportedCurrency;
 import com.github.bumblebee.command.currency.service.BYRExchangeRateRetrieveService;
 import com.github.bumblebee.command.currency.service.CurrencyBidEvalService;
 import com.github.bumblebee.service.RandomPhraseService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
 import telegram.api.BotApi;
 import telegram.domain.Update;
 
@@ -18,7 +20,7 @@ public class CurrencyUSDActualExchangeRateCommand extends CurrencyActualExchange
     }
 
     @Override
-    public void handleCommand(Update update, Integer chatId, String argument) {
+    public void handleCommand(Update update, Long chatId, String argument) {
         super.handleCommand(update, chatId, SupportedCurrency.USD.name());
     }
 }

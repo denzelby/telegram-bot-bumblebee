@@ -1,25 +1,27 @@
 package com.github.bumblebee.command.currency;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.xml.sax.SAXException;
+
 import com.github.bumblebee.command.SingleArgumentCommand;
 import com.github.bumblebee.command.currency.domain.DailyExchangeRate;
 import com.github.bumblebee.command.currency.service.BYRExchangeRateChartService;
 import com.github.bumblebee.command.currency.service.BYRExchangeRateStoreService;
 import com.github.bumblebee.command.currency.service.ChartArgumentParser;
 import com.github.bumblebee.service.RandomPhraseService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.xml.sax.SAXException;
+
 import telegram.api.BotApi;
 import telegram.domain.Update;
 import telegram.domain.request.InputFile;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.List;
 
 @Component
 public class CurrencyChartCommand extends SingleArgumentCommand {
@@ -49,7 +51,7 @@ public class CurrencyChartCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Integer chatId, String argument) {
+    public void handleCommand(Update update, Long chatId, String argument) {
 
         ChartArgumentParser.DateRange range = argumentParser.getRange(argument);
         String errorMessage = validateRange(range.getFrom(), range.getTo());
@@ -72,7 +74,7 @@ public class CurrencyChartCommand extends SingleArgumentCommand {
 
     private void buildChart(Update update, LocalDate from, LocalDate to, List<String> currencies) {
 
-        final Integer chatId = update.getMessage().getChat().getId();
+        final Long chatId = update.getMessage().getChat().getId();
 
         Period period = Period.between(from, to);
         long approxDays = period.toTotalMonths() * 30 + period.getDays();

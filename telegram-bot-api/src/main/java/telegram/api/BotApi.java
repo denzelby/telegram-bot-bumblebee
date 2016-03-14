@@ -1,17 +1,23 @@
 package telegram.api;
 
+import java.util.List;
+
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
-import telegram.domain.*;
+import telegram.domain.BasicResponse;
+import telegram.domain.File;
+import telegram.domain.Message;
+import telegram.domain.SetWebHookResponse;
+import telegram.domain.Update;
+import telegram.domain.User;
+import telegram.domain.UserProfilePhotos;
 import telegram.domain.request.ChatAction;
 import telegram.domain.request.InputFile;
 import telegram.domain.request.ParseMode;
 import telegram.domain.request.keyboard.Keyboard;
 import telegram.impl.EnumExpander;
 import telegram.impl.ParseModeExpander;
-
-import java.util.List;
 
 /**
  * Telegram bot API.
@@ -38,37 +44,37 @@ public interface BotApi {
     // Messsages
     @RequestLine("POST /sendMessage")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendMessage(@Param("chat_id") Integer chatId,
+    BasicResponse<Message> sendMessage(@Param("chat_id") Long chatId,
                                        @Param("text") String text,
                                        @Param(value = "parse_mode", expander = ParseModeExpander.class) ParseMode parseMode,
                                        @Param("disable_web_page_preview") Boolean disableWebPagePreview,
-                                       @Param("reply_to_message_id") Integer replyToMessageId,
+                                       @Param("reply_to_message_id") Long replyToMessageId,
                                        @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendMessage")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendMessage(@Param("chat_id") Integer chatId,
+    BasicResponse<Message> sendMessage(@Param("chat_id") Long chatId,
                                        @Param("text") String text,
-                                       @Param("reply_to_message_id") Integer replyToMessageId);
+                                       @Param("reply_to_message_id") Long replyToMessageId);
 
     @RequestLine("POST /sendMessage")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendMessage(@Param("chat_id") Integer chatId, @Param("text") String text);
+    BasicResponse<Message> sendMessage(@Param("chat_id") Long chatId, @Param("text") String text);
 
     @RequestLine("POST /forwardMessage")
     @Headers("Content-type: application/json")
     BasicResponse<Message> forwardMessage(@Param("chat_id") String chatId,
                                           @Param("from_chat_id") String fromChatId,
-                                          @Param("message_id") Integer messageId);
+                                          @Param("message_id") Long messageId);
 
     // Get user profile photos
     @RequestLine("GET /getUserProfilePhotos?user_id={user_id}&offset={offset}&limit={limit}")
-    BasicResponse<UserProfilePhotos> getUserProfilePhotos(@Param("user_id") Integer userId,
-                                                          @Param("offset") Integer offset,
-                                                          @Param("limit") Integer limit);
+    BasicResponse<UserProfilePhotos> getUserProfilePhotos(@Param("user_id") Long userId,
+                                                          @Param("offset") Long offset,
+                                                          @Param("limit") Long limit);
 
     @RequestLine("GET /getUserProfilePhotos?user_id={user_id}")
-    BasicResponse<UserProfilePhotos> getUserProfilePhotos(@Param("user_id") Integer userId);
+    BasicResponse<UserProfilePhotos> getUserProfilePhotos(@Param("user_id") Long userId);
 
     // Chat actions
     @RequestLine("POST /sendChatAction")
@@ -82,7 +88,7 @@ public interface BotApi {
     BasicResponse<Message> sendLocation(@Param("chat_id") String chatId,
                                         @Param("latitude") float latitude,
                                         @Param("longitude") float longitude,
-                                        @Param("reply_to_message_id") Integer replyToMessageId,
+                                        @Param("reply_to_message_id") Long replyToMessageId,
                                         @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendLocation")
@@ -97,7 +103,7 @@ public interface BotApi {
     BasicResponse<Message> sendPhoto(@Param("chat_id") String chatId,
                                      @Param("photo") String photoId,
                                      @Param("caption") String caption,
-                                     @Param("reply_to_message_id") Integer replyToMessageId,
+                                     @Param("reply_to_message_id") Long replyToMessageId,
                                      @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendPhoto")
@@ -116,7 +122,7 @@ public interface BotApi {
     BasicResponse<Message> sendPhoto(@Param("chat_id") String chatId,
                                      @Param("photo") InputFile photo,
                                      @Param("caption") String caption,
-                                     @Param("reply_to_message_id") Integer replyToMessageId,
+                                     @Param("reply_to_message_id") Long replyToMessageId,
                                      @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendPhoto")
@@ -135,17 +141,17 @@ public interface BotApi {
     @Headers("Content-type: application/json")
     BasicResponse<Message> sendAudio(@Param("chat_id") String chatId,
                                      @Param("audio") String audioId,
-                                     @Param("duration") Integer duration,
+                                     @Param("duration") Long duration,
                                      @Param("performer") String performer,
                                      @Param("title") String title,
-                                     @Param("reply_to_message_id") Integer replyToMessageId,
+                                     @Param("reply_to_message_id") Long replyToMessageId,
                                      @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendAudio")
     @Headers("Content-type: application/json")
     BasicResponse<Message> sendAudio(@Param("chat_id") String chatId,
                                      @Param("audio") String audioId,
-                                     @Param("duration") Integer duration,
+                                     @Param("duration") Long duration,
                                      @Param("performer") String performer,
                                      @Param("title") String title);
 
@@ -157,17 +163,17 @@ public interface BotApi {
     @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendAudio(@Param("chat_id") String chatId,
                                      @Param("audio") InputFile audio,
-                                     @Param("duration") Integer duration,
+                                     @Param("duration") Long duration,
                                      @Param("performer") String performer,
                                      @Param("title") String title,
-                                     @Param("reply_to_message_id") Integer replyToMessageId,
+                                     @Param("reply_to_message_id") Long replyToMessageId,
                                      @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendAudio")
     @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendAudio(@Param("chat_id") String chatId,
                                      @Param("audio") InputFile audio,
-                                     @Param("duration") Integer duration,
+                                     @Param("duration") Long duration,
                                      @Param("performer") String performer,
                                      @Param("title") String title);
 
@@ -180,7 +186,7 @@ public interface BotApi {
     @Headers("Content-type: application/json")
     BasicResponse<Message> sendDocument(@Param("chat_id") String chatId,
                                         @Param("document") String documentId,
-                                        @Param("reply_to_message_id") Integer replyToMessageId,
+                                        @Param("reply_to_message_id") Long replyToMessageId,
                                         @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendDocument")
@@ -191,7 +197,7 @@ public interface BotApi {
     @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendDocument(@Param("chat_id") String chatId,
                                         @Param("document") InputFile document,
-                                        @Param("reply_to_message_id") Integer replyToMessageId,
+                                        @Param("reply_to_message_id") Long replyToMessageId,
                                         @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendDocument")
@@ -203,7 +209,7 @@ public interface BotApi {
     @Headers("Content-type: application/json")
     BasicResponse<Message> sendSticker(@Param("chat_id") String chatId,
                                        @Param("sticker") String stickerId,
-                                       @Param("reply_to_message_id") Integer replyToMessageId,
+                                       @Param("reply_to_message_id") Long replyToMessageId,
                                        @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendSticker")
@@ -214,7 +220,7 @@ public interface BotApi {
     @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendSticker(@Param("chat_id") String chatId,
                                        @Param("sticker") InputFile sticker,
-                                       @Param("reply_to_message_id") Integer replyToMessageId,
+                                       @Param("reply_to_message_id") Long replyToMessageId,
                                        @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendSticker")
@@ -226,16 +232,16 @@ public interface BotApi {
     @Headers("Content-type: application/json")
     BasicResponse<Message> sendVideo(@Param("chat_id") String chatId,
                                      @Param("video") String videoId,
-                                     @Param("duration") Integer duration,
+                                     @Param("duration") Long duration,
                                      @Param("caption") String caption,
-                                     @Param("reply_to_message_id") Integer replyToMessageId,
+                                     @Param("reply_to_message_id") Long replyToMessageId,
                                      @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendVideo")
     @Headers("Content-type: application/json")
     BasicResponse<Message> sendVideo(@Param("chat_id") String chatId,
                                      @Param("video") String videoId,
-                                     @Param("duration") Integer duration,
+                                     @Param("duration") Long duration,
                                      @Param("caption") String caption);
 
     @RequestLine("POST /sendVideo")
@@ -246,16 +252,16 @@ public interface BotApi {
     @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendVideo(@Param("chat_id") String chatId,
                                      @Param("video") InputFile video,
-                                     @Param("duration") Integer duration,
+                                     @Param("duration") Long duration,
                                      @Param("caption") String caption,
-                                     @Param("reply_to_message_id") Integer replyToMessageId,
+                                     @Param("reply_to_message_id") Long replyToMessageId,
                                      @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendVideo")
     @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendVideo(@Param("chat_id") String chatId,
                                      @Param("video") InputFile video,
-                                     @Param("duration") Integer duration,
+                                     @Param("duration") Long duration,
                                      @Param("caption") String caption);
 
     @RequestLine("POST /sendVideo")
@@ -267,15 +273,15 @@ public interface BotApi {
     @Headers("Content-type: application/json")
     BasicResponse<Message> sendVoice(@Param("chat_id") String chatId,
                                      @Param("voice") String voiceId,
-                                     @Param("duration") Integer duration,
-                                     @Param("reply_to_message_id") Integer replyToMessageId,
+                                     @Param("duration") Long duration,
+                                     @Param("reply_to_message_id") Long replyToMessageId,
                                      @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: application/json")
     BasicResponse<Message> sendVoice(@Param("chat_id") String chatId,
                                      @Param("voice") String voiceId,
-                                     @Param("duration") Integer duration);
+                                     @Param("duration") Long duration);
 
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: application/json")
@@ -285,15 +291,15 @@ public interface BotApi {
     @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendVoice(@Param("chat_id") String chatId,
                                      @Param("voice") InputFile voice,
-                                     @Param("duration") Integer duration,
-                                     @Param("reply_to_message_id") Integer replyToMessageId,
+                                     @Param("duration") Long duration,
+                                     @Param("reply_to_message_id") Long replyToMessageId,
                                      @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendVoice(@Param("chat_id") String chatId,
                                      @Param("voice") InputFile voice,
-                                     @Param("duration") Integer duration);
+                                     @Param("duration") Long duration);
 
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: multipart/form-data")
