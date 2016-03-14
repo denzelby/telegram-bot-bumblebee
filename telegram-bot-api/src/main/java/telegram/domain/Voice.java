@@ -3,9 +3,9 @@ package telegram.domain;
 public class Voice {
 
     private String fileId;
-    private Integer duration;
+    private Long duration;
     private String mimeType;
-    private Integer fileSize;
+    private Long fileSize;
 
     public String getFileId() {
         return fileId;
@@ -15,11 +15,11 @@ public class Voice {
         this.fileId = fileId;
     }
 
-    public Integer getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 
@@ -31,11 +31,11 @@ public class Voice {
         this.mimeType = mimeType;
     }
 
-    public Integer getFileSize() {
+    public Long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
+    public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
     }
 

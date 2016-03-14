@@ -7,7 +7,7 @@ public class Document {
     private PhotoSize thumb;
     private String fileName;
     private String mimeType;
-    private Integer fileSize;
+    private Long fileSize;
 
     public String getFileId() {
         return fileId;
@@ -41,11 +41,11 @@ public class Document {
         this.mimeType = mimeType;
     }
 
-    public Integer getFileSize() {
+    public Long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
+    public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
     }
 

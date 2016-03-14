@@ -1,8 +1,10 @@
 package com.github.bumblebee.command.status;
 
-import com.github.bumblebee.command.SingleArgumentCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.github.bumblebee.command.SingleArgumentCommand;
+
 import telegram.api.BotApi;
 import telegram.domain.Update;
 
@@ -18,7 +20,7 @@ public class StatusCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Integer chatId, String argument) {
+    public void handleCommand(Update update, Long chatId, String argument) {
         botApi.sendMessage(chatId, "I'm fine!");
     }
 

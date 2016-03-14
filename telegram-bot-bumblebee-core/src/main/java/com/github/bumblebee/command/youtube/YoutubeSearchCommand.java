@@ -1,5 +1,13 @@
 package com.github.bumblebee.command.youtube;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.github.bumblebee.command.SingleArgumentCommand;
 import com.github.bumblebee.service.RandomPhraseService;
 import com.google.api.client.http.apache.ApacheHttpTransport;
@@ -7,15 +15,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
 import telegram.api.BotApi;
 import telegram.domain.Update;
-
-import java.io.IOException;
-import java.util.List;
 
 @Component
 public class YoutubeSearchCommand extends SingleArgumentCommand {
@@ -49,7 +51,7 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Integer chatId, String argument) {
+    public void handleCommand(Update update, Long chatId, String argument) {
 
         if (argument == null) {
             botApi.sendMessage(chatId, randomPhraseService.surprise());
@@ -70,7 +72,7 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
         botApi.sendMessage(chatId, message, update.getMessage().getMessageId());
     }
 
-    private boolean sendVideo(Integer chatId, String argument) {
+    private boolean sendVideo(Long chatId, String argument) {
         try {
             String videoId = searchVideo(argument);
             if (videoId != null) {

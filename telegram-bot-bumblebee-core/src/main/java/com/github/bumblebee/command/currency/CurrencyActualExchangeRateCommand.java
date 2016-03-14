@@ -1,19 +1,21 @@
 package com.github.bumblebee.command.currency;
 
-import com.github.bumblebee.command.SingleArgumentCommand;
-import com.github.bumblebee.command.currency.domain.SupportedCurrency;
-import com.github.bumblebee.command.currency.service.BYRExchangeRateRetrieveService;
-import com.github.bumblebee.command.currency.service.CurrencyBidEvalService;
-import com.github.bumblebee.service.RandomPhraseService;
+import java.text.MessageFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import com.github.bumblebee.command.SingleArgumentCommand;
+import com.github.bumblebee.command.currency.domain.SupportedCurrency;
+import com.github.bumblebee.command.currency.service.BYRExchangeRateRetrieveService;
+import com.github.bumblebee.command.currency.service.CurrencyBidEvalService;
+import com.github.bumblebee.service.RandomPhraseService;
+
 import telegram.api.BotApi;
 import telegram.domain.Update;
-
-import java.text.MessageFormat;
 
 @Component
 public class CurrencyActualExchangeRateCommand extends SingleArgumentCommand {
@@ -34,7 +36,7 @@ public class CurrencyActualExchangeRateCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Integer chatId, String argument) {
+    public void handleCommand(Update update, Long chatId, String argument) {
 
         String currencyName = getCurrencyNameOrDefault(argument, SupportedCurrency.USD);
         try {

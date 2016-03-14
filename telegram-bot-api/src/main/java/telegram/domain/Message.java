@@ -4,12 +4,12 @@ import java.util.List;
 
 public class Message {
 
-    private Integer messageId;
+    private Long messageId;
     private User from;
-    private Integer date;
+    private Long date;
     private Chat chat;
     private User forwardFrom;
-    private Integer forwardDate;
+    private Long forwardDate;
     private String text;
     private Audio audio;
     private Document document;
@@ -27,11 +27,11 @@ public class Message {
     private Message replyToMessage;
     private Voice voice;
 
-    public Integer getMessageId() {
+    public Long getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(Integer messageId) {
+    public void setMessageId(Long messageId) {
         this.messageId = messageId;
     }
 
@@ -43,11 +43,11 @@ public class Message {
         this.from = from;
     }
 
-    public Integer getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
@@ -67,11 +67,11 @@ public class Message {
         this.forwardFrom = forwardFrom;
     }
 
-    public Integer getForwardDate() {
+    public Long getForwardDate() {
         return forwardDate;
     }
 
-    public void setForwardDate(Integer forwardDate) {
+    public void setForwardDate(Long forwardDate) {
         this.forwardDate = forwardDate;
     }
 

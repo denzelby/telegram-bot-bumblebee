@@ -1,21 +1,23 @@
 package com.github.bumblebee.command.imagesearch;
 
+import java.net.URL;
+import java.util.List;
+
+import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+
 import com.github.bumblebee.command.SingleArgumentCommand;
 import com.github.bumblebee.command.imagesearch.domain.Image;
 import com.github.bumblebee.command.imagesearch.domain.ImageProvider;
 import com.github.bumblebee.command.imagesearch.domain.ImagesPreprocessor;
 import com.github.bumblebee.command.imagesearch.exception.ImageSendException;
 import com.github.bumblebee.service.RandomPhraseService;
-import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
+
 import telegram.api.BotApi;
 import telegram.domain.Update;
 import telegram.domain.request.InputFile;
-
-import java.net.URL;
-import java.util.List;
 
 public class ImageSearchCommand extends SingleArgumentCommand {
 
@@ -35,14 +37,14 @@ public class ImageSearchCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Integer chatId, String argument) {
+    public void handleCommand(Update update, Long chatId, String argument) {
 
         if (argument == null) {
             botApi.sendMessage(chatId, randomPhrase.surprise());
             return;
         }
 
-        Integer messageId = update.getMessage().getMessageId();
+        Long messageId = update.getMessage().getMessageId();
 
         for (ImageProvider provider : providers) {
             List<Image> images = search(provider, argument);
@@ -67,7 +69,7 @@ public class ImageSearchCommand extends SingleArgumentCommand {
         }
     }
 
-    private boolean sendRandomPicture(List<Image> pictures, Integer chatId, String caption) {
+    private boolean sendRandomPicture(List<Image> pictures, Long chatId, String caption) {
 
         preprocessor.process(pictures);
 
@@ -84,7 +86,7 @@ public class ImageSearchCommand extends SingleArgumentCommand {
         return false;
     }
 
-    private void sendImage(String url, Integer chatId, String caption) throws ImageSendException {
+    private void sendImage(String url, Long chatId, String caption) throws ImageSendException {
 
         try {
             InputFile photo = InputFile.photo(new URL(url).openStream(), getFileName(url));
