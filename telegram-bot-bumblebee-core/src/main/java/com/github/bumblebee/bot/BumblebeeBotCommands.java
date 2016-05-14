@@ -1,6 +1,5 @@
 package com.github.bumblebee.bot;
 
-import com.github.bumblebee.command.autocomplete.AutocompleteHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,29 +19,28 @@ public class BumblebeeBotCommands {
 
     @Autowired
     private BumblebeeConfig config;
-    @Autowired
-    private AutocompleteHandler autocompleteHandler;
 
     @Resource
     private List<UpdateHandler> handlers;
 
     @Bean
     public HandlerRegistry createCommandRegistry() {
+
         HandlerRegistry registry = new HandlerRegistry();
 
-        for (UpdateHandler handler : handlers) {
+        handlers.forEach(handler -> {
             String command = handler.getClass().getSimpleName();
             String aliases = config.getCommands().get(command);
 
             if (!StringUtils.isEmpty(aliases)) {
                 registry.register(handler, aliases.split("\\s"));
-                log.info("Registered command: {}", command);
+                log.info("Registered command {} with aliases {}", command, aliases);
             } else {
-                log.warn("No command mapping found for {}", command);
+                registry.register(handler);
+                log.info("Added to update handler chain: {}", command);
             }
-        }
-        registry.register(autocompleteHandler);
-        log.info("Registered handler: " + autocompleteHandler.getClass());
+        });
+
         return registry;
     }
 }

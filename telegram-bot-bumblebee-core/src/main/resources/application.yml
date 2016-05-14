@@ -1,1 +1,58 @@
+bumblebee:
+  # Telegram bot token
+  token:
+  # Command mapping
+  commands:
+    StartCommand: /start /help
+    StatusCommand: /status
+    YoutubeSearchCommand: /v /y
+    FirstImageSearchCommand: /g /p /i
+    RandomImageSearchCommand: /r /rg /rp /ri /gr /rr /ir
+    # Currency 'hunger games'
+    CurrencyPlaceBidCommand: /bid
+    CurrencyShowActualBidsCommand: /bids
+    CurrencyActualExchangeRateCommand: /rate
+    CurrencyUSDActualExchangeRateCommand: /usd
+    CurrencyEURActualExchangeRateCommand: /eur
+    CurrencyChartCommand: /chart
+    BrentCommand: /brent
+  # Webhook settings
+  webhook:
+    enabled: false # false - long polling will be used, true - webhooks
+    url:
 
+# Commands
+## Youtube search
+youtube:
+  api:
+    projectName:
+    key:
+
+## Google search API
+google:
+  api:
+    key:
+    customSearchId:
+
+# Bing Search API
+bing:
+  api:
+    accountKey:
+
+currency:
+  chart:
+    dateFormat: dd.MM.yyyy
+    defaultCurrencies:
+      - USD
+      - EUR
+    localization:
+      chartTitle: Курсы валют
+      chartDateAxis: Дата
+      chartRateAxis: Курс
+
+spring:
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name:
