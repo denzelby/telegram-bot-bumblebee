@@ -3,17 +3,17 @@ package telegram.domain;
 public class Audio {
 
     private String fileId;
-    private Integer duration;
+    private Long duration;
     private String performer;
     private String title;
     private String mimeType;
-    private Integer fileSize;
+    private Long fileSize;
 
     public String getFileId() {
         return fileId;
     }
 
-    public Integer getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
@@ -29,7 +29,7 @@ public class Audio {
         return mimeType;
     }
 
-    public Integer getFileSize() {
+    public Long getFileSize() {
         return fileSize;
     }
 

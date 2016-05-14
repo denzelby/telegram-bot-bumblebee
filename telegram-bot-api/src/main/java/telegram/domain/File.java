@@ -3,7 +3,7 @@ package telegram.domain;
 public class File {
 
     private String fileId;
-    private Integer fileSize;
+    private Long fileSize;
     private String filePath;
 
     public String getFileId() {
@@ -14,11 +14,11 @@ public class File {
         this.fileId = fileId;
     }
 
-    public Integer getFileSize() {
+    public Long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
+    public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
     }
 

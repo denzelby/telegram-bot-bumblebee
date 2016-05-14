@@ -5,11 +5,11 @@ import telegram.polling.UpdateHandler;
 
 public abstract class SingleArgumentCommand implements UpdateHandler {
 
-    public abstract void handleCommand(Update update, Integer chatId, String argument);
+    public abstract void handleCommand(Update update, Long chatId, String argument);
 
     @Override
     public boolean onUpdate(Update update) {
-        Integer chatId = update.getMessage().getChat().getId();
+        Long chatId = update.getMessage().getChat().getId();
         String text = update.getMessage().getText();
         int cmdEndIndex = text.indexOf(' ');
 

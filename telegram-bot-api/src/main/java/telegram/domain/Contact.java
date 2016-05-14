@@ -5,7 +5,7 @@ public class Contact {
     private String phoneNumber;
     private String firstName;
     private String lastName;
-    private Integer userId;
+    private Long userId;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -31,11 +31,11 @@ public class Contact {
         this.lastName = lastName;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

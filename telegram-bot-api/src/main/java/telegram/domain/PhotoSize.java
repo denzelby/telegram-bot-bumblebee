@@ -6,7 +6,7 @@ public class PhotoSize {
     private String fileId;
     private Integer width;
     private Integer height;
-    private Integer fileSize;
+    private Long fileSize;
 
     public String getFileId() {
         return fileId;
@@ -32,11 +32,11 @@ public class PhotoSize {
         this.height = height;
     }
 
-    public Integer getFileSize() {
+    public Long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
+    public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
     }
 

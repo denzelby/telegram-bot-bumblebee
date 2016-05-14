@@ -2,17 +2,17 @@ package telegram.domain;
 
 public class Chat {
 
-    private Integer id;
+    private Long id;
     private String title;
     private String firstName;
     private String lastName;
     private String userName;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

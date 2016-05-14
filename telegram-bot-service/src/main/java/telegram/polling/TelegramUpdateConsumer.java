@@ -1,11 +1,12 @@
 package telegram.polling;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import telegram.domain.Update;
-
 import java.time.Instant;
 import java.util.function.Consumer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import telegram.domain.Update;
 
 public class TelegramUpdateConsumer implements Consumer<Update> {
 
@@ -42,7 +43,7 @@ public class TelegramUpdateConsumer implements Consumer<Update> {
 
     private boolean isOutdatedUpdate(Update update) {
 
-        final Integer unixTime = update.getMessage().getDate();
+        final Long unixTime = update.getMessage().getDate();
         return unixTime != null && Instant.ofEpochSecond(unixTime).isBefore(
                         Instant.now().minusSeconds(UPDATE_EXPIRATION_SEC));
     }

@@ -1,5 +1,8 @@
 package com.github.bumblebee.command;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,12 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import telegram.domain.Chat;
 import telegram.domain.Message;
 import telegram.domain.Update;
-
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SingleArgumentCommandTest {
@@ -30,7 +31,7 @@ public class SingleArgumentCommandTest {
     @InjectMocks
     private SingleArgumentCommand command = new SingleArgumentCommand() {
         @Override
-        public void handleCommand(Update update, Integer chatId, String argument) {
+        public void handleCommand(Update update, Long chatId, String argument) {
 
         }
     };
@@ -39,7 +40,7 @@ public class SingleArgumentCommandTest {
     public void setUp() {
         when(update.getMessage()).thenReturn(message);
         when(message.getChat()).thenReturn(chat);
-        when(chat.getId()).thenReturn(42);
+        when(chat.getId()).thenReturn(42L);
     }
 
     @Test
@@ -52,7 +53,7 @@ public class SingleArgumentCommandTest {
         command.onUpdate(update);
 
         // then
-        verify(command).handleCommand(update, 42, "cats");
+        verify(command).handleCommand(update, 42L, "cats");
     }
 
     @Test
@@ -65,7 +66,7 @@ public class SingleArgumentCommandTest {
         command.onUpdate(update);
 
         // then
-        verify(command).handleCommand(update, 42, null);
+        verify(command).handleCommand(update, 42L, null);
     }
 
     @Test
@@ -78,6 +79,6 @@ public class SingleArgumentCommandTest {
         command.onUpdate(update);
 
         // then
-        verify(command).handleCommand(update, 42, null);
+        verify(command).handleCommand(update, 42L, null);
     }
 }
