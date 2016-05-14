@@ -32,7 +32,6 @@ public class TelegramUpdateConsumer implements Consumer<Update> {
 
             if (!consumed) {
                 // run handler chain if not consumed, stop if handler returns true
-                handlerRegistry.getHandlerChain();
                 this.handlerRegistry
                         .getHandlerChain().stream()
                         .anyMatch(handler -> handler.onUpdate(update));
