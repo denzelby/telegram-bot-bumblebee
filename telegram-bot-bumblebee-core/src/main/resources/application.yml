@@ -56,3 +56,9 @@ spring:
     username:
     password:
     driver-class-name:
+
+autocomplete:
+    template:
+      - до сви дос
+      - дос ви дос
+      - ба тя (муж)
