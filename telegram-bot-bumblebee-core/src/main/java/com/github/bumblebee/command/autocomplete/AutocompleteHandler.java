@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 import telegram.api.BotApi;
 import telegram.domain.Update;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+
 /**
  * Created by Misha on 14.05.2016.
  */
@@ -17,26 +22,29 @@ public class AutocompleteHandler extends ChainedMessageListener {
     private static final Logger log = LoggerFactory.getLogger(AutocompleteHandler.class);
 
     private final BotApi botApi;
+    private final AutocompleteConfig config;
+    final Map<String, String[]> autocompletes;
 
     @Autowired
-    public AutocompleteHandler(BotApi botApi) {
+    public AutocompleteHandler(BotApi botApi, AutocompleteConfig config) {
         this.botApi = botApi;
+        this.config = config;
+        autocompletes = config.getTemplates().stream()
+                .map(phrase -> phrase.split("/"))
+                .collect(Collectors.toMap(
+                        syllables -> syllables[0],
+                        syllables -> Arrays.copyOfRange(syllables, 1, syllables.length))
+                );
     }
 
     @Override
     public boolean onMessage(Long chatId, String message, Update update) {
-
         try {
-            if (message.equalsIgnoreCase("ДО")) {
-                botApi.sendMessage(chatId, "СВИ");
-                Thread.sleep(1000);
-                botApi.sendMessage(chatId, "ДОС");
-                return true;
-            }
-            if (message.equalsIgnoreCase("ДОС")) {
-                botApi.sendMessage(chatId, "ВИ");
-                Thread.sleep(1000);
-                botApi.sendMessage(chatId, "ДОС");
+            if (autocompletes.containsKey(message)) {
+                for (String text: autocompletes.get(message)){
+                    botApi.sendMessage(chatId, text);
+                    Thread.sleep(400);
+                }
                 return true;
             }
         } catch (InterruptedException e) {
@@ -45,3 +53,5 @@ public class AutocompleteHandler extends ChainedMessageListener {
         return false;
     }
 }
+
+
