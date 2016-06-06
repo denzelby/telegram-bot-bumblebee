@@ -14,13 +14,13 @@ import java.util.List;
 @ConfigurationProperties(prefix = "autocomplete")
 public class AutocompleteConfig {
 
-    private List<String> template = new ArrayList<String>();
+    private List<String> templates = new ArrayList<String>();
 
-    public List<String> getTemplate() {
-        return template;
+    public List<String> getTemplates() {
+        return templates;
     }
 
-    public void setTemplate(List<String> template) {
-        this.template = template;
+    public void setTemplates(List<String> templates) {
+        this.templates = templates;
     }
 }

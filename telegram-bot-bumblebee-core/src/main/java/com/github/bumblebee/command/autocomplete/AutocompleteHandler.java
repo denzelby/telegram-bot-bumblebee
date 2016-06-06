@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 import telegram.api.BotApi;
 import telegram.domain.Update;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 
 /**
  * Created by Misha on 14.05.2016.
@@ -20,35 +23,28 @@ public class AutocompleteHandler extends ChainedMessageListener {
 
     private final BotApi botApi;
     private final AutocompleteConfig config;
-    private final Map<String,List<String>> autocomplete = new HashMap<String,List<String>>();
+    final Map<String, String[]> autocompletes;
 
     @Autowired
     public AutocompleteHandler(BotApi botApi, AutocompleteConfig config) {
         this.botApi = botApi;
         this.config = config;
-        config.getTemplate().forEach(this::parse);
-    }
-
-    private void parse(String phrase){
-        List<String> temp = new ArrayList<String>();
-        String key = null;
-
-        for (String part: phrase.split(" ")) {
-            if (key==null){
-                key = part;
-            } else {
-                temp.add(part);
-            }
-        }
-        autocomplete.put(key, temp);
+        autocompletes = config.getTemplates().stream()
+                .map(phrase -> phrase.split("/"))
+                .collect(Collectors.toMap(
+                        syllables -> syllables[0],
+                        syllables -> Arrays.copyOfRange(syllables, 1, syllables.length))
+                );
     }
 
     @Override
     public boolean onMessage(Long chatId, String message, Update update) {
         try {
-            if (autocomplete.containsKey(message)) {
-                autocomplete.get(message).forEach(phrase -> botApi.sendMessage(chatId, phrase));
-                Thread.sleep(1000);
+            if (autocompletes.containsKey(message)) {
+                for (String text: autocompletes.get(message)) {
+                    botApi.sendMessage(chatId, text);
+                    Thread.sleep(100);
+                }
                 return true;
             }
         } catch (InterruptedException e) {
@@ -57,3 +53,5 @@ public class AutocompleteHandler extends ChainedMessageListener {
         return false;
     }
 }
+
+
