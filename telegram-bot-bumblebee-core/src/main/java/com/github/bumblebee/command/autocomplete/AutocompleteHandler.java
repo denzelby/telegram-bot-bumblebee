@@ -41,9 +41,9 @@ public class AutocompleteHandler extends ChainedMessageListener {
     public boolean onMessage(Long chatId, String message, Update update) {
         try {
             if (autocompletes.containsKey(message)) {
-                for (String text: autocompletes.get(message)) {
+                for (String text: autocompletes.get(message)){
                     botApi.sendMessage(chatId, text);
-                    Thread.sleep(100);
+                    Thread.sleep(400);
                 }
                 return true;
             }
