@@ -25,19 +25,22 @@ public class BumblebeeBotCommands {
 
     @Bean
     public HandlerRegistry createCommandRegistry() {
+
         HandlerRegistry registry = new HandlerRegistry();
 
-        for (UpdateHandler handler : handlers) {
+        handlers.forEach(handler -> {
             String command = handler.getClass().getSimpleName();
             String aliases = config.getCommands().get(command);
 
             if (!StringUtils.isEmpty(aliases)) {
                 registry.register(handler, aliases.split("\\s"));
-                log.info("Registered command: {}", command);
+                log.info("Registered command {} with aliases {}", command, aliases);
             } else {
-                log.warn("No command mapping found for {}", command);
+                registry.register(handler);
+                log.info("Added to update handler chain: {}", command);
             }
-        }
+        });
+
         return registry;
     }
 }
