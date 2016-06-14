@@ -91,7 +91,7 @@ public class ImageSearchCommand extends SingleArgumentCommand {
         try {
             InputFile photo = InputFile.photo(new URL(url).openStream(), getFileName(url));
 
-            botApi.sendPhoto(chatId.toString(), photo, caption);
+            botApi.sendPhoto(chatId, photo, caption);
         } catch (Exception e) {
             log.error("Failed to send: {}", url);
             throw new ImageSendException(e);

@@ -63,8 +63,8 @@ public interface BotApi {
 
     @RequestLine("POST /forwardMessage")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> forwardMessage(@Param("chat_id") String chatId,
-                                          @Param("from_chat_id") String fromChatId,
+    BasicResponse<Message> forwardMessage(@Param("chat_id") Long chatId,
+                                          @Param("from_chat_id") Long fromChatId,
                                           @Param("message_id") Long messageId);
 
     // Get user profile photos
@@ -79,13 +79,13 @@ public interface BotApi {
     // Chat actions
     @RequestLine("POST /sendChatAction")
     @Headers("Content-type: application/json")
-    BasicResponse<Boolean> sendChatAction(@Param("chat_id") String chatId,
+    BasicResponse<Boolean> sendChatAction(@Param("chat_id") Long chatId,
                                           @Param(value = "action", expander = EnumExpander.class) ChatAction chatAction);
 
     // Location
     @RequestLine("POST /sendLocation")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendLocation(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendLocation(@Param("chat_id") Long chatId,
                                         @Param("latitude") float latitude,
                                         @Param("longitude") float longitude,
                                         @Param("reply_to_message_id") Long replyToMessageId,
@@ -93,14 +93,14 @@ public interface BotApi {
 
     @RequestLine("POST /sendLocation")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendLocation(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendLocation(@Param("chat_id") Long chatId,
                                         @Param("latitude") float latitude,
                                         @Param("longitude") float longitude);
 
     // Send photo
     @RequestLine("POST /sendPhoto")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendPhoto(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendPhoto(@Param("chat_id") Long chatId,
                                      @Param("photo") String photoId,
                                      @Param("caption") String caption,
                                      @Param("reply_to_message_id") Long replyToMessageId,
@@ -108,18 +108,18 @@ public interface BotApi {
 
     @RequestLine("POST /sendPhoto")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendPhoto(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendPhoto(@Param("chat_id") Long chatId,
                                      @Param("photo") String photoId,
                                      @Param("caption") String caption);
 
     @RequestLine("POST /sendPhoto")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendPhoto(@Param("chat_id") String chatId, @Param("photo") String photoId);
+    BasicResponse<Message> sendPhoto(@Param("chat_id") Long chatId, @Param("photo") String photoId);
 
 
     @RequestLine("POST /sendPhoto")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendPhoto(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendPhoto(@Param("chat_id") Long chatId,
                                      @Param("photo") InputFile photo,
                                      @Param("caption") String caption,
                                      @Param("reply_to_message_id") Long replyToMessageId,
@@ -127,19 +127,19 @@ public interface BotApi {
 
     @RequestLine("POST /sendPhoto")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendPhoto(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendPhoto(@Param("chat_id") Long chatId,
                                      @Param("photo") InputFile photo,
                                      @Param("caption") String caption);
 
     @RequestLine("POST /sendPhoto")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendPhoto(@Param("chat_id") String chatId, @Param("photo") InputFile photo);
+    BasicResponse<Message> sendPhoto(@Param("chat_id") Long chatId, @Param("photo") InputFile photo);
 
 
     // Audio
     @RequestLine("POST /sendAudio")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendAudio(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendAudio(@Param("chat_id") Long chatId,
                                      @Param("audio") String audioId,
                                      @Param("duration") Long duration,
                                      @Param("performer") String performer,
@@ -149,7 +149,7 @@ public interface BotApi {
 
     @RequestLine("POST /sendAudio")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendAudio(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendAudio(@Param("chat_id") Long chatId,
                                      @Param("audio") String audioId,
                                      @Param("duration") Long duration,
                                      @Param("performer") String performer,
@@ -157,11 +157,11 @@ public interface BotApi {
 
     @RequestLine("POST /sendAudio")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendAudio(@Param("chat_id") String chatId, @Param("audio") String audioId);
+    BasicResponse<Message> sendAudio(@Param("chat_id") Long chatId, @Param("audio") String audioId);
 
     @RequestLine("POST /sendAudio")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendAudio(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendAudio(@Param("chat_id") Long chatId,
                                      @Param("audio") InputFile audio,
                                      @Param("duration") Long duration,
                                      @Param("performer") String performer,
@@ -171,7 +171,7 @@ public interface BotApi {
 
     @RequestLine("POST /sendAudio")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendAudio(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendAudio(@Param("chat_id") Long chatId,
                                      @Param("audio") InputFile audio,
                                      @Param("duration") Long duration,
                                      @Param("performer") String performer,
@@ -179,58 +179,58 @@ public interface BotApi {
 
     @RequestLine("POST /sendAudio")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendAudio(@Param("chat_id") String chatId, @Param("audio") InputFile audio);
+    BasicResponse<Message> sendAudio(@Param("chat_id") Long chatId, @Param("audio") InputFile audio);
 
     // Documents
     @RequestLine("POST /sendDocument")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendDocument(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendDocument(@Param("chat_id") Long chatId,
                                         @Param("document") String documentId,
                                         @Param("reply_to_message_id") Long replyToMessageId,
                                         @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendDocument")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendDocument(@Param("chat_id") String chatId, @Param("document") String documentId);
+    BasicResponse<Message> sendDocument(@Param("chat_id") Long chatId, @Param("document") String documentId);
 
     @RequestLine("POST /sendDocument")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendDocument(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendDocument(@Param("chat_id") Long chatId,
                                         @Param("document") InputFile document,
                                         @Param("reply_to_message_id") Long replyToMessageId,
                                         @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendDocument")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendDocument(@Param("chat_id") String chatId, @Param("document") InputFile document);
+    BasicResponse<Message> sendDocument(@Param("chat_id") Long chatId, @Param("document") InputFile document);
 
     // Stickers
     @RequestLine("POST /sendSticker")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendSticker(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendSticker(@Param("chat_id") Long chatId,
                                        @Param("sticker") String stickerId,
                                        @Param("reply_to_message_id") Long replyToMessageId,
                                        @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendSticker")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendSticker(@Param("chat_id") String chatId, @Param("sticker") String stickerId);
+    BasicResponse<Message> sendSticker(@Param("chat_id") Long chatId, @Param("sticker") String stickerId);
 
     @RequestLine("POST /sendSticker")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendSticker(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendSticker(@Param("chat_id") Long chatId,
                                        @Param("sticker") InputFile sticker,
                                        @Param("reply_to_message_id") Long replyToMessageId,
                                        @Param("reply_markup") Keyboard keyboard);
 
     @RequestLine("POST /sendSticker")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendSticker(@Param("chat_id") String chatId, @Param("sticker") InputFile sticker);
+    BasicResponse<Message> sendSticker(@Param("chat_id") Long chatId, @Param("sticker") InputFile sticker);
 
     // Video
     @RequestLine("POST /sendVideo")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendVideo(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendVideo(@Param("chat_id") Long chatId,
                                      @Param("video") String videoId,
                                      @Param("duration") Long duration,
                                      @Param("caption") String caption,
@@ -239,18 +239,18 @@ public interface BotApi {
 
     @RequestLine("POST /sendVideo")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendVideo(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendVideo(@Param("chat_id") Long chatId,
                                      @Param("video") String videoId,
                                      @Param("duration") Long duration,
                                      @Param("caption") String caption);
 
     @RequestLine("POST /sendVideo")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendVideo(@Param("chat_id") String chatId, @Param("video") String videoId);
+    BasicResponse<Message> sendVideo(@Param("chat_id") Long chatId, @Param("video") String videoId);
 
     @RequestLine("POST /sendVideo")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendVideo(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendVideo(@Param("chat_id") Long chatId,
                                      @Param("video") InputFile video,
                                      @Param("duration") Long duration,
                                      @Param("caption") String caption,
@@ -259,19 +259,19 @@ public interface BotApi {
 
     @RequestLine("POST /sendVideo")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendVideo(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendVideo(@Param("chat_id") Long chatId,
                                      @Param("video") InputFile video,
                                      @Param("duration") Long duration,
                                      @Param("caption") String caption);
 
     @RequestLine("POST /sendVideo")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendVideo(@Param("chat_id") String chatId, @Param("video") InputFile video);
+    BasicResponse<Message> sendVideo(@Param("chat_id") Long chatId, @Param("video") InputFile video);
 
     // Voice
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendVoice(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendVoice(@Param("chat_id") Long chatId,
                                      @Param("voice") String voiceId,
                                      @Param("duration") Long duration,
                                      @Param("reply_to_message_id") Long replyToMessageId,
@@ -279,17 +279,17 @@ public interface BotApi {
 
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendVoice(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendVoice(@Param("chat_id") Long chatId,
                                      @Param("voice") String voiceId,
                                      @Param("duration") Long duration);
 
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: application/json")
-    BasicResponse<Message> sendVoice(@Param("chat_id") String chatId, @Param("voice") String voiceId);
+    BasicResponse<Message> sendVoice(@Param("chat_id") Long chatId, @Param("voice") String voiceId);
 
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendVoice(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendVoice(@Param("chat_id") Long chatId,
                                      @Param("voice") InputFile voice,
                                      @Param("duration") Long duration,
                                      @Param("reply_to_message_id") Long replyToMessageId,
@@ -297,13 +297,13 @@ public interface BotApi {
 
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendVoice(@Param("chat_id") String chatId,
+    BasicResponse<Message> sendVoice(@Param("chat_id") Long chatId,
                                      @Param("voice") InputFile voice,
                                      @Param("duration") Long duration);
 
     @RequestLine("POST /sendVoice")
     @Headers("Content-type: multipart/form-data")
-    BasicResponse<Message> sendVoice(@Param("chat_id") String chatId, @Param("voice") InputFile voice);
+    BasicResponse<Message> sendVoice(@Param("chat_id") Long chatId, @Param("voice") InputFile voice);
 
     // Webhook
     @RequestLine("POST /setWebhook")

@@ -92,7 +92,7 @@ public class CurrencyChartCommand extends SingleArgumentCommand {
             byte[] png = chartService.createChartImage(rates, detailed, from, to);
             InputFile chart = InputFile.photo(new ByteArrayInputStream(png), "chart.png");
 
-            botApi.sendPhoto(chatId.toString(), chart);
+            botApi.sendPhoto(chatId, chart);
         } catch (IOException | SAXException e) {
             log.error("Chart creation failed", e);
             botApi.sendMessage(chatId, randomPhrase.no(), update.getMessage().getMessageId());
