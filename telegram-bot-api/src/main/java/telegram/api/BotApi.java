@@ -214,6 +214,13 @@ public interface BotApi {
 
     @RequestLine("POST /sendSticker")
     @Headers("Content-type: application/json")
+    BasicResponse<Message> sendSticker(@Param("chat_id") Long chatId,
+                                       @Param("sticker") String stickerId,
+                                       @Param("reply_to_message_id") Long replyToMessageId,
+                                       @Param("reply_markup") Keyboard keyboard);
+
+    @RequestLine("POST /sendSticker")
+    @Headers("Content-type: application/json")
     BasicResponse<Message> sendSticker(@Param("chat_id") String chatId, @Param("sticker") String stickerId);
 
     @RequestLine("POST /sendSticker")
@@ -229,7 +236,18 @@ public interface BotApi {
 
     @RequestLine("POST /sendSticker")
     @Headers("Content-type: multipart/form-data")
+    BasicResponse<Message> sendSticker(@Param("chat_id") Long chatId,
+                                       @Param("sticker") InputFile sticker,
+                                       @Param("reply_to_message_id") Long replyToMessageId,
+                                       @Param("reply_markup") Keyboard keyboard);
+
+    @RequestLine("POST /sendSticker")
+    @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendSticker(@Param("chat_id") String chatId, @Param("sticker") InputFile sticker);
+
+    @RequestLine("POST /sendSticker")
+    @Headers("Content-type: multipart/form-data")
+    BasicResponse<Message> sendSticker(@Param("chat_id") Long chatId, @Param("sticker") InputFile sticker);
 
     // Video
     @RequestLine("POST /sendVideo")
