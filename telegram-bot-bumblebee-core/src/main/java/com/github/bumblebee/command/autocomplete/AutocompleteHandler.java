@@ -43,13 +43,12 @@ public class AutocompleteHandler extends ChainedMessageListener {
             if (autocompletes.containsKey(message)) {
                 for (String text: autocompletes.get(message)){
                     if(text.startsWith("stickerId:")){
-                        botApi.sendSticker(chatId.toString(), text.replace("stickerId:",""));
-                        Thread.sleep(400);
+                        botApi.sendSticker(chatId, text.replace("stickerId:",""));
                     }
                     else {
                         botApi.sendMessage(chatId, text);
-                        Thread.sleep(400);
                     }
+                    Thread.sleep(400);
                 }
                 return true;
             }

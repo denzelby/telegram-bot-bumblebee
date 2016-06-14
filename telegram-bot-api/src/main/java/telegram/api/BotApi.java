@@ -217,6 +217,10 @@ public interface BotApi {
     BasicResponse<Message> sendSticker(@Param("chat_id") String chatId, @Param("sticker") String stickerId);
 
     @RequestLine("POST /sendSticker")
+    @Headers("Content-type: application/json")
+    BasicResponse<Message> sendSticker(@Param("chat_id") Long chatId, @Param("sticker") String stickerId);
+
+    @RequestLine("POST /sendSticker")
     @Headers("Content-type: multipart/form-data")
     BasicResponse<Message> sendSticker(@Param("chat_id") String chatId,
                                        @Param("sticker") InputFile sticker,
