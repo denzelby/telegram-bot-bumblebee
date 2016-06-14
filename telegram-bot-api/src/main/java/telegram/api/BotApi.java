@@ -64,7 +64,7 @@ public interface BotApi {
     @RequestLine("POST /forwardMessage")
     @Headers("Content-type: application/json")
     BasicResponse<Message> forwardMessage(@Param("chat_id") Long chatId,
-                                          @Param("from_chat_id") String fromChatId,
+                                          @Param("from_chat_id") Long fromChatId,
                                           @Param("message_id") Long messageId);
 
     // Get user profile photos
