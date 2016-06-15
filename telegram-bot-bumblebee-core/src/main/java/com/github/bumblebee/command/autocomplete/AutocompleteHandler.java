@@ -19,29 +19,26 @@ public class AutocompleteHandler extends ChainedMessageListener {
     private static final Logger log = LoggerFactory.getLogger(AutocompleteHandler.class);
 
     private final BotApi botApi;
-    private final AutocompleteConfig config;
-    final Map<String, String[]> autocompletes;
+    private final Map<String, String[]> autocompletes = new HashMap<>();
 
     @Autowired
     public AutocompleteHandler(BotApi botApi, AutocompleteConfig config) {
         this.botApi = botApi;
-        this.config = config;
-        autocompletes = new HashMap<>();
-        for (String argument : config.getTemplates())
-            addTemplates(argument);
+
+        config.getTemplates().forEach(this::addTemplate);
     }
 
-    public boolean addTemplates(String argument) {
-        if (checkArgument(argument)) {
-            String patternKey = argument.substring(0, argument.indexOf('/'));
-            String[] patternValue = argument.replaceFirst(Pattern.quote(patternKey + "/"), "").split("/");
+    public boolean addTemplate(String phraseTemplate) {
+        if (isValidTemplate(phraseTemplate)) {
+            String patternKey = phraseTemplate.substring(0, phraseTemplate.indexOf('/'));
+            String[] patternValue = phraseTemplate.replaceFirst(Pattern.quote(patternKey + "/"), "").split("/");
             autocompletes.put(patternKey, patternValue);
             return true;
         }
         return false;
     }
 
-    private boolean checkArgument(String argument) {
+    private boolean isValidTemplate(String argument) {
         if (argument == null ||
                 !argument.contains("/") ||
                 argument.substring(0, argument.indexOf('/')).length() + 1 >= argument.length()) {
@@ -50,7 +47,6 @@ public class AutocompleteHandler extends ChainedMessageListener {
         }
         return true;
     }
-
 
     @Override
     public boolean onMessage(Long chatId, String message, Update update) {
