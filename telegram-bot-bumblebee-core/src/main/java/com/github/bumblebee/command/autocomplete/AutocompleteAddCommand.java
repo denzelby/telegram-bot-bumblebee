@@ -26,7 +26,7 @@ public class AutocompleteAddCommand extends SingleArgumentCommand {
     public void handleCommand(Update update, Long chatId, String argument) {
 
         //todo: implement proper security model
-        if (!securityConfig.getAdminIds().contains(update.getMessage().getFrom().getId().toString())) {
+        if (!securityConfig.getAdminIds().contains(update.getMessage().getFrom().getId())) {
             botApi.sendMessage(chatId, "You are not allowed to execute this command");
             return;
         }

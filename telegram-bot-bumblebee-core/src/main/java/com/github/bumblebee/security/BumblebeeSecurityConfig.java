@@ -11,13 +11,13 @@ import java.util.List;
 @ConfigurationProperties(prefix = "adminaccess")
 public class BumblebeeSecurityConfig {
 
-    private List<String> adminIds = new ArrayList<>();
+    private List<Long> adminIds = new ArrayList<>();
 
-    public List<String> getAdminIds() {
+    public List<Long> getAdminIds() {
         return adminIds;
     }
 
-    public void setAdminIds(List<String> adminIds) {
+    public void setAdminIds(List<Long> adminIds) {
         this.adminIds = adminIds;
     }
 }
