@@ -31,23 +31,12 @@ public class AutocompleteAddCommand extends SingleArgumentCommand {
             return;
         }
 
-        if (!checkArgument(argument)) {
+        if(!handler.addTemplates(argument.trim())){
             botApi.sendMessage(chatId, "wrong template, try again");
             return;
         }
 
-        handler.addAutocompleteCommand(argument.trim());
-
         botApi.sendMessage(chatId, "pattern successfully added");
     }
 
-    private boolean checkArgument(String argument) {
-        if (argument == null ||
-                !argument.contains("/") ||
-                argument.substring(0, argument.indexOf('/')).length() + 1 >= argument.length()) {
-
-            return false;
-        }
-        return true;
-    }
 }
