@@ -23,5 +23,4 @@ public class AutocompleteConfig {
     public void setTemplates(List<String> templates) {
         this.templates = templates;
     }
-
 }
