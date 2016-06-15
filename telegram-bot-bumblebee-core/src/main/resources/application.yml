@@ -57,6 +57,11 @@ spring:
     password:
     driver-class-name:
 
+adminaccess:
+    adminIds:
+        - 151336993
+        - 171519336
+
 autocomplete:
     templates:
       - ДО/СВИ/ДОС
@@ -71,4 +76,4 @@ autocomplete:
       - отлетаешь/очередняра
       - МИ/stickerId:BQADAgADMAADthiTBCk-gFqmfs7qAg
       - МИША/stickerId:BQADAgADMAADthiTBCk-gFqmfs7qAg
-      - кочка/stickerId:BQADAgADIQADthiTBLmbYaXaecMaAg
+      - КОЧКА/stickerId:BQADAgADIQADthiTBLmbYaXaecMaAg
