@@ -45,7 +45,7 @@ public class TelegramUpdateConsumer implements Consumer<Update> {
 
         final Long unixTime = update.getMessage().getDate();
         return unixTime != null && Instant.ofEpochSecond(unixTime).isBefore(
-                        Instant.now().minusSeconds(UPDATE_EXPIRATION_SEC));
+                Instant.now().minusSeconds(UPDATE_EXPIRATION_SEC));
     }
 
     private boolean invokeCommand(Update update) {

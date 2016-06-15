@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Fare on 15.06.2016.
- */
 
 @Configuration
 @ConfigurationProperties(prefix = "adminaccess")

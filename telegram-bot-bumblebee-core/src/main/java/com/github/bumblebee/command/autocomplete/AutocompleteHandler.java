@@ -37,28 +37,21 @@ public class AutocompleteHandler extends ChainedMessageListener {
                 );
     }
 
-    public boolean addAutocompleteCommand(String patternKey, String[] patternValue){
-        try {
+    public void addAutocompleteCommand(String argument) {
 
-            autocompletes.put(patternKey, patternValue);
-            return true;
-        }
-        catch(Exception e){
-            log.warn("Failed to add Pattern to map", e);
-        }
-        return false;
+        String patternKey = argument.substring(0, argument.indexOf('/'));
+        String[] patternValue = argument.replaceFirst(patternKey + "/", "").split("/");
+        autocompletes.put(patternKey, patternValue);
     }
 
     @Override
     public boolean onMessage(Long chatId, String message, Update update) {
         try {
-            if (autocompletes.containsKey(message))
-            {
-                for (String text: autocompletes.get(message)){
-                    if(text.startsWith("stickerId:")){
-                        botApi.sendSticker(chatId, text.replace("stickerId:",""));
-                    }
-                    else {
+            if (autocompletes.containsKey(message)) {
+                for (String text : autocompletes.get(message)) {
+                    if (text.startsWith("stickerId:")) {
+                        botApi.sendSticker(chatId, text.replace("stickerId:", ""));
+                    } else {
                         botApi.sendMessage(chatId, text);
                     }
                     Thread.sleep(400);
