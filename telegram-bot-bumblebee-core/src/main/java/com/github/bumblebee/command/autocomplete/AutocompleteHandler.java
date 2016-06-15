@@ -43,6 +43,8 @@ public class AutocompleteHandler extends ChainedMessageListener {
                 !argument.contains("/") ||
                 argument.substring(0, argument.indexOf('/')).length() + 1 >= argument.length()) {
 
+    private boolean checkArgument(String argument) {
+        if (!argument.matches(Pattern.compile("[^\\/\\n]+\\/([^\\/\\n]+\\/)*[^\\/\\n]+").toString())) {
             return false;
         }
         return true;
