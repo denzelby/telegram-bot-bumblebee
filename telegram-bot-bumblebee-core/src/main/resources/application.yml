@@ -16,6 +16,7 @@ bumblebee:
     CurrencyEURActualExchangeRateCommand: /eur
     CurrencyChartCommand: /chart
     BrentCommand: /brent
+    AutocompleteAddCommand: /autocomplete
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
@@ -57,6 +58,11 @@ spring:
     password:
     driver-class-name:
 
+adminaccess:
+    adminIds:
+        - 151336993
+        - 171519336
+
 autocomplete:
     templates:
       - ДО/СВИ/ДОС
@@ -71,4 +77,4 @@ autocomplete:
       - отлетаешь/очередняра
       - МИ/stickerId:BQADAgADMAADthiTBCk-gFqmfs7qAg
       - МИША/stickerId:BQADAgADMAADthiTBCk-gFqmfs7qAg
-      - кочка/stickerId:BQADAgADIQADthiTBLmbYaXaecMaAg
+      - КОЧКА/stickerId:BQADAgADIQADthiTBLmbYaXaecMaAg
