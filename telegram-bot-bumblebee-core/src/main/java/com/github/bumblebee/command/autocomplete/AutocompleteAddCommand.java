@@ -27,16 +27,16 @@ public class AutocompleteAddCommand extends SingleArgumentCommand {
 
         //todo: implement proper security model
         if (!securityConfig.getAdminIds().contains(update.getMessage().getFrom().getId())) {
-            botApi.sendMessage(chatId, "You are not allowed to execute this command.");
+            botApi.sendMessage(chatId, "You are not allowed to execute this command");
             return;
         }
 
-        if(!handler.addTemplate(argument.trim())){
-            botApi.sendMessage(chatId, "Wrong template, try again.");
+        if(argument==null || !handler.addTemplates(argument.trim())){
+            botApi.sendMessage(chatId, "wrong template, try again");
             return;
         }
 
-        botApi.sendMessage(chatId, "Pattern successfully added.");
+        botApi.sendMessage(chatId, "pattern successfully added");
     }
 
 }
