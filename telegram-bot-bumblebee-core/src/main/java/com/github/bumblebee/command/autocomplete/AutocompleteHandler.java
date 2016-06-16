@@ -14,15 +14,15 @@ import java.util.regex.Pattern;
 
 
 @Component
-public class AutocompleteHandler extends ChainedMessageListener {
+public class AutoCompleteHandler extends ChainedMessageListener {
 
-    private static final Logger log = LoggerFactory.getLogger(AutocompleteHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(AutoCompleteHandler.class);
 
     private final BotApi botApi;
     private final Map<String, String[]> autocompletes = new HashMap<>();
 
     @Autowired
-    public AutocompleteHandler(BotApi botApi, AutocompleteConfig config) {
+    public AutoCompleteHandler(BotApi botApi, AutoCompleteConfig config) {
         this.botApi = botApi;
 
         config.getTemplates().forEach(this::addTemplate);
@@ -63,7 +63,7 @@ public class AutocompleteHandler extends ChainedMessageListener {
                 return true;
             }
         } catch (InterruptedException e) {
-            log.warn("Failed to sleep", e);
+            log.debug("Autocomplete handler interrupted", e);
         }
         return false;
     }

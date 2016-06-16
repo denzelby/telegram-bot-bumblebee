@@ -1,37 +1,30 @@
 package com.github.bumblebee.command.autocomplete;
 
 import com.github.bumblebee.command.SingleArgumentCommand;
-import com.github.bumblebee.security.BumblebeeSecurityConfig;
+import com.github.bumblebee.security.PrivilegedCommand;
+import com.github.bumblebee.security.UnauthorizedRequestAware;
+import com.github.bumblebee.security.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import telegram.api.BotApi;
 import telegram.domain.Update;
 
 
-@Component
-public class AutocompleteAddCommand extends SingleArgumentCommand {
+@PrivilegedCommand(name = "AutoCompleteAddCommand", role = UserRole.MODERATOR)
+public class AutoCompleteAddCommand extends SingleArgumentCommand implements UnauthorizedRequestAware {
 
     private final BotApi botApi;
-    private final AutocompleteHandler handler;
-    private final BumblebeeSecurityConfig securityConfig;
+    private final AutoCompleteHandler handler;
 
     @Autowired
-    public AutocompleteAddCommand(BotApi botApi, AutocompleteHandler handler, BumblebeeSecurityConfig securityConfig) {
+    public AutoCompleteAddCommand(BotApi botApi, AutoCompleteHandler handler) {
         this.botApi = botApi;
         this.handler = handler;
-        this.securityConfig = securityConfig;
     }
 
     @Override
     public void handleCommand(Update update, Long chatId, String argument) {
 
-        //todo: implement proper security model
-        if (!securityConfig.getAdminIds().contains(update.getMessage().getFrom().getId())) {
-            botApi.sendMessage(chatId, "You are not allowed to execute this command.");
-            return;
-        }
-
-        if(!handler.addTemplate(argument.trim())){
+        if (!handler.addTemplate(argument.trim())) {
             botApi.sendMessage(chatId, "Wrong template, try again.");
             return;
         }
@@ -39,4 +32,9 @@ public class AutocompleteAddCommand extends SingleArgumentCommand {
         botApi.sendMessage(chatId, "Pattern successfully added.");
     }
 
+    @Override
+    public void onUnauthorizedRequest(Update update) {
+        botApi.sendMessage(update.getMessage().getChat().getId(),
+                "You are not allowed to execute this command. Become a moderator to do this.");
+    }
 }

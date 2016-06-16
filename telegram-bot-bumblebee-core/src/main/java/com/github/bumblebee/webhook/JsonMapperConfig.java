@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JsonMapperConfig {
 
-    @Autowired(required = true)
+    @Autowired
     public void configureJackson(ObjectMapper mapper) {
 
         mapper.setPropertyNamingStrategy(new PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy());

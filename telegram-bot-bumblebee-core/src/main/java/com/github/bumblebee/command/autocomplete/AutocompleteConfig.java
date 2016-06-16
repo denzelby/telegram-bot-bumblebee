@@ -6,15 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Misha on 04.06.2016.
- */
-
 @Configuration
 @ConfigurationProperties(prefix = "autocomplete")
-public class AutocompleteConfig {
+class AutoCompleteConfig {
 
-    private List<String> templates = new ArrayList<String>();
+    private List<String> templates = new ArrayList<>();
 
     public List<String> getTemplates() {
         return templates;

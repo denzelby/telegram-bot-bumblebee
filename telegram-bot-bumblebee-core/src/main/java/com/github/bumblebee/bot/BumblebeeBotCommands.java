@@ -2,6 +2,7 @@ package com.github.bumblebee.bot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,7 @@ public class BumblebeeBotCommands {
         HandlerRegistry registry = new HandlerRegistry();
 
         handlers.forEach(handler -> {
-            String command = handler.getClass().getSimpleName();
+            String command = AopProxyUtils.ultimateTargetClass(handler).getSimpleName();
             String aliases = config.getCommands().get(command);
 
             if (!StringUtils.isEmpty(aliases)) {
