@@ -20,11 +20,12 @@ public class AutocompleteHandler extends ChainedMessageListener {
 
     private final BotApi botApi;
     private final Map<String, String[]> autocompletes = new HashMap<>();
+    private final String pattern;
 
     @Autowired
     public AutocompleteHandler(BotApi botApi, AutocompleteConfig config) {
         this.botApi = botApi;
-
+        this.pattern = Pattern.compile("[^\\/\\n]+\\/([^\\/\\n]+\\/)*[^\\/\\n]+").toString();
         config.getTemplates().forEach(this::addTemplate);
     }
 
@@ -39,12 +40,7 @@ public class AutocompleteHandler extends ChainedMessageListener {
     }
 
     private boolean isValidTemplate(String argument) {
-        if (argument == null ||
-                !argument.contains("/") ||
-                argument.substring(0, argument.indexOf('/')).length() + 1 >= argument.length()) {
-
-    private boolean checkArgument(String argument) {
-        if (!argument.matches(Pattern.compile("[^\\/\\n]+\\/([^\\/\\n]+\\/)*[^\\/\\n]+").toString())) {
+        if (!argument.matches(pattern)) {
             return false;
         }
         return true;
