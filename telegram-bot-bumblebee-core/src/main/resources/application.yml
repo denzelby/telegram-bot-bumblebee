@@ -20,6 +20,8 @@ bumblebee:
     AutoCompleteAdminCommand: /autocomplete
     # Admin commads
     RoleAdminCommand: /roles
+    # Weather
+    WeatherCommand: /weather /w
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
