@@ -1,15 +1,11 @@
-package com.github.bumblebee.utils;
+package com.github.bumblebee.service;
 
 import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-/**
- * Created by dzianis.baburkin on 6/16/2016.
- */
-public class BumblebeeUtils {
+public final class LinkUtils {
 
-    private static final Logger log = LoggerFactory.getLogger(BumblebeeUtils.class);
+    private LinkUtils() {
+    }
 
     public static String getFileName(String url) {
         String name = FilenameUtils.getName(url);

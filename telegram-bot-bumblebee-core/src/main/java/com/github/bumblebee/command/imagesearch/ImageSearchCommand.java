@@ -5,8 +5,8 @@ import com.github.bumblebee.command.imagesearch.domain.Image;
 import com.github.bumblebee.command.imagesearch.domain.ImageProvider;
 import com.github.bumblebee.command.imagesearch.domain.ImagesPreprocessor;
 import com.github.bumblebee.command.imagesearch.exception.ImageSendException;
+import com.github.bumblebee.service.LinkUtils;
 import com.github.bumblebee.service.RandomPhraseService;
-import com.github.bumblebee.utils.BumblebeeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -87,7 +87,7 @@ public class ImageSearchCommand extends SingleArgumentCommand {
     private void sendImage(String url, Long chatId, String caption) throws ImageSendException {
 
         try {
-            InputFile photo = InputFile.photo(new URL(url).openStream(), BumblebeeUtils.getFileName(url));
+            InputFile photo = InputFile.photo(new URL(url).openStream(), LinkUtils.getFileName(url));
 
             botApi.sendPhoto(chatId, photo, caption);
         } catch (Exception e) {
