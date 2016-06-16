@@ -17,7 +17,7 @@ bumblebee:
     CurrencyChartCommand: /chart
     BrentCommand: /brent
     # Autocomplete administration
-    AutoCompleteAddCommand: /autocomplete
+    AutoCompleteAdminCommand: /autocomplete
     # Admin commads
     RoleAdminCommand: /roles
   # Webhook settings

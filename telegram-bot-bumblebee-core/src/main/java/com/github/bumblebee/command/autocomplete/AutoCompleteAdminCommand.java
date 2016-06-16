@@ -9,14 +9,14 @@ import telegram.api.BotApi;
 import telegram.domain.Update;
 
 
-@PrivilegedCommand(name = "AutoCompleteAddCommand", role = UserRole.MODERATOR)
-public class AutoCompleteAddCommand extends SingleArgumentCommand implements UnauthorizedRequestAware {
+@PrivilegedCommand(name = "AutoCompleteAdminCommand", role = UserRole.MODERATOR)
+public class AutoCompleteAdminCommand extends SingleArgumentCommand implements UnauthorizedRequestAware {
 
     private final BotApi botApi;
     private final AutoCompleteHandler handler;
 
     @Autowired
-    public AutoCompleteAddCommand(BotApi botApi, AutoCompleteHandler handler) {
+    public AutoCompleteAdminCommand(BotApi botApi, AutoCompleteHandler handler) {
         this.botApi = botApi;
         this.handler = handler;
     }
