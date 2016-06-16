@@ -17,6 +17,7 @@ bumblebee:
     CurrencyChartCommand: /chart
     BrentCommand: /brent
     AutocompleteAddCommand: /autocomplete
+    WeatherCommand: /w
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
