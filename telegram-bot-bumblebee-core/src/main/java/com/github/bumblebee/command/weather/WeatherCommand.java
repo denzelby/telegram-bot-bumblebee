@@ -23,7 +23,7 @@ public class WeatherCommand extends SingleArgumentCommand {
     private static final Logger log = LoggerFactory.getLogger(WeatherCommand.class);
     private final static String MAP_URL_DYNAMIC = "http://meteoinfo.by/radar/UMMN/radar-map.gif";
     private final static String MAP_URL_LATEST = "http://meteoinfo.by/radar/UMMN/UMMN_latest.png";
-    private final static String TEMPERATURE_URL = "http://www.foreca.ru/meteogram.php?loc_id=100625144";
+    private final static String TEMPERATURE_URL = "http://www.foreca.ru/meteogram.php?loc_id=100625144&lang=ru";
     private final BotApi botApi;
     private final RandomPhraseService phraseService;
 
