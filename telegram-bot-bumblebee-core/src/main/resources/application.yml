@@ -16,7 +16,12 @@ bumblebee:
     CurrencyEURActualExchangeRateCommand: /eur
     CurrencyChartCommand: /chart
     BrentCommand: /brent
-    AutocompleteAddCommand: /autocomplete
+    # Autocomplete administration
+    AutoCompleteAdminCommand: /autocomplete
+    # Admin commads
+    RoleAdminCommand: /roles
+    # Weather
+    WeatherCommand: /weather /w
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
@@ -57,11 +62,6 @@ spring:
     username:
     password:
     driver-class-name:
-
-adminaccess:
-    adminIds:
-        - 151336993
-        - 171519336
 
 autocomplete:
     templates:

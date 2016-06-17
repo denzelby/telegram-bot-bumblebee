@@ -26,3 +26,7 @@ I support following commands:
  - *Brent* - cost of oil. Usage: /brent
  - *Health check*. Usage: /status
  - *Help* (show this message). Usage: /start, /help
+ - *Weather* : /w <something you want to know>
+   Examples:
+     /w m - show meteo map
+     /w t - show temperature
