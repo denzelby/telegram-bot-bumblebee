@@ -4,6 +4,7 @@ import com.github.bumblebee.command.SingleArgumentCommand;
 import com.github.bumblebee.security.PrivilegedCommand;
 import com.github.bumblebee.security.UnauthorizedRequestAware;
 import com.github.bumblebee.security.UserRole;
+import com.github.bumblebee.service.RandomPhraseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import telegram.api.BotApi;
 import telegram.domain.Update;
@@ -14,15 +15,23 @@ public class AutoCompleteAdminCommand extends SingleArgumentCommand implements U
 
     private final BotApi botApi;
     private final AutoCompleteHandler handler;
+    private final RandomPhraseService randomPhraseService;
 
     @Autowired
-    public AutoCompleteAdminCommand(BotApi botApi, AutoCompleteHandler handler) {
+    public AutoCompleteAdminCommand(BotApi botApi, AutoCompleteHandler handler,
+                                    RandomPhraseService randomPhraseService) {
         this.botApi = botApi;
         this.handler = handler;
+        this.randomPhraseService = randomPhraseService;
     }
 
     @Override
     public void handleCommand(Update update, Long chatId, String argument) {
+
+        if (argument == null) {
+            botApi.sendMessage(chatId, randomPhraseService.surprise());
+            return;
+        }
 
         if (!handler.addTemplate(argument.trim())) {
             botApi.sendMessage(chatId, "Wrong template, try again.");
