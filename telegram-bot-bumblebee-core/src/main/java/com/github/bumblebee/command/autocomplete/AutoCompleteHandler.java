@@ -20,11 +20,11 @@ public class AutoCompleteHandler extends ChainedMessageListener {
 
     private final BotApi botApi;
     private final Map<String, String[]> autocompletes = new HashMap<>();
+    private static final Pattern pattern = Pattern.compile("[^\\/\\n]+\\/([^\\/\\n]+\\/)*[^\\/\\n]+");
 
     @Autowired
     public AutoCompleteHandler(BotApi botApi, AutoCompleteConfig config) {
         this.botApi = botApi;
-
         config.getTemplates().forEach(this::addTemplate);
     }
 
@@ -39,14 +39,9 @@ public class AutoCompleteHandler extends ChainedMessageListener {
     }
 
     private boolean isValidTemplate(String argument) {
-        if (argument == null ||
-                !argument.contains("/") ||
-                argument.substring(0, argument.indexOf('/')).length() + 1 >= argument.length()) {
-
-            return false;
-        }
-        return true;
+        return pattern.matcher(argument).matches();
     }
+
 
     @Override
     public boolean onMessage(Long chatId, String message, Update update) {
