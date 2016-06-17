@@ -10,6 +10,7 @@ import telegram.domain.Update;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 
@@ -42,6 +43,9 @@ public class AutoCompleteHandler extends ChainedMessageListener {
         return pattern.matcher(argument).matches();
     }
 
+    public Set<String> getAutoCompletes(){
+        return autocompletes.keySet();
+    }
 
     @Override
     public boolean onMessage(Long chatId, String message, Update update) {
