@@ -55,7 +55,7 @@ public class WeatherCommand extends SingleArgumentCommand {
 
     private void sendPhotoFromURL(Long chatId, String URL) {
         try {
-            InputFile photo = InputFile.photo(new URL(URL).openStream(), LinkUtils.getFileName(URL));
+            InputFile photo = InputFile.photo(new URL(URL).openStream(), "filename.png");
             botApi.sendPhoto(chatId, photo);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
