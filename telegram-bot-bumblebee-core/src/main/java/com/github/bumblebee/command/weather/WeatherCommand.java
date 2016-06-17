@@ -21,7 +21,9 @@ import java.net.URL;
 @Component
 public class WeatherCommand extends SingleArgumentCommand {
     private static final Logger log = LoggerFactory.getLogger(WeatherCommand.class);
-    private final static String URL = "http://meteoinfo.by/radar/UMMN/radar-map.gif";
+    private final static String MAP_URL_DYNAMIC = "http://meteoinfo.by/radar/UMMN/radar-map.gif";
+    private final static String MAP_URL_LATEST = "http://meteoinfo.by/radar/UMMN/UMMN_latest.png";
+    private final static String TEMPERATURE_URL = "http://www.foreca.ru/meteogram.php?loc_id=100625144";
     private final BotApi botApi;
     private final RandomPhraseService phraseService;
 
@@ -34,21 +36,33 @@ public class WeatherCommand extends SingleArgumentCommand {
     @Override
     public void handleCommand(Update update, Long chatId, String argument) {
         WeatherArgument operation = Optional.fromNullable(WeatherArgument.of(argument))
-                .or(WeatherArgument.MAP);
+                .or(WeatherArgument.TEMPERATURE);
 
         switch (operation) {
-            case MAP:
-                getMeteoRadar(chatId);
+            case MAP_DYNAMIC:
+                sendDocumentFromURL(chatId, MAP_URL_DYNAMIC);
+                break;
+            case MAP_LATEST:
+                sendPhotoFromURL(chatId, MAP_URL_LATEST);
                 break;
             case TEMPERATURE:
-                getWeatherTemperature(chatId);
+                sendPhotoFromURL(chatId, TEMPERATURE_URL);
                 break;
             default:
                 botApi.sendMessage(chatId, phraseService.surprise());
         }
     }
 
-    private void getMeteoRadar(Long chatId) {
+    private void sendPhotoFromURL(Long chatId, String URL) {
+        try {
+            InputFile photo = InputFile.photo(new URL(URL).openStream(), LinkUtils.getFileName(URL));
+            botApi.sendPhoto(chatId, photo);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    private void sendDocumentFromURL(Long chatId, String URL) {
         try {
             InputFile document = InputFile.document(new URL(URL).openStream(), LinkUtils.getFileName(URL));
             botApi.sendDocument(chatId, document);
@@ -57,12 +71,9 @@ public class WeatherCommand extends SingleArgumentCommand {
         }
     }
 
-    private void getWeatherTemperature(Long chatId) {
-        botApi.sendMessage(chatId, "You are not prepared! (me)");
-    }
-
     private enum WeatherArgument {
-        MAP("m"),
+        MAP_DYNAMIC("md"),
+        MAP_LATEST("ml"),
         TEMPERATURE("t");
         private final String argument;
 
