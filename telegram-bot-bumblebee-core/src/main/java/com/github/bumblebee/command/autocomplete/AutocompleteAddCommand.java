@@ -39,7 +39,7 @@ public class AutocompleteAddCommand extends SingleArgumentCommand {
             return;
         }
 
-        if(!handler.addTemplate(argument.trim())){
+        if (!handler.addTemplate(argument.trim())) {
             botApi.sendMessage(chatId, "Wrong template, try again.");
             return;
         }

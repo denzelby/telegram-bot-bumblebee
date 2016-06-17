@@ -46,6 +46,7 @@ public class AutocompleteHandler extends ChainedMessageListener {
         return true;
     }
 
+
     @Override
     public boolean onMessage(Long chatId, String message, Update update) {
         try {
