@@ -15,7 +15,7 @@ public class AutoCompleteAdminCommand extends SingleArgumentCommand implements U
 
     private final BotApi botApi;
     private final AutoCompleteHandler handler;
-    protected final RandomPhraseService randomPhraseService;
+    private final RandomPhraseService randomPhraseService;
 
     @Autowired
     public AutoCompleteAdminCommand(BotApi botApi, AutoCompleteHandler handler,
