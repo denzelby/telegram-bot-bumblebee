@@ -27,5 +27,6 @@ I support following commands:
  - *Help* (show this message). Usage: /start, /help
  - *Weather* : /w <something you want to know>
    Examples:
-     /w m - show meteo map
+     /w ml - show latest meteo map
+     /w md - show dynamic meteo map
      /w t - show temperature
