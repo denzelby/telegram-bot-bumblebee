@@ -5,6 +5,7 @@ I support following commands:
  - *Random image search*. Usage: /r /gr, /pr, /ir <search criteria>
  - *Youtube search*. Usage: /v, /y, <search criteria>
  - *Autocomplete pattern add*. Usage: /autocomplete <phrase to complete/complete phrase>
+ - *Autocomplete phrases view*. Usage: /phrases
  - *Exchange rates* (to BYR): /rate <currency>
    Examples:
      /rate usd

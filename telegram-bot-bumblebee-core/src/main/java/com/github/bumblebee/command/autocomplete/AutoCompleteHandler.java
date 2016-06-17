@@ -10,6 +10,7 @@ import telegram.domain.Update;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 
@@ -40,6 +41,10 @@ public class AutoCompleteHandler extends ChainedMessageListener {
 
     private boolean isValidTemplate(String argument) {
         return pattern.matcher(argument).matches();
+    }
+
+    public Set<String> getAutoCompletes(){
+        return autocompletes.keySet();
     }
 
 

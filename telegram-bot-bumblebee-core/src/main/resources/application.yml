@@ -16,6 +16,7 @@ bumblebee:
     CurrencyEURActualExchangeRateCommand: /eur
     CurrencyChartCommand: /chart
     BrentCommand: /brent
+    AutoCompletePhraseView: /phrases
     # Autocomplete administration
     AutoCompleteAdminCommand: /autocomplete
     # Admin commads
