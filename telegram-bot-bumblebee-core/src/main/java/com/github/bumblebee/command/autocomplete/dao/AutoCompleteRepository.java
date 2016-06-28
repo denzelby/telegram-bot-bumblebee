@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AutoCompleteRepository extends CrudRepository<AutoCompletePhrase, Long> {
+public interface AutoCompleteRepository extends CrudRepository<AutoCompletePhrase, String> {
 
     @Modifying
     @Query("UPDATE AutoCompletePhrase phrase SET phrase.phrasePattern = :phrasePattern WHERE phrase.phraseKey = :phraseKey")

@@ -24,8 +24,8 @@ public class AutoCompleteService {
         return repository.save(phrase);
     }
 
-    public void updateAutoCompletePhrase(String phraseKey,String phrasePattern) {
-        repository.updatePhrase(phrasePattern,phraseKey);
+    public void updateAutoCompletePhrase(String phraseKey, String phrasePattern) {
+        repository.updatePhrase(phrasePattern, phraseKey);
     }
 
     public List<AutoCompletePhrase> retrieveAutoCompletePhrases() {
