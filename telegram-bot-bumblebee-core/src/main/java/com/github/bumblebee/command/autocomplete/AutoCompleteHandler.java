@@ -3,7 +3,6 @@ package com.github.bumblebee.command.autocomplete;
 import com.github.bumblebee.command.ChainedMessageListener;
 import com.github.bumblebee.command.autocomplete.entity.AutoCompletePhrase;
 import com.github.bumblebee.command.autocomplete.service.AutoCompleteService;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
