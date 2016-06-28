@@ -1,6 +1,9 @@
 package com.github.bumblebee.command.autocomplete;
 
 import com.github.bumblebee.command.ChainedMessageListener;
+import com.github.bumblebee.command.autocomplete.entity.AutoCompletePhrase;
+import com.github.bumblebee.command.autocomplete.service.AutoCompleteService;
+import com.sun.xml.internal.bind.v2.TODO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +11,10 @@ import org.springframework.stereotype.Component;
 import telegram.api.BotApi;
 import telegram.domain.Update;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -20,19 +23,30 @@ public class AutoCompleteHandler extends ChainedMessageListener {
     private static final Logger log = LoggerFactory.getLogger(AutoCompleteHandler.class);
 
     private final BotApi botApi;
-    private final Map<String, String[]> autocompletes = new HashMap<>();
+    private final AutoCompleteService service;
+    private final Map<String, String[]> autocompletes;
     private static final Pattern pattern = Pattern.compile("[^\\/\\n]+\\/([^\\/\\n]+\\/)*[^\\/\\n]+");
 
     @Autowired
-    public AutoCompleteHandler(BotApi botApi, AutoCompleteConfig config) {
+    public AutoCompleteHandler(BotApi botApi, AutoCompleteService service) {
         this.botApi = botApi;
-        config.getTemplates().forEach(this::addTemplate);
+        this.service = service;
+        autocompletes = service.retrieveAutoCompletePhrases().stream()
+                .collect(Collectors
+                        .toMap(key -> key.getPhraseKey(),
+                                value -> value.getPhrasePattern().split("/")));
     }
 
+    // TODO: create good parser
     public boolean addTemplate(String phraseTemplate) {
         if (isValidTemplate(phraseTemplate)) {
             String patternKey = phraseTemplate.substring(0, phraseTemplate.indexOf('/'));
-            String[] patternValue = phraseTemplate.replaceFirst(Pattern.quote(patternKey + "/"), "").split("/");
+            String patternPhrase = phraseTemplate.replaceFirst(Pattern.quote(patternKey + "/"), "");
+            String[] patternValue = patternPhrase.split("/");
+            if (autocompletes.containsKey(patternKey))
+                service.updateAutoCompletePhrase(patternKey, patternPhrase);
+            else
+                service.storeAutoCompletePhrase(new AutoCompletePhrase(patternKey, patternPhrase));
             autocompletes.put(patternKey, patternValue);
             return true;
         }
@@ -43,7 +57,7 @@ public class AutoCompleteHandler extends ChainedMessageListener {
         return pattern.matcher(argument).matches();
     }
 
-    public Set<String> getAutoCompletes(){
+    public Set<String> getAutoCompletes() {
         return autocompletes.keySet();
     }
 
