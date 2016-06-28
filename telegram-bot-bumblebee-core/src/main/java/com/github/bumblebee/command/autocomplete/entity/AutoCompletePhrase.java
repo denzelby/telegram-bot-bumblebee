@@ -3,7 +3,7 @@ package com.github.bumblebee.command.autocomplete.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "AUTOCOMPLETE_PHRASES")
+@Table(name = "BB_AUTOCOMPLETE_PHRASES")
 public class AutoCompletePhrase {
 
     @Id
