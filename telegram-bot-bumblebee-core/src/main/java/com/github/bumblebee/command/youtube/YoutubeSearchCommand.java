@@ -32,9 +32,11 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
     private final YouTube youtube;
     private final String googleApiKey;
     private RandomPhraseService randomPhraseService;
+    private final YoutubeVideoSender sender;
 
     @Autowired
-    public YoutubeSearchCommand(BotApi botApi, RandomPhraseService randomPhraseService, YoutubeSearchConfig config) {
+    public YoutubeSearchCommand(BotApi botApi, RandomPhraseService randomPhraseService,
+                                YoutubeSearchConfig config, YoutubeVideoSender sender) {
 
         if (!config.isAvailable()) {
             throw new IllegalStateException("Youtube api configuration missing");
@@ -43,9 +45,11 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
         this.botApi = botApi;
         this.randomPhraseService = randomPhraseService;
         this.googleApiKey = config.getKey();
+        this.sender = sender;
 
         this.youtube = new YouTube
-                .Builder(new ApacheHttpTransport(), new JacksonFactory(), req -> {})
+                .Builder(new ApacheHttpTransport(), new JacksonFactory(), req -> {
+        })
                 .setApplicationName(config.getProjectName())
                 .build();
     }
@@ -60,29 +64,21 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
 
         int retries = RETRY_COUNT;
         while (retries-- > 0) {
-            boolean isSent = sendVideo(chatId, argument);
-            if (isSent) {
-                return;
-            } else {
-                log.info("Video search failed, retrying... (attempt {})", RETRY_COUNT - retries);
+            try {
+                String videoId = searchVideo(argument);
+                if (videoId != null) {
+                    sender.sendVideo(chatId, VIDEO_URL + videoId);
+                    return;
+                } else {
+                    log.info("Video search failed, retrying... (attempt {})", RETRY_COUNT - retries);
+                }
+            } catch (IOException e) {
+                log.error("Error during youtube search", e);
             }
         }
 
         String message = randomPhraseService.no() + ". No, really, I've tried " + RETRY_COUNT + " times.";
         botApi.sendMessage(chatId, message, update.getMessage().getMessageId());
-    }
-
-    private boolean sendVideo(Long chatId, String argument) {
-        try {
-            String videoId = searchVideo(argument);
-            if (videoId != null) {
-                botApi.sendMessage(chatId, VIDEO_URL + videoId);
-                return true;
-            }
-        } catch (IOException e) {
-            log.error("Error during youtube search", e);
-        }
-        return false;
     }
 
     private String searchVideo(String searchQuery) throws IOException {

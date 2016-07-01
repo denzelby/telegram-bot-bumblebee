@@ -17,6 +17,7 @@ bumblebee:
     CurrencyChartCommand: /chart
     BrentCommand: /brent
     AutoCompletePhraseView: /phrases
+    YoutubeChatCommand: /youchat
     # Autocomplete administration
     AutoCompleteAdminCommand: /autocomplete
     # Admin commads
@@ -31,6 +32,8 @@ bumblebee:
 # Commands
 ## Youtube search
 youtube:
+  webhook:
+    url:
   api:
     projectName:
     key:
