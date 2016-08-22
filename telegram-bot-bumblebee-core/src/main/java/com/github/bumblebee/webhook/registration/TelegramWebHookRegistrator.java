@@ -20,8 +20,8 @@ public class TelegramWebHookRegistrator {
     }
 
     public boolean registerWebHook(String url) {
-        log.info("Registering webhook: {}", url);
-        return setWebHook(url);
+        log.info("Registering webhook: {}", url + "/webhook");
+        return setWebHook(url + "/webhook");
     }
 
     public boolean removeWebHook() {

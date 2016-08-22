@@ -17,14 +17,17 @@ public class BumblebeeUpdateService {
 
     private LongPollingService longPollingService;
     private WebHookConfig webHookConfig;
+    private BumblebeeConfig bumblebeeConfig;
     private TelegramWebHookRegistrator webHookRegistrator;
 
     @Autowired
     public BumblebeeUpdateService(LongPollingService longPollingService, WebHookConfig webHookConfig,
-                                  TelegramWebHookRegistrator webHookRegistrator) {
+                                  TelegramWebHookRegistrator webHookRegistrator,
+                                  BumblebeeConfig bumblebeeConfig) {
         this.longPollingService = longPollingService;
         this.webHookConfig = webHookConfig;
         this.webHookRegistrator = webHookRegistrator;
+        this.bumblebeeConfig = bumblebeeConfig;
     }
 
     @PostConstruct
@@ -34,7 +37,7 @@ public class BumblebeeUpdateService {
 
     public void start() {
         if (webHookConfig.isEnabled()) {
-            webHookRegistrator.registerWebHook(webHookConfig.getUrl());
+            webHookRegistrator.registerWebHook(bumblebeeConfig.getUrl());
         } else {
             webHookRegistrator.removeWebHook();
             longPollingService.startPolling();

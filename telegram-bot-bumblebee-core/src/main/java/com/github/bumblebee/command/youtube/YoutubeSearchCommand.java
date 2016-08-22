@@ -32,11 +32,9 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
     private final YouTube youtube;
     private final String googleApiKey;
     private RandomPhraseService randomPhraseService;
-    private final YoutubeVideoSender sender;
 
     @Autowired
-    public YoutubeSearchCommand(BotApi botApi, RandomPhraseService randomPhraseService,
-                                YoutubeSearchConfig config, YoutubeVideoSender sender) {
+    public YoutubeSearchCommand(BotApi botApi, RandomPhraseService randomPhraseService, YoutubeSearchConfig config) {
 
         if (!config.isAvailable()) {
             throw new IllegalStateException("Youtube api configuration missing");
@@ -45,7 +43,6 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
         this.botApi = botApi;
         this.randomPhraseService = randomPhraseService;
         this.googleApiKey = config.getKey();
-        this.sender = sender;
 
         this.youtube = new YouTube
                 .Builder(new ApacheHttpTransport(), new JacksonFactory(), req -> {
@@ -67,7 +64,7 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
             try {
                 String videoId = searchVideo(argument);
                 if (videoId != null) {
-                    sender.sendVideo(chatId, VIDEO_URL + videoId);
+                    botApi.sendMessage(chatId, VIDEO_URL + videoId);
                     return;
                 } else {
                     log.info("Video search failed, retrying... (attempt {})", RETRY_COUNT - retries);

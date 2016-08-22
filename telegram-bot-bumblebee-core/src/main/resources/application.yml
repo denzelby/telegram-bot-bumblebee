@@ -1,6 +1,8 @@
 bumblebee:
   # Telegram bot token
   token:
+  # Callback URL
+    url:
   # Command mapping
   commands:
     StartCommand: /start /help
@@ -17,6 +19,8 @@ bumblebee:
     CurrencyChartCommand: /chart
     BrentCommand: /brent
     AutoCompletePhraseView: /phrases
+    YoutubeSubscribeCommand: /subscribe
+    YoutubeUnsubscribeCommand: /unsubscribe
     YoutubeChatCommand: /youchat
     # Autocomplete administration
     AutoCompleteAdminCommand: /autocomplete
@@ -27,13 +31,10 @@ bumblebee:
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
-    url:
 
 # Commands
 ## Youtube search
 youtube:
-  webhook:
-    url:
   api:
     projectName:
     key:
