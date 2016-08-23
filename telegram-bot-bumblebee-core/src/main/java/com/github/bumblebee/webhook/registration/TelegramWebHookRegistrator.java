@@ -11,6 +11,7 @@ import telegram.domain.SetWebHookResponse;
 public class TelegramWebHookRegistrator {
 
     private static final Logger log = LoggerFactory.getLogger(TelegramWebHookRegistrator.class);
+    private static final String URL_POSTFIX = "/webhook";
 
     private final BotApi botApi;
 
@@ -20,8 +21,8 @@ public class TelegramWebHookRegistrator {
     }
 
     public boolean registerWebHook(String url) {
-        log.info("Registering webhook: {}", url + "/webhook");
-        return setWebHook(url + "/webhook");
+        log.info("Registering webhook: {}", url + URL_POSTFIX);
+        return setWebHook(url + URL_POSTFIX);
     }
 
     public boolean removeWebHook() {

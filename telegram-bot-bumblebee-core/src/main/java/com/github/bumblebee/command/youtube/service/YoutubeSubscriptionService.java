@@ -21,6 +21,7 @@ import java.util.Set;
 public class YoutubeSubscriptionService {
 
     private static final String CHANNEL_URL = "https://www.youtube.com/xml/feeds/videos.xml?channel_id=";
+    private static final String URL_POSTFIX = "/youtube";
 
     private YoutubeSubscriptionRepository repository;
     private final YoutubeSubscriptionApi youtubeSubscriptionApi;
@@ -51,13 +52,13 @@ public class YoutubeSubscriptionService {
         repository.delete(subscription);
     }
 
-    public Boolean subscribeChannel(String channelId) {
-        Response response = youtubeSubscriptionApi.subscribe("subscribe", CHANNEL_URL + channelId, config.getUrl() + "/youtube");
+    public boolean subscribeChannel(String channelId) {
+        Response response = youtubeSubscriptionApi.subscribe("subscribe", CHANNEL_URL + channelId, config.getUrl() + URL_POSTFIX);
         return response.status() == 202;
     }
 
     public boolean unsubscribeChannel(String channelId) {
-        Response response = youtubeSubscriptionApi.subscribe("unsubscribe", CHANNEL_URL + channelId, config.getUrl() + "/youtube");
+        Response response = youtubeSubscriptionApi.subscribe("unsubscribe", CHANNEL_URL + channelId, config.getUrl() + URL_POSTFIX);
         return response.status() == 202;
     }
 

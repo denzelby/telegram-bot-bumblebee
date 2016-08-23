@@ -22,7 +22,7 @@ public class YoutubeWebHookController {
             headers = "Content-Type=application/atom+xml", consumes = MediaType.APPLICATION_ATOM_XML_VALUE)
     public void handleUpdates(@RequestBody String message) {
         try {
-            this.processor.process(parser.getObject(message, AtomFeed.class));
+            this.processor.process(parser.parse(message));
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }

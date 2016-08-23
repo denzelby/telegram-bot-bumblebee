@@ -13,10 +13,10 @@ import java.io.StringReader;
 @Component
 public class AtomParser {
 
-    public AtomFeed getObject(String input, Class c) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(c);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        JAXBElement<AtomFeed> root = unmarshaller.unmarshal(new StreamSource(new StringReader(input)), AtomFeed.class);
-        return root.getValue();
+    public AtomFeed parse(String input) throws JAXBException {
+            JAXBContext context = JAXBContext.newInstance(AtomFeed.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            JAXBElement<AtomFeed> root = unmarshaller.unmarshal(new StreamSource(new StringReader(input)), AtomFeed.class);
+            return root.getValue();
     }
 }
