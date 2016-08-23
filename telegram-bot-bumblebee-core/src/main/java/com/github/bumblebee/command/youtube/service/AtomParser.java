@@ -14,9 +14,9 @@ import java.io.StringReader;
 public class AtomParser {
 
     public AtomFeed parse(String input) throws JAXBException {
-            JAXBContext context = JAXBContext.newInstance(AtomFeed.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            JAXBElement<AtomFeed> root = unmarshaller.unmarshal(new StreamSource(new StringReader(input)), AtomFeed.class);
-            return root.getValue();
+        JAXBContext context = JAXBContext.newInstance(AtomFeed.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        JAXBElement<AtomFeed> root = unmarshaller.unmarshal(new StreamSource(new StringReader(input)), AtomFeed.class);
+        return root.getValue();
     }
 }
