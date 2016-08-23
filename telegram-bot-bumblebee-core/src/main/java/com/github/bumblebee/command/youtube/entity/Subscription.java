@@ -21,10 +21,6 @@ public class Subscription {
             orphanRemoval = true, mappedBy = "subscription")
     private List<Chat> chats = new ArrayList<>();
 
-    public Subscription() {
-
-    }
-
     public String getChannelId() {
         return channelId;
     }

@@ -10,10 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AtomFeed {
 
-
     @XmlElement(name = "entry", type = AtomFeedEntry.class)
     private AtomFeedEntry entry;
-
 
     public AtomFeedEntry getEntry() {
         return entry;

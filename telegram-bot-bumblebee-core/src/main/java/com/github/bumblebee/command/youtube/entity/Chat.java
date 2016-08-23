@@ -2,7 +2,6 @@ package com.github.bumblebee.command.youtube.entity;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "BB_YOUTUBE_SUBBED_CHATS")
 public class Chat {
@@ -24,7 +23,6 @@ public class Chat {
         this.chatId = chatId;
         this.subscription = subscription;
     }
-
 
     public Subscription getSubscription() {
         return subscription;

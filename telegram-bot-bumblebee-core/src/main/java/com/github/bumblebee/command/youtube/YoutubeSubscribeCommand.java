@@ -1,7 +1,6 @@
 package com.github.bumblebee.command.youtube;
 
 import com.github.bumblebee.command.SingleArgumentCommand;
-import com.github.bumblebee.command.youtube.api.YoutubeSubscriptionProvider;
 import com.github.bumblebee.command.youtube.entity.Chat;
 import com.github.bumblebee.command.youtube.entity.Subscription;
 import com.github.bumblebee.command.youtube.service.YoutubeSubscriptionService;
@@ -20,60 +19,41 @@ public class YoutubeSubscribeCommand extends SingleArgumentCommand {
     private final BotApi botApi;
     private final YoutubeSubscriptionService service;
     private final RandomPhraseService randomPhraseService;
-    private final YoutubeSubscriptionProvider provider;
     private final List<Subscription> subscriptionList;
 
     @Autowired
     public YoutubeSubscribeCommand(BotApi botApi,
                                    YoutubeSubscriptionService service,
-                                   RandomPhraseService randomPhraseService,
-                                   YoutubeSubscriptionProvider provider) {
+                                   RandomPhraseService randomPhraseService) {
         this.botApi = botApi;
         this.service = service;
         this.randomPhraseService = randomPhraseService;
-        this.provider = provider;
-        this.subscriptionList = service.retrieveSubscriptions();
-    }
-
-    public Set<Long> getChatIds(String channelId) {
-        Set<Long> idSet = new HashSet<>();
-        for (Subscription sub : subscriptionList) {
-            if (sub.getChannelId().equals(channelId)) {
-                for (Chat chat : sub.getChats()) {
-                    idSet.add(chat.getChatId());
-                }
-            }
-        }
-        return idSet;
-    }
-
-    public List<Subscription> getSubscriptionList() {
-        return subscriptionList;
+        this.subscriptionList = service.getExistingSubscriptions();
     }
 
     @Override
-    public void handleCommand(Update update, Long chatId, String argument) {
+    public void handleCommand(Update update, Long chatId, String channelId) {
 
-        if (argument == null) {
+        if (channelId == null) {
             botApi.sendMessage(chatId, randomPhraseService.surprise());
             return;
         }
 
         for (Subscription sub : subscriptionList) {
-            if (sub.getChannelId().equals(argument)) {
+            if (sub.getChannelId().equals(channelId)) {
                 if (checkForExistingChatInSubscription(sub, chatId)) {
-                    botApi.sendMessage(chatId, "Subscription already available fo this chat!");
+                    botApi.sendMessage(chatId, "Subscription already available for this chat!");
                     return;
                 } else {
                     addNewChatToSubscription(sub, chatId);
-                    botApi.sendMessage(chatId, "Successfully add this chat to subscription");
+                    botApi.sendMessage(chatId, "Subscription successfully added for this chat!");
                     return;
                 }
             }
         }
 
-        if (provider.subscribeChannel(argument)) {
-            createAndStoreNewSubscription(argument, chatId);
+        if (service.subscribeChannel(channelId)) {
+            createAndStoreNewSubscription(channelId, chatId);
             botApi.sendMessage(chatId, "New channel successfully added");
         } else {
             botApi.sendMessage(chatId, "Wrong channel, cannot subscribe!");
@@ -96,10 +76,9 @@ public class YoutubeSubscribeCommand extends SingleArgumentCommand {
     }
 
     private void createAndStoreNewSubscription(String argument, Long chatId) {
-        Date date = new Date();
         Subscription subscription = new Subscription();
         subscription.setChannelId(argument);
-        subscription.setUpdatedDate(date);
+        subscription.setUpdatedDate(new Date());
         subscription.getChats().add(new Chat(chatId, subscription));
         subscriptionList.add(subscription);
         service.storeSubscription(subscription);

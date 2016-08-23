@@ -45,8 +45,7 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
         this.googleApiKey = config.getKey();
 
         this.youtube = new YouTube
-                .Builder(new ApacheHttpTransport(), new JacksonFactory(), req -> {
-        })
+                .Builder(new ApacheHttpTransport(), new JacksonFactory(), req -> {})
                 .setApplicationName(config.getProjectName())
                 .build();
     }
