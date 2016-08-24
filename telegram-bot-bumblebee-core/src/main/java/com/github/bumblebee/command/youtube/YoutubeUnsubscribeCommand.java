@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import telegram.api.BotApi;
 import telegram.domain.Update;
 
+import java.util.Iterator;
+import java.util.List;
+
 @Component
 public class YoutubeUnsubscribeCommand extends SingleArgumentCommand {
 
@@ -34,23 +37,39 @@ public class YoutubeUnsubscribeCommand extends SingleArgumentCommand {
             return;
         }
 
-        for (Subscription sub : service.getExistingSubscriptions())
+        for (Subscription sub : service.getExistingSubscriptions()) {
             if (sub.getChannelId().equals(channelId)) {
-                for (Chat chat : sub.getChats()) {
-                    if (chat.getChatId().equals(chatId)) {
-                        sub.getChats().remove(chat);
-                        service.storeSubscription(sub);
-                        botApi.sendMessage(chatId, "Successfully unsubscribe this chat");
-                        return;
-                    }
+                processUnsubscription(sub, channelId, chatId);
+                return;
+            }
+        }
+        botApi.sendMessage(chatId, "Channel to unsubscribe not exist!");
+    }
+
+    private void processUnsubscription(Subscription sub, String channelId, Long chatId) {
+        List<Chat> chats = sub.getChats();
+        for (Chat chat : chats) {
+            if (chat.getChatId().equals(chatId)) {
+                if (chats.size() == 1) {
+                    removeChannel(sub, channelId, chatId);
+                    return;
                 }
-                if (service.unsubscribeChannel(channelId)) {
-                    service.deleteSubscription(sub);
-                    service.getExistingSubscriptions().remove(sub);
-                    botApi.sendMessage(chatId, "Channel removed");
+                if (chats.size() > 1) {
+                    chats.remove(chat);
+                    service.storeSubscription(sub);
+                    botApi.sendMessage(chatId, "Chat successfully unsubscribed!");
                     return;
                 }
             }
-        botApi.sendMessage(chatId, "Channel to unsubscribe not already exist!");
+        }
     }
+
+    private void removeChannel(Subscription sub, String channelId, Long chatId) {
+        if (service.unsubscribeChannel(channelId)) {
+            service.deleteSubscription(sub);
+            service.getExistingSubscriptions().remove(sub);
+            botApi.sendMessage(chatId, "Channel removed!");
+        }
+    }
+
 }

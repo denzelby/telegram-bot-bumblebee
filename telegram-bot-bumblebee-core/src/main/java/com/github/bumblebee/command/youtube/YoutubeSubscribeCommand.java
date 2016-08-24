@@ -54,7 +54,7 @@ public class YoutubeSubscribeCommand extends SingleArgumentCommand {
 
         if (service.subscribeChannel(channelId)) {
             createAndStoreNewSubscription(channelId, chatId);
-            botApi.sendMessage(chatId, "New channel successfully added");
+            botApi.sendMessage(chatId, "New channel successfully added!");
         } else {
             botApi.sendMessage(chatId, "Wrong channel, cannot subscribe!");
         }
