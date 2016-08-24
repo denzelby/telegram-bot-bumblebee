@@ -60,29 +60,21 @@ public class YoutubeSearchCommand extends SingleArgumentCommand {
 
         int retries = RETRY_COUNT;
         while (retries-- > 0) {
-            boolean isSent = sendVideo(chatId, argument);
-            if (isSent) {
-                return;
-            } else {
-                log.info("Video search failed, retrying... (attempt {})", RETRY_COUNT - retries);
+            try {
+                String videoId = searchVideo(argument);
+                if (videoId != null) {
+                    botApi.sendMessage(chatId, VIDEO_URL + videoId);
+                    return;
+                } else {
+                    log.info("Video search failed, retrying... (attempt {})", RETRY_COUNT - retries);
+                }
+            } catch (IOException e) {
+                log.error("Error during youtube search", e);
             }
         }
 
         String message = randomPhraseService.no() + ". No, really, I've tried " + RETRY_COUNT + " times.";
         botApi.sendMessage(chatId, message, update.getMessage().getMessageId());
-    }
-
-    private boolean sendVideo(Long chatId, String argument) {
-        try {
-            String videoId = searchVideo(argument);
-            if (videoId != null) {
-                botApi.sendMessage(chatId, VIDEO_URL + videoId);
-                return true;
-            }
-        } catch (IOException e) {
-            log.error("Error during youtube search", e);
-        }
-        return false;
     }
 
     private String searchVideo(String searchQuery) throws IOException {

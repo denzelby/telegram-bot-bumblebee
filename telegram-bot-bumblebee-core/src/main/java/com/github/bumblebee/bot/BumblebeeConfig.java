@@ -12,6 +12,8 @@ public class BumblebeeConfig {
 
     private String token;
 
+    private String url;
+
     private Map<String, String> commands = new HashMap<>();
 
     public String getToken() {
@@ -20,6 +22,14 @@ public class BumblebeeConfig {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Map<String, String> getCommands() {

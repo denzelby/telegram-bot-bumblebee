@@ -1,7 +1,7 @@
 package com.github.bumblebee.webhook;
 
+import com.github.bumblebee.bot.BumblebeeConfig;
 import com.github.bumblebee.webhook.registration.TelegramWebHookRegistrator;
-import com.github.bumblebee.webhook.registration.WebHookConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +24,11 @@ public class WebHookController {
     private TelegramWebHookRegistrator hookRegistrator;
 
     @Autowired
-    private WebHookConfig hookConfig;
+    private BumblebeeConfig bumblebeeConfig;
 
     /**
      * Telegram will send updates to this method after webhook registration
+     *
      * @param update https://core.telegram.org/bots/api#update
      */
     @RequestMapping(method = RequestMethod.POST, path = "/webhook", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -40,11 +41,12 @@ public class WebHookController {
 
     /**
      * Manually re-set web hook url
+     *
      * @return true if webhook successfully set
      */
     @RequestMapping(method = RequestMethod.GET, path = "/bind", produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean bindWebHook() {
-        return hookRegistrator.registerWebHook(hookConfig.getUrl());
+        return hookRegistrator.registerWebHook(bumblebeeConfig.getUrl());
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/health", produces = MediaType.APPLICATION_JSON_VALUE)
