@@ -55,8 +55,9 @@ public class YoutubeUpdateProcessor {
         Date date = new Date();
         for (Iterator<Map.Entry<String, Date>> it = postedVideos.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<String, Date> entry = it.next();
-            if (date.getTime() - entry.getValue().getTime() > OVERDUE_DELAY)
+            if (date.getTime() - entry.getValue().getTime() > OVERDUE_DELAY) {
                 it.remove();
+            }
         }
     }
 

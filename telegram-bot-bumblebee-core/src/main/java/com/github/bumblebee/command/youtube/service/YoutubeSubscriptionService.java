@@ -23,10 +23,10 @@ public class YoutubeSubscriptionService {
     private static final String CHANNEL_URL = "https://www.youtube.com/xml/feeds/videos.xml?channel_id=";
     private static final String URL_POSTFIX = "/youtube";
 
-    private YoutubeSubscriptionRepository repository;
+    private final YoutubeSubscriptionRepository repository;
     private final YoutubeSubscriptionApi youtubeSubscriptionApi;
     private final BumblebeeConfig config;
-    private List<Subscription> subscriptionList;
+    private final List<Subscription> subscriptionList;
 
     @Autowired
     public YoutubeSubscriptionService(YoutubeSubscriptionRepository repository,
@@ -44,7 +44,7 @@ public class YoutubeSubscriptionService {
         repository.save(subscription);
     }
 
-    public List<Subscription> retrieveSubscriptions() {
+    private List<Subscription> retrieveSubscriptions() {
         return Lists.newArrayList(repository.findAll());
     }
 

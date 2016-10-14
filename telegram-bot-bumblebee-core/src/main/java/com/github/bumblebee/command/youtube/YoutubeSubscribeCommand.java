@@ -62,7 +62,9 @@ public class YoutubeSubscribeCommand extends SingleArgumentCommand {
     }
 
     private boolean checkForExistingChatInSubscription(Subscription sub, Long chatId) {
-        return sub.getChats().stream().anyMatch(chat -> chat.getChatId().equals(chatId));
+        return sub.getChats()
+                .stream()
+                .anyMatch(chat -> chat.getChatId().equals(chatId));
     }
 
     private void addNewChatToSubscription(Subscription sub, Long chatId) {

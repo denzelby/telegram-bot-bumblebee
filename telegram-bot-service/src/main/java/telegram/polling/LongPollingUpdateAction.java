@@ -20,7 +20,7 @@ class LongPollingUpdateAction implements Runnable {
     private final Consumer<Update> updateConsumer;
     private long lastUpdateOffset;
 
-    public LongPollingUpdateAction(BotApi botApi, Consumer<Update> updateConsumer) {
+    LongPollingUpdateAction(BotApi botApi, Consumer<Update> updateConsumer) {
         this.botApi = botApi;
         this.updateConsumer = updateConsumer;
     }
@@ -37,7 +37,7 @@ class LongPollingUpdateAction implements Runnable {
 
         List<Update> updates = updateResponse.getResult();
 
-        updates.stream().forEach(updateConsumer);
+        updates.forEach(updateConsumer);
 
         // assuming that last update have highest offset (?)
         // todo: verify
