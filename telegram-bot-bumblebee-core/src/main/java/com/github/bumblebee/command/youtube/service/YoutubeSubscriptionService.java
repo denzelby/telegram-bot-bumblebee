@@ -2,8 +2,10 @@ package com.github.bumblebee.command.youtube.service;
 
 import com.github.bumblebee.bot.BumblebeeConfig;
 import com.github.bumblebee.command.youtube.api.YoutubeSubscriptionApi;
+import com.github.bumblebee.command.youtube.dao.YoutubePostedVideosRepository;
 import com.github.bumblebee.command.youtube.dao.YoutubeSubscriptionRepository;
 import com.github.bumblebee.command.youtube.entity.Chat;
+import com.github.bumblebee.command.youtube.entity.PostedVideo;
 import com.github.bumblebee.command.youtube.entity.Subscription;
 import com.google.api.client.util.Lists;
 import feign.Feign;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
 
 
 @Service
@@ -23,16 +26,19 @@ public class YoutubeSubscriptionService {
     private static final String CHANNEL_URL = "https://www.youtube.com/xml/feeds/videos.xml?channel_id=";
     private static final String URL_POSTFIX = "/youtube";
 
-    private final YoutubeSubscriptionRepository repository;
+    private final YoutubeSubscriptionRepository subscriptionRepository;
+    private final YoutubePostedVideosRepository postedVideosRepository;
     private final YoutubeSubscriptionApi youtubeSubscriptionApi;
     private final BumblebeeConfig config;
     private final List<Subscription> subscriptionList;
 
     @Autowired
-    public YoutubeSubscriptionService(YoutubeSubscriptionRepository repository,
+    public YoutubeSubscriptionService(YoutubeSubscriptionRepository subscriptionRepository,
+                                      YoutubePostedVideosRepository postedVideosRepository,
                                       BumblebeeConfig config) {
         this.config = config;
-        this.repository = repository;
+        this.subscriptionRepository = subscriptionRepository;
+        this.postedVideosRepository = postedVideosRepository;
         this.youtubeSubscriptionApi = Feign.builder()
                 .logLevel(feign.Logger.Level.BASIC)
                 .logger(new Slf4jLogger())
@@ -41,15 +47,15 @@ public class YoutubeSubscriptionService {
     }
 
     public void storeSubscription(Subscription subscription) {
-        repository.save(subscription);
+        subscriptionRepository.save(subscription);
     }
 
     private List<Subscription> retrieveSubscriptions() {
-        return Lists.newArrayList(repository.findAll());
+        return Lists.newArrayList(subscriptionRepository.findAll());
     }
 
     public void deleteSubscription(Subscription subscription) {
-        repository.delete(subscription);
+        subscriptionRepository.delete(subscription);
     }
 
     public boolean subscribeChannel(String channelId) {
@@ -76,6 +82,14 @@ public class YoutubeSubscriptionService {
             }
         }
         return idSet;
+    }
+
+    public void addPostedVideo(PostedVideo video) {
+        postedVideosRepository.save(video);
+    }
+
+    public List<PostedVideo> retrievePostedVideos() {
+        return Lists.newArrayList(postedVideosRepository.findAll());
     }
 
 }
