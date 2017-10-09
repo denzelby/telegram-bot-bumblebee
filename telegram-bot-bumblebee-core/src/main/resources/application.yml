@@ -2,7 +2,9 @@ bumblebee:
   # Telegram bot token
   token:
   # Callback URL
-    url:
+  url:
+  # Self Signed Certificate
+  certificatePath:
   # Command mapping
   commands:
     StartCommand: /start /help
