@@ -14,6 +14,8 @@ public class BumblebeeConfig {
 
     private String url;
 
+    private String certificatePath;
+
     private Map<String, String> commands = new HashMap<>();
 
     public String getToken() {
@@ -30,6 +32,14 @@ public class BumblebeeConfig {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getCertificatePath() {
+        return certificatePath;
+    }
+
+    public void setCertificatePath(String certificatePath) {
+        this.certificatePath = certificatePath;
     }
 
     public Map<String, String> getCommands() {

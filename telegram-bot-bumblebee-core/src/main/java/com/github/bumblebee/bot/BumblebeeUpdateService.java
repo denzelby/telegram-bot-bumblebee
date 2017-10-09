@@ -37,7 +37,7 @@ public class BumblebeeUpdateService {
 
     public void start() {
         if (webHookConfig.isEnabled()) {
-            webHookRegistrator.registerWebHook(bumblebeeConfig.getUrl());
+            webHookRegistrator.registerWebHook(bumblebeeConfig.getUrl(), bumblebeeConfig.getCertificatePath());
         } else {
             webHookRegistrator.removeWebHook();
             longPollingService.startPolling();

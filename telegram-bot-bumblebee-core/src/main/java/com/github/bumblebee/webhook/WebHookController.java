@@ -46,7 +46,7 @@ public class WebHookController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/bind", produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean bindWebHook() {
-        return hookRegistrator.registerWebHook(bumblebeeConfig.getUrl());
+        return hookRegistrator.registerWebHook(bumblebeeConfig.getUrl(), bumblebeeConfig.getCertificatePath());
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/health", produces = MediaType.APPLICATION_JSON_VALUE)
