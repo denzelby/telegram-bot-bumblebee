@@ -14,6 +14,7 @@ import telegram.api.BotApi;
 import telegram.domain.Update;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +31,7 @@ public class RoleAdminCommand extends SingleArgumentCommand {
     private static final String REVOKE_COMMAND = "revoke ([0-9]+)";
     private static final String REVOKE_ALL = "revoke all";
     private static final String LIST_COMMAND = "list";
+    private static final String ME_COMMAND = "me";
 
     private final BotApi botApi;
     private final RandomPhraseService randomPhraseService;
@@ -54,12 +56,21 @@ public class RoleAdminCommand extends SingleArgumentCommand {
             return;
         }
 
+        Long currentUserId = update.getMessage().getFrom().getId();
+
         if (INIT_COMMAND.equals(argument)) {
-            initializeRolesIfNeeded(update.getMessage().getFrom().getId());
+            initializeRolesIfNeeded(currentUserId);
             return;
         }
 
-        Long currentUserId = update.getMessage().getFrom().getId();
+        if (ME_COMMAND.equals(argument)) {
+            List<UserRole> roles = rolesService.getRoles(currentUserId);
+
+            String reply = String.format("User id: %d, roles: %s", currentUserId,
+                    roles.isEmpty() ? "empty" : Joiner.on(", ").join(roles));
+            botApi.sendMessage(chatId, reply);
+            return;
+        }
 
         // check privilege
         if (!rolesService.hasPrivilege(currentUserId, UserRole.ADMIN)) {
