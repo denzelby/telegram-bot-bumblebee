@@ -3,7 +3,7 @@ bumblebee:
   token:
   # Callback URL
   url:
-  # Self Signed Certificate
+  # Path to certificate to be used in setWebHook call
   certificatePath:
   # Command mapping
   commands:
