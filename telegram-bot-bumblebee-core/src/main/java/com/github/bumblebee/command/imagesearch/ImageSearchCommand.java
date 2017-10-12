@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import telegram.api.BotApi;
 import telegram.domain.Update;
+import telegram.domain.request.ChatAction;
 import telegram.domain.request.InputFile;
 
 import java.net.URL;
@@ -43,6 +44,8 @@ public class ImageSearchCommand extends SingleArgumentCommand {
         }
 
         Long messageId = update.getMessage().getMessageId();
+
+        botApi.sendChatAction(chatId, ChatAction.UPLOAD_PHOTO);
 
         for (ImageProvider provider : providers) {
             List<Image> images = search(provider, argument);
