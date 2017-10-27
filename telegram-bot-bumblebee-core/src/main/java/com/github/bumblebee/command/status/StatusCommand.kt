@@ -9,6 +9,6 @@ import telegram.domain.Update
 class StatusCommand(val botApi: BotApi) : SingleArgumentCommand() {
 
     override fun handleCommand(update: Update, chatId: Long, argument: String?) {
-        botApi.sendMessage(chatId, "Hello from Kotlin!")
+        botApi.sendMessage(chatId, "I'm fine!")
     }
 }
