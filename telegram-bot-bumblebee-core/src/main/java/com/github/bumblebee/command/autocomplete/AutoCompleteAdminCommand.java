@@ -26,7 +26,7 @@ public class AutoCompleteAdminCommand extends SingleArgumentCommand implements U
     }
 
     @Override
-    public void handleCommand(Update update, Long chatId, String argument) {
+    public void handleCommand(Update update, long chatId, String argument) {
 
         if (argument == null) {
             botApi.sendMessage(chatId, randomPhraseService.surprise());

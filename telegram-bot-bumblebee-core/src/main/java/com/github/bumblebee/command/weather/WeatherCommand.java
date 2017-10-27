@@ -3,7 +3,6 @@ package com.github.bumblebee.command.weather;
 import com.github.bumblebee.command.SingleArgumentCommand;
 import com.github.bumblebee.service.LinkUtils;
 import com.github.bumblebee.service.RandomPhraseService;
-import com.google.common.base.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import telegram.domain.request.InputFile;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 /**
  * Created by dzianis.baburkin on 6/16/2016.
@@ -34,9 +34,9 @@ public class WeatherCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Long chatId, String argument) {
-        WeatherArgument operation = Optional.fromNullable(WeatherArgument.of(argument))
-                .or(WeatherArgument.TEMPERATURE);
+    public void handleCommand(Update update, long chatId, String argument) {
+        WeatherArgument operation = Optional.ofNullable(WeatherArgument.of(argument))
+                .orElse(WeatherArgument.TEMPERATURE);
 
         switch (operation) {
             case MAP_DYNAMIC:

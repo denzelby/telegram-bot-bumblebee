@@ -49,7 +49,7 @@ public class RoleAdminCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Long chatId, String argument) {
+    public void handleCommand(Update update, long chatId, String argument) {
 
         if (argument == null) {
             botApi.sendMessage(chatId, randomPhraseService.no());

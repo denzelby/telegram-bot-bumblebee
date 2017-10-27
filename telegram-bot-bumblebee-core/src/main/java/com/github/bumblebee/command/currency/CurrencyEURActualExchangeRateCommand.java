@@ -20,7 +20,7 @@ public class CurrencyEURActualExchangeRateCommand extends CurrencyActualExchange
     }
 
     @Override
-    public void handleCommand(Update update, Long chatId, String argument) {
+    public void handleCommand(Update update, long chatId, String argument) {
         super.handleCommand(update, chatId, SupportedCurrency.EUR.name());
     }
 }

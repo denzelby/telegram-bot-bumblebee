@@ -32,7 +32,7 @@ public class YoutubeSubscribeCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Long chatId, String channelId) {
+    public void handleCommand(Update update, long chatId, String channelId) {
 
         if (channelId == null) {
             botApi.sendMessage(chatId, randomPhraseService.surprise());

@@ -51,7 +51,7 @@ public class CurrencyChartCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Long chatId, String argument) {
+    public void handleCommand(Update update, long chatId, String argument) {
 
         ChartArgumentParser.DateRange range = argumentParser.getRange(argument);
         String errorMessage = validateRange(range.getFrom(), range.getTo());

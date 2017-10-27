@@ -32,7 +32,7 @@ public class CurrencyShowActualBidsCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Long chatId, String argument) {
+    public void handleCommand(Update update, long chatId, String argument) {
 
         List<CurrencyBid> actualBids = bidEvalService.getTodayActualBids(chatId);
         actualBids.sort(Comparator.comparing(CurrencyBid::getValue).reversed());

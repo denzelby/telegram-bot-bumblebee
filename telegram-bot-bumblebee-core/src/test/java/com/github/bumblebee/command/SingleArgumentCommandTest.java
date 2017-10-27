@@ -3,6 +3,7 @@ package com.github.bumblebee.command;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +32,7 @@ public class SingleArgumentCommandTest {
     @InjectMocks
     private SingleArgumentCommand command = new SingleArgumentCommand() {
         @Override
-        public void handleCommand(Update update, Long chatId, String argument) {
+        public void handleCommand(@NotNull Update update, long chatId, String argument) {
 
         }
     };

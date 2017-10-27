@@ -36,7 +36,7 @@ public class CurrencyActualExchangeRateCommand extends SingleArgumentCommand {
     }
 
     @Override
-    public void handleCommand(Update update, Long chatId, String argument) {
+    public void handleCommand(Update update, long chatId, String argument) {
 
         String currencyName = getCurrencyNameOrDefault(argument, SupportedCurrency.USD);
         try {
