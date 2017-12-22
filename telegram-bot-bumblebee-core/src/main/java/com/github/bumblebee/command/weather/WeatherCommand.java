@@ -1,15 +1,14 @@
 package com.github.bumblebee.command.weather;
 
 import com.github.bumblebee.command.SingleArgumentCommand;
-import com.github.bumblebee.service.LinkUtils;
 import com.github.bumblebee.service.RandomPhraseService;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.Update;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import telegram.api.BotApi;
-import telegram.domain.Update;
-import telegram.domain.request.InputFile;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,8 +54,8 @@ public class WeatherCommand extends SingleArgumentCommand {
 
     private void sendPhotoFromURL(Long chatId, String URL) {
         try {
-            InputFile photo = InputFile.photo(new URL(URL).openStream(), "filename.png");
-            botApi.sendPhoto(chatId, photo);
+            botApi.sendPhoto(chatId, IOUtils.toByteArray(new URL(URL)), "image/jpeg",
+                    null, null, null, null);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
@@ -64,8 +63,8 @@ public class WeatherCommand extends SingleArgumentCommand {
 
     private void sendDocumentFromURL(Long chatId, String URL) {
         try {
-            InputFile document = InputFile.document(new URL(URL).openStream(), LinkUtils.getFileName(URL));
-            botApi.sendDocument(chatId, document);
+            botApi.sendPhoto(chatId, IOUtils.toByteArray(new URL(URL)), "",
+                    null, null, null, null);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }

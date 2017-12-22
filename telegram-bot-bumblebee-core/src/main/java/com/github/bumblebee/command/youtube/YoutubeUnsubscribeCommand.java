@@ -7,8 +7,8 @@ import com.github.bumblebee.command.youtube.service.YoutubeSubscriptionService;
 import com.github.bumblebee.service.RandomPhraseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import telegram.api.BotApi;
-import telegram.domain.Update;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.Update;
 
 import java.util.Iterator;
 import java.util.List;

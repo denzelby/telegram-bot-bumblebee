@@ -1,11 +1,12 @@
 package telegram.polling;
 
+import com.github.telegram.api.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import telegram.api.BotApi;
-import telegram.domain.BasicResponse;
-import telegram.domain.Update;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.Update;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -28,8 +29,23 @@ class LongPollingUpdateAction implements Runnable {
     @Override
     public void run() {
 
-        BasicResponse<List<Update>> updateResponse = botApi.getUpdates(lastUpdateOffset, POLL_ITEMS_BATCH_SIZE, POLL_TIMEOUT_SEC);
-        if (!updateResponse.isOk() || updateResponse.getResult() == null) {
+        try {
+            retrofit2.Response<Response<List<Update>>> response = botApi
+                    .getUpdates(lastUpdateOffset, POLL_ITEMS_BATCH_SIZE, POLL_TIMEOUT_SEC)
+                    .execute();
+
+            if (response.isSuccessful()) {
+                processUpdates(response.body());
+            } else {
+                log.error("Telegram api returned status {}, body: {}", response.code(), response.errorBody());
+            }
+        } catch (IOException e) {
+            log.error("Failed to call telegram api", e);
+        }
+    }
+
+    public void processUpdates(Response<List<Update>> updateResponse) {
+        if (!updateResponse.getOk() || updateResponse.getResult() == null) {
             log.error("Update failed, offset = {}", lastUpdateOffset);
             updateLastUpdateOffset(updateResponse.getResult());
             return;

@@ -6,7 +6,7 @@ import com.github.bumblebee.service.RandomPhraseService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import telegram.api.BotApi;
+import com.github.telegram.api.BotApi;
 
 @Component
 public class FirstImageSearchCommand extends ImageSearchCommand {

@@ -2,7 +2,7 @@ package com.github.bumblebee.webhook;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import telegram.domain.Update;
+import com.github.telegram.domain.Update;
 import telegram.polling.HandlerRegistry;
 import telegram.polling.TelegramUpdateConsumer;
 

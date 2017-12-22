@@ -1,6 +1,6 @@
 package com.github.bumblebee.command;
 
-import telegram.domain.Update;
+import com.github.telegram.domain.Update;
 import telegram.polling.UpdateHandler;
 
 public abstract class ChainedMessageListener implements UpdateHandler {

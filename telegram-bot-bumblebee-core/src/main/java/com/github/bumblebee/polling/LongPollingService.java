@@ -2,7 +2,7 @@ package com.github.bumblebee.polling;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import telegram.api.BotApi;
+import com.github.telegram.api.BotApi;
 import telegram.polling.HandlerRegistry;
 import telegram.polling.TelegramUpdateConsumer;
 import telegram.polling.TelegramUpdateService;

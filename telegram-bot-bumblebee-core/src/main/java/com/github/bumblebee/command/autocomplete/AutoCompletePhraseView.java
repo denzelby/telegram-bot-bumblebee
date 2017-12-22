@@ -3,8 +3,8 @@ package com.github.bumblebee.command.autocomplete;
 import com.github.bumblebee.command.SingleArgumentCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import telegram.api.BotApi;
-import telegram.domain.Update;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.Update;
 
 @Component
 public class AutoCompletePhraseView extends SingleArgumentCommand {

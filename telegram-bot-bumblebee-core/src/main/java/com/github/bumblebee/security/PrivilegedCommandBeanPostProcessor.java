@@ -10,7 +10,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
-import telegram.domain.Update;
+import com.github.telegram.domain.Update;
 import telegram.polling.UpdateHandler;
 
 import java.lang.reflect.Method;

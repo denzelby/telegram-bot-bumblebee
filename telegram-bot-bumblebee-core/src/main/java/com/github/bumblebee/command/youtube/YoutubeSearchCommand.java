@@ -16,8 +16,8 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
-import telegram.api.BotApi;
-import telegram.domain.Update;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.Update;
 
 @Component
 public class YoutubeSearchCommand extends SingleArgumentCommand {

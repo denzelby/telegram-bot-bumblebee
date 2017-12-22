@@ -1,6 +1,6 @@
 package com.github.bumblebee.security;
 
-import telegram.domain.Update;
+import com.github.telegram.domain.Update;
 
 public interface UnauthorizedRequestAware {
 

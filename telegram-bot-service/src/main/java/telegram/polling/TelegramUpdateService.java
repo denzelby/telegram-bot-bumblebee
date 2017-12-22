@@ -2,8 +2,8 @@ package telegram.polling;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import telegram.api.BotApi;
-import telegram.domain.Update;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.Update;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;

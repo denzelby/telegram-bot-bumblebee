@@ -5,7 +5,7 @@ import com.github.bumblebee.command.youtube.entity.PostedVideo;
 import com.github.bumblebee.command.youtube.service.YoutubeSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import telegram.api.BotApi;
+import com.github.telegram.api.BotApi;
 
 import java.util.*;
 

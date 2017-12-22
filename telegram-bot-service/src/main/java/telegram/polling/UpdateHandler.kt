@@ -1,6 +1,6 @@
 package telegram.polling
 
-import telegram.domain.Update
+import com.github.telegram.domain.Update
 
 interface UpdateHandler {
     /**

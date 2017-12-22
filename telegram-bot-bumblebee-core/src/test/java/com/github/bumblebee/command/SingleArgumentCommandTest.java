@@ -12,9 +12,9 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import telegram.domain.Chat;
-import telegram.domain.Message;
-import telegram.domain.Update;
+import com.github.telegram.domain.Chat;
+import com.github.telegram.domain.Message;
+import com.github.telegram.domain.Update;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SingleArgumentCommandTest {

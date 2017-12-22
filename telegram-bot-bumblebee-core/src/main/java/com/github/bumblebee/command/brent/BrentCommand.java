@@ -11,9 +11,8 @@ import org.springframework.stereotype.Component;
 import com.github.bumblebee.command.brent.meduza.MeduzaStockProvider;
 import com.github.bumblebee.command.brent.meduza.response.MeduzaStockResponse;
 
-import telegram.api.BotApi;
-import telegram.domain.Update;
-import telegram.domain.request.ParseMode;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.Update;
 import telegram.polling.UpdateHandler;
 
 @Component
@@ -52,7 +51,7 @@ public class BrentCommand implements UpdateHandler {
             return true;
         }
 
-        botApi.sendMessage(chatId, buildResponse(stocks), ParseMode.MARKDOWN, null, null, null);
+        botApi.sendMessage(chatId, buildResponse(stocks), "markdown", null, null, null, null);
 
         return true;
     }

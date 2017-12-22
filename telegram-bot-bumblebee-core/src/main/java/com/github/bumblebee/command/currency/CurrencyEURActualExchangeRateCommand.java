@@ -8,8 +8,8 @@ import com.github.bumblebee.command.currency.service.BYRExchangeRateRetrieveServ
 import com.github.bumblebee.command.currency.service.CurrencyBidEvalService;
 import com.github.bumblebee.service.RandomPhraseService;
 
-import telegram.api.BotApi;
-import telegram.domain.Update;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.Update;
 
 @Component
 public class CurrencyEURActualExchangeRateCommand extends CurrencyActualExchangeRateCommand {

@@ -5,15 +5,14 @@ import com.github.bumblebee.command.imagesearch.domain.Image;
 import com.github.bumblebee.command.imagesearch.domain.ImageProvider;
 import com.github.bumblebee.command.imagesearch.domain.ImagesPreprocessor;
 import com.github.bumblebee.command.imagesearch.exception.ImageSendException;
-import com.github.bumblebee.service.LinkUtils;
 import com.github.bumblebee.service.RandomPhraseService;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.ChatAction;
+import com.github.telegram.domain.Update;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
-import telegram.api.BotApi;
-import telegram.domain.Update;
-import telegram.domain.request.ChatAction;
-import telegram.domain.request.InputFile;
 
 import java.net.URL;
 import java.util.List;
@@ -63,8 +62,7 @@ public class ImageSearchCommand extends SingleArgumentCommand {
     private List<Image> search(ImageProvider provider, String query) {
         try {
             return provider.search(query);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Search failed", e);
             return null;
         }
@@ -90,9 +88,10 @@ public class ImageSearchCommand extends SingleArgumentCommand {
     private void sendImage(String url, Long chatId, String caption) throws ImageSendException {
 
         try {
-            InputFile photo = InputFile.photo(new URL(url).openStream(), LinkUtils.getFileName(url));
+//            String fileName = LinkUtils.getFileName(url);
+            byte[] imageBytes = IOUtils.toByteArray(new URL(url));
 
-            botApi.sendPhoto(chatId, photo, caption);
+            botApi.sendPhoto(chatId, imageBytes, "image/jpeg", caption, null, null, null);
         } catch (Exception e) {
             log.error("Failed to send: {}", url);
             throw new ImageSendException(e);
