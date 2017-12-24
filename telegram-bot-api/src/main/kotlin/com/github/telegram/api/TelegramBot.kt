@@ -25,12 +25,13 @@ object TelegramBot {
 
         val gson = Gson()
 
-        val adapter = Retrofit.Builder()
+        val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.telegram.org/bot$token/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient)
+                .validateEagerly(true)
                 .build()
 
-        return adapter.create(BotApi::class.java)
+        return BotApi(retrofit.create(BotCoreApi::class.java))
     }
 }

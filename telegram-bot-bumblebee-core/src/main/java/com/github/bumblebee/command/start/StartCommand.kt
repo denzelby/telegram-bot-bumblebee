@@ -2,10 +2,10 @@ package com.github.bumblebee.command.start
 
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.ParseMode
+import com.github.telegram.domain.Update
 import org.apache.commons.io.FileUtils
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import com.github.telegram.domain.Update
 import telegram.polling.UpdateHandler
 
 @Component
@@ -21,7 +21,7 @@ class StartCommand(val botApi: BotApi) : UpdateHandler {
                 text = helpText,
                 parseMode = ParseMode.MARKDOWN,
                 replyToMessageId = update.message!!.messageId
-        )
+        ).execute()
 
         return true
     }

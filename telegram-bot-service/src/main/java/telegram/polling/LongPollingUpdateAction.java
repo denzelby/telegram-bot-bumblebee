@@ -7,6 +7,7 @@ import com.github.telegram.api.BotApi;
 import com.github.telegram.domain.Update;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -39,6 +40,8 @@ class LongPollingUpdateAction implements Runnable {
             } else {
                 log.error("Telegram api returned status {}, body: {}", response.code(), response.errorBody());
             }
+        } catch (SocketTimeoutException ste) {
+            // this is fine
         } catch (IOException e) {
             log.error("Failed to call telegram api", e);
         }

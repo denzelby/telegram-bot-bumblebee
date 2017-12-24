@@ -61,7 +61,7 @@ public class AutoCompleteHandler extends ChainedMessageListener {
     }
 
     @Override
-    public boolean onMessage(Long chatId, String message, Update update) {
+    public boolean onMessage(long chatId, String message, Update update) {
         try {
             if (autocompletes.containsKey(message)) {
                 for (String text : autocompletes.get(message)) {

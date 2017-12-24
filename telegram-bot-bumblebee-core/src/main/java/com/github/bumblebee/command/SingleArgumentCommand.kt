@@ -1,7 +1,6 @@
 package com.github.bumblebee.command
 
 import com.github.telegram.domain.Update
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import telegram.polling.UpdateHandler
 
 abstract class SingleArgumentCommand : UpdateHandler {
