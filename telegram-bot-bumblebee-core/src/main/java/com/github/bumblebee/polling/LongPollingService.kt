@@ -9,8 +9,7 @@ import telegram.polling.TelegramUpdateService
 @Service
 class LongPollingService(botApi: BotApi, handlerRegistry: HandlerRegistry) {
 
-    private val updateService: TelegramUpdateService =
-            TelegramUpdateService(botApi, TelegramUpdateConsumer(handlerRegistry))
+    private val updateService = TelegramUpdateService(botApi, TelegramUpdateConsumer(handlerRegistry))
 
     fun startPolling() {
         updateService.startPolling()

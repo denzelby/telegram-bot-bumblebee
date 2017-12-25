@@ -16,7 +16,7 @@ class YoutubeUnsubscribeCommand(private val botApi: BotApi,
     override fun handleCommand(update: Update, chatId: Long, channelId: String?) {
 
         if (channelId == null) {
-            botApi.sendMessage(chatId, randomPhraseService.surprise()).execute()
+            botApi.sendMessage(chatId, randomPhraseService.surprise())
             return
         }
 
@@ -26,7 +26,7 @@ class YoutubeUnsubscribeCommand(private val botApi: BotApi,
                 return
             }
         }
-        botApi.sendMessage(chatId, "Channel to unsubscribe not exist!").execute()
+        botApi.sendMessage(chatId, "Channel to unsubscribe not exist!")
     }
 
     private fun processUnsubscription(sub: Subscription, channelId: String, chatId: Long?) {
@@ -40,7 +40,7 @@ class YoutubeUnsubscribeCommand(private val botApi: BotApi,
                 if (chats.size > 1) {
                     chats.remove(chat)
                     service.storeSubscription(sub)
-                    botApi.sendMessage(chatId!!, "Chat successfully unsubscribed!").execute()
+                    botApi.sendMessage(chatId!!, "Chat successfully unsubscribed!")
                     return
                 }
             }
@@ -51,7 +51,7 @@ class YoutubeUnsubscribeCommand(private val botApi: BotApi,
         if (service.unsubscribeChannel(channelId)) {
             service.deleteSubscription(sub)
             service.existingSubscriptions.remove(sub)
-            botApi.sendMessage(chatId!!, "Channel removed!").execute()
+            botApi.sendMessage(chatId!!, "Channel removed!")
         }
     }
 

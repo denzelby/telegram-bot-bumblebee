@@ -9,5 +9,5 @@ import org.springframework.stereotype.Component
 class FirstImageSearchCommand(botApi: BotApi,
                               randomPhrase: RandomPhraseService,
                               googleProvider: GoogleCustomSearchProvider)
-    : ImageSearchCommand(botApi, randomPhrase, listOf(googleProvider), {}
+    : ImageSearchCommand(botApi, randomPhrase, listOf(googleProvider), { it }
 )

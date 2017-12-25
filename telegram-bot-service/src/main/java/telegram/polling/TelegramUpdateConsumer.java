@@ -48,7 +48,7 @@ public class TelegramUpdateConsumer implements Consumer<Update> {
     }
 
     private boolean invokeCommand(Update update) {
-        final String text = update.getMessage().getText();
+        final String text = (update.getMessage() != null) ? update.getMessage().getText() : null;
         if (text != null && text.startsWith("/")) {
             UpdateHandler handler = handlerRegistry.get(commandParser.parse(text));
             if (handler != null) {

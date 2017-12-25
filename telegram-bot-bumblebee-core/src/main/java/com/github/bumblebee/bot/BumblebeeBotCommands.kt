@@ -1,6 +1,6 @@
 package com.github.bumblebee.bot
 
-import org.slf4j.LoggerFactory
+import com.github.bumblebee.util.loggerFor
 import org.springframework.aop.framework.AopProxyUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -10,7 +10,7 @@ import telegram.polling.UpdateHandler
 import javax.annotation.Resource
 
 @Configuration
-open class BumblebeeBotCommands {
+class BumblebeeBotCommands {
 
     @Autowired
     private lateinit var config: BumblebeeConfig
@@ -19,7 +19,7 @@ open class BumblebeeBotCommands {
     private lateinit var handlers: List<UpdateHandler>
 
     @Bean
-    open fun createCommandRegistry(): HandlerRegistry {
+    fun createCommandRegistry(): HandlerRegistry {
 
         val registry = HandlerRegistry()
 
@@ -28,7 +28,7 @@ open class BumblebeeBotCommands {
             val aliases = config.commands[command]
 
             if (aliases != null) {
-                registry.register(handler, *aliases.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
+                registry.register(handler, aliases.split("\\s".toRegex()).dropLastWhile { it.isEmpty() })
                 log.info("Registered command {} with aliases {}", command, aliases)
             } else {
                 registry.register(handler)
@@ -40,6 +40,6 @@ open class BumblebeeBotCommands {
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(BumblebeeBotCommands::class.java)
+        private val log = loggerFor<BumblebeeBotCommands>()
     }
 }

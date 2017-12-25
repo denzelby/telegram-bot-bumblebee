@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component
 class StatusCommand(val botApi: BotApi) : SingleArgumentCommand() {
 
     override fun handleCommand(update: Update, chatId: Long, argument: String?) {
-        botApi.sendMessage(chatId, "I'm fine!").execute()
+        botApi.sendMessage(chatId, "I'm fine!")
     }
 }

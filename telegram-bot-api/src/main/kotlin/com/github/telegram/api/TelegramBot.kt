@@ -1,37 +1,26 @@
 package com.github.telegram.api
 
-import com.google.gson.Gson
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.logging.HttpLoggingInterceptor.Level
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.GsonBuilder
+import feign.Feign
+import feign.Logger
+import feign.gson.GsonDecoder
+import feign.gson.GsonEncoder
+import feign.slf4j.Slf4jLogger
 
 object TelegramBot {
 
-    fun create(token: String, timeout: Int = 30, logLevel: Level = Level.BASIC): BotApi {
+    fun create(token: String): BotApi {
 
-        val logging = HttpLoggingInterceptor().apply {
-            level = logLevel
-        }
+        val gson = GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create()!!
 
-        val httpClient = OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .connectTimeout(timeout + 10L, TimeUnit.SECONDS)
-                .readTimeout(timeout + 10L, TimeUnit.SECONDS)
-                .writeTimeout(timeout + 10L, TimeUnit.SECONDS)
-                .build()
-
-        val gson = Gson()
-
-        val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.telegram.org/bot$token/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(httpClient)
-                .validateEagerly(true)
-                .build()
-
-        return BotApi(retrofit.create(BotCoreApi::class.java))
+        return Feign.builder()
+                .decoder(GsonDecoder(gson))
+                .encoder(MultipartEncoder(GsonEncoder(gson)))
+                .logger(Slf4jLogger())
+                .logLevel(Logger.Level.BASIC)
+                .target(BotApi::class.java, "https://api.telegram.org/bot$token/")
     }
 }

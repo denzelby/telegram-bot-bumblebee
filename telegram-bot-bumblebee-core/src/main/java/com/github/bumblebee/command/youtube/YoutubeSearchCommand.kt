@@ -2,12 +2,12 @@ package com.github.bumblebee.command.youtube
 
 import com.github.bumblebee.command.SingleArgumentCommand
 import com.github.bumblebee.service.RandomPhraseService
+import com.github.bumblebee.util.loggerFor
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.Update
 import com.google.api.client.http.apache.ApacheHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.youtube.YouTube
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.io.IOException
 
@@ -32,7 +32,7 @@ class YoutubeSearchCommand(private val botApi: BotApi,
     override fun handleCommand(update: Update, chatId: Long, argument: String?) {
 
         if (argument == null) {
-            botApi.sendMessage(chatId, randomPhraseService.surprise()).execute()
+            botApi.sendMessage(chatId, randomPhraseService.surprise())
             return
         }
 
@@ -41,7 +41,7 @@ class YoutubeSearchCommand(private val botApi: BotApi,
             try {
                 val videoId = searchVideo(argument)
                 if (videoId != null) {
-                    botApi.sendMessage(chatId, VIDEO_URL + videoId).execute()
+                    botApi.sendMessage(chatId, VIDEO_URL + videoId)
                     return
                 } else {
                     log.info("Video search failed, retrying... (attempt {})", RETRY_COUNT - retries)
@@ -52,7 +52,7 @@ class YoutubeSearchCommand(private val botApi: BotApi,
         }
 
         val message = "${randomPhraseService.no()}. No, really, I've tried $RETRY_COUNT times."
-        botApi.sendMessage(chatId, message, update.message!!.messageId).execute()
+        botApi.sendMessage(chatId, message, update.message!!.messageId)
     }
 
     @Throws(IOException::class)
@@ -81,7 +81,7 @@ class YoutubeSearchCommand(private val botApi: BotApi,
 
     companion object {
 
-        private val log = LoggerFactory.getLogger(YoutubeSearchCommand::class.java)
+        private val log = loggerFor<YoutubeSearchCommand>()
 
         private val VIDEO_URL = "https://www.youtube.com/watch?v="
         private val NUMBER_OF_VIDEOS_RETURNED = 1L

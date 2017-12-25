@@ -4,11 +4,10 @@ import com.github.bumblebee.command.imagesearch.provider.google.GoogleCustomSear
 import com.github.bumblebee.service.RandomPhraseService
 import com.github.telegram.api.BotApi
 import org.springframework.stereotype.Component
-import java.util.*
 
 @Component
 class RandomImageSearchCommand(botApi: BotApi,
                                randomPhrase: RandomPhraseService,
                                googleProvider: GoogleCustomSearchProvider)
-    : ImageSearchCommand(botApi, randomPhrase, listOf(googleProvider), { Collections.shuffle(it) }
+    : ImageSearchCommand(botApi, randomPhrase, listOf(googleProvider), { it.shuffled() }
 )

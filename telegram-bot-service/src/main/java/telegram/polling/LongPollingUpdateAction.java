@@ -1,13 +1,11 @@
 package telegram.polling;
 
+import com.github.telegram.api.BotApi;
 import com.github.telegram.api.Response;
+import com.github.telegram.domain.Update;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.github.telegram.api.BotApi;
-import com.github.telegram.domain.Update;
 
-import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -31,18 +29,11 @@ class LongPollingUpdateAction implements Runnable {
     public void run() {
 
         try {
-            retrofit2.Response<Response<List<Update>>> response = botApi
-                    .getUpdates(lastUpdateOffset, POLL_ITEMS_BATCH_SIZE, POLL_TIMEOUT_SEC)
-                    .execute();
+            Response<List<Update>> response = botApi
+                    .getUpdates(lastUpdateOffset, POLL_ITEMS_BATCH_SIZE, POLL_TIMEOUT_SEC);
 
-            if (response.isSuccessful()) {
-                processUpdates(response.body());
-            } else {
-                log.error("Telegram api returned status {}, body: {}", response.code(), response.errorBody());
-            }
-        } catch (SocketTimeoutException ste) {
-            // this is fine
-        } catch (IOException e) {
+                processUpdates(response);
+        } catch (RuntimeException e) {
             log.error("Failed to call telegram api", e);
         }
     }

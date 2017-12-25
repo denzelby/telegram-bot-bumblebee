@@ -4,10 +4,10 @@ import com.github.bumblebee.command.SingleArgumentCommand
 import com.github.bumblebee.security.UserRole
 import com.github.bumblebee.security.roles.service.UserRolesService
 import com.github.bumblebee.service.RandomPhraseService
+import com.github.bumblebee.util.loggerFor
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.Update
 import com.google.api.client.repackaged.com.google.common.base.Joiner
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.util.*
 import java.util.regex.Pattern
@@ -106,7 +106,7 @@ class RoleAdminCommand(private val botApi: BotApi,
         // list roles
         if (LIST_COMMAND == argument) {
             val sb = StringBuilder()
-            for (record in rolesService.allRoles) {
+            for (record in rolesService.getAllRoles()) {
                 sb.append(record.userId)
                 sb.append(": ")
                 sb.append(record.role)
@@ -121,7 +121,7 @@ class RoleAdminCommand(private val botApi: BotApi,
     }
 
     private fun deny(chatId: Long?) {
-        botApi.sendMessage(chatId!!, "You cannot give higher permission than you already have.").execute()
+        botApi.sendMessage(chatId!!, "You cannot give higher permission than you already have.")
     }
 
     private fun hasPrivilegeToAssign(userId: Long?, role: UserRole): Boolean {
@@ -132,14 +132,14 @@ class RoleAdminCommand(private val botApi: BotApi,
     private fun initializeRolesIfNeeded(currentUserId: Long) {
         // if there is no roles in repository then
         // give all privileges to current user
-        if (!rolesService.isRolesInitialized) {
+        if (!rolesService.isRolesInitialized()) {
             rolesService.setRoles(currentUserId, UserRole.SYSTEM)
         }
     }
 
     companion object {
 
-        private val log = LoggerFactory.getLogger(RoleAdminCommand::class.java)
+        private val log = loggerFor<RoleAdminCommand>()
 
         private val INIT_COMMAND = "init"
         private val SET_COMMAND = "set ([0-9]+) (" + allRoles() + ")"

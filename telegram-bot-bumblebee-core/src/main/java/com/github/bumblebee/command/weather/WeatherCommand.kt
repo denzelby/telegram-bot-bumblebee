@@ -11,9 +11,9 @@ class WeatherCommand(private val botApi: BotApi) : SingleArgumentCommand() {
     override fun handleCommand(update: Update, chatId: Long, argument: String?) {
         val operation = WeatherArgument.of(argument) ?: WeatherArgument.TEMPERATURE
         when (operation) {
-            WeatherCommand.WeatherArgument.MAP_DYNAMIC -> botApi.sendPhoto(chatId, MAP_URL_DYNAMIC).execute()
-            WeatherCommand.WeatherArgument.MAP_LATEST -> botApi.sendPhoto(chatId, MAP_URL_LATEST).execute()
-            WeatherCommand.WeatherArgument.TEMPERATURE -> botApi.sendPhoto(chatId, TEMPERATURE_URL).execute()
+            WeatherCommand.WeatherArgument.MAP_DYNAMIC -> botApi.sendPhoto(chatId, MAP_URL_DYNAMIC)
+            WeatherCommand.WeatherArgument.MAP_LATEST -> botApi.sendPhoto(chatId, MAP_URL_LATEST)
+            WeatherCommand.WeatherArgument.TEMPERATURE -> botApi.sendPhoto(chatId, TEMPERATURE_URL)
         }
     }
 

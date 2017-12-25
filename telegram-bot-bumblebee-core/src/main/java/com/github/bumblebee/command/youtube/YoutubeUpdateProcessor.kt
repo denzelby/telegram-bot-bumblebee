@@ -22,7 +22,7 @@ class YoutubeUpdateProcessor(private val botApi: BotApi,
 
     private fun postVideo(feed: AtomFeed) {
         for (chatId in service.getChatIds(feed.entry.channelId)) {
-            botApi.sendMessage(chatId, VIDEO_URL + feed.entry.videoId).execute()
+            botApi.sendMessage(chatId, VIDEO_URL + feed.entry.videoId)
         }
     }
 

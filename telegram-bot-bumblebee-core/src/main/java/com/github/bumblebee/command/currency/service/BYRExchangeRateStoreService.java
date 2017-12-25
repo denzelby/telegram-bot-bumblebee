@@ -97,7 +97,7 @@ public class BYRExchangeRateStoreService {
                 .map(currency -> new DailyExchangeRate(date, currency.getShortName(), currency.getRate()))
                 .collect(Collectors.toList());
 
-        repository.save(ratesToSave);
+        repository.saveAll(ratesToSave);
         return ratesToSave;
     }
 

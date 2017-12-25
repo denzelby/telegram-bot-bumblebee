@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationProperties(prefix = "bumblebee")
-open class BumblebeeConfig {
+class BumblebeeConfig {
     lateinit var token: String
-    lateinit var url: String
-    lateinit var certificatePath: String
+    var url: String? = null
+    var certificatePath: String? = null
     var commands: Map<String, String> = HashMap()
 }

@@ -2,9 +2,10 @@ package com.github.bumblebee.command.brent
 
 import com.github.bumblebee.command.brent.meduza.MeduzaStockProvider
 import com.github.bumblebee.command.brent.meduza.MeduzaStockResponse
+import com.github.bumblebee.util.loggerFor
 import com.github.telegram.api.BotApi
+import com.github.telegram.domain.ParseMode
 import com.github.telegram.domain.Update
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import telegram.polling.UpdateHandler
 import java.text.DecimalFormat
@@ -21,14 +22,14 @@ class BrentCommand(private val botApi: BotApi,
         val chatId = update.message!!.chat.id
 
         val stocks = try {
-            this.stockProvider.currentStocks
+            this.stockProvider.getCurrentStocks()
         } catch (e: Exception) {
             log.error("Failed to retrieve stocks", e)
-            botApi.sendMessage(chatId, "Meduza.io seems to be broken...").execute()
+            botApi.sendMessage(chatId, "Meduza.io seems to be broken...")
             return true
         }
 
-        botApi.sendMessage(chatId, buildResponse(stocks), "markdown").execute()
+        botApi.sendMessage(chatId, buildResponse(stocks), ParseMode.MARKDOWN)
 
         return true
     }
@@ -55,7 +56,7 @@ class BrentCommand(private val botApi: BotApi,
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(BrentCommand::class.java)
+        private val log = loggerFor<BrentCommand>()
 
         private val DOLLAR_SYMBOL = '$'
         private val RUB_SYMBOL = '\u20BD'

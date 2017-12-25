@@ -21,7 +21,7 @@ class StartCommand(val botApi: BotApi) : UpdateHandler {
                 text = helpText,
                 parseMode = ParseMode.MARKDOWN,
                 replyToMessageId = update.message!!.messageId
-        ).execute()
+        )
 
         return true
     }

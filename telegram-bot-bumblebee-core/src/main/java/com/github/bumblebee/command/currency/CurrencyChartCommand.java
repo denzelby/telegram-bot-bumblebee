@@ -7,6 +7,7 @@ import com.github.bumblebee.command.currency.service.BYRExchangeRateStoreService
 import com.github.bumblebee.command.currency.service.ChartArgumentParser;
 import com.github.bumblebee.service.RandomPhraseService;
 import com.github.telegram.api.BotApi;
+import com.github.telegram.api.InputFile;
 import com.github.telegram.domain.Update;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -86,8 +88,7 @@ public class CurrencyChartCommand extends SingleArgumentCommand {
             }
 
             byte[] png = chartService.createChartImage(rates, detailed, from, to);
-            // todo: jpeg? WTF?
-            botApi.sendPhoto(chatId, png, "image/jpeg", null, null, null, null);
+            botApi.sendPhoto(chatId, InputFile.Companion.photo(new ByteArrayInputStream(png), "image"), null, null, null, null );
 
         } catch (IOException | SAXException e) {
             log.error("Chart creation failed", e);

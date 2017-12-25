@@ -1,9 +1,9 @@
 package com.github.bumblebee.webhook
 
 import com.github.bumblebee.bot.BumblebeeConfig
+import com.github.bumblebee.util.loggerFor
 import com.github.bumblebee.webhook.registration.TelegramWebHookRegistrator
 import com.github.telegram.domain.Update
-import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -36,8 +36,10 @@ class WebHookController(private val updateProcessor: WebHookUpdateProcessor,
      * @return true if webhook successfully set
      */
     @RequestMapping(method = [(RequestMethod.GET)], path = ["/bind"])
-    fun bindWebHook(): Boolean? {
-        return hookRegistrator.registerWebHook(bumblebeeConfig.url, bumblebeeConfig.certificatePath)
+    fun bindWebHook(): Boolean {
+        return if (bumblebeeConfig.url.isNullOrBlank()) {
+            hookRegistrator.registerWebHook(bumblebeeConfig.url!!, bumblebeeConfig.certificatePath)
+        } else false
     }
 
     @RequestMapping(method = [(RequestMethod.GET)], path = ["/health"])
@@ -46,7 +48,7 @@ class WebHookController(private val updateProcessor: WebHookUpdateProcessor,
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(WebHookController::class.java)
+        private val log = loggerFor<WebHookController>()
     }
 
 }

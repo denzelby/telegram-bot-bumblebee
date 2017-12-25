@@ -21,8 +21,7 @@ class MeduzaStockProvider {
             .client(Client.Default(allTrustSocketFactory()) { _, _ -> true })
             .target(MeduzaApi::class.java, MeduzaApi.API_ROOT)
 
-    val currentStocks: MeduzaStockResponse
-        get() = this.client.queryStock()
+    fun getCurrentStocks(): MeduzaStockResponse = this.client.queryStock()
 
     private fun allTrustSocketFactory(): SSLSocketFactory {
 

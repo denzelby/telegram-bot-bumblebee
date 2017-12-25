@@ -2,13 +2,13 @@ package com.github.bumblebee.command.imagesearch.provider.bing
 
 import com.github.bumblebee.command.imagesearch.domain.Image
 import com.github.bumblebee.command.imagesearch.domain.ImageProvider
+import com.github.bumblebee.util.loggerFor
 import feign.Feign
 import feign.Logger
 import feign.auth.BasicAuthRequestInterceptor
 import feign.gson.GsonDecoder
 import feign.slf4j.Slf4jLogger
 import org.apache.commons.io.FilenameUtils
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
@@ -43,6 +43,6 @@ class BingPictureSearchProvider(config: BingSearchConfig) : ImageProvider {
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(BingPictureSearchProvider::class.java)
+        private val log = loggerFor<BingPictureSearchProvider>()
     }
 }
