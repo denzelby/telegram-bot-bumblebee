@@ -5,6 +5,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationProperties(prefix = "bumblebee.webhook")
-open class WebHookConfig {
+class WebHookConfig {
     var isEnabled: Boolean = false
 }

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationProperties(prefix = "google.api")
-open class GoogleCustomSearchConfig {
+class GoogleCustomSearchConfig {
     lateinit var key: String
     lateinit var customSearchId: String
 }

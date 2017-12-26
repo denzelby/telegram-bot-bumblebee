@@ -5,6 +5,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationProperties(prefix = "bing.api")
-open class BingSearchConfig{
+class BingSearchConfig{
     lateinit var accountKey: String
 }

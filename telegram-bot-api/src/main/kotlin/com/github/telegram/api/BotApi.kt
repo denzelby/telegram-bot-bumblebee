@@ -5,7 +5,6 @@ import com.github.telegram.domain.*
 import feign.Headers
 import feign.Param
 import feign.RequestLine
-import java.io.File as IoFile
 
 data class Response<out T>(val result: T?, val ok: Boolean, val errorCode: Int?, val description: String?)
 
