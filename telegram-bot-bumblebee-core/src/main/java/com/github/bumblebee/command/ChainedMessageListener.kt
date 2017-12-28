@@ -1,7 +1,7 @@
 package com.github.bumblebee.command
 
 import com.github.telegram.domain.Update
-import telegram.polling.UpdateHandler
+import com.github.bumblebee.bot.consumer.UpdateHandler
 
 abstract class ChainedMessageListener : UpdateHandler {
 

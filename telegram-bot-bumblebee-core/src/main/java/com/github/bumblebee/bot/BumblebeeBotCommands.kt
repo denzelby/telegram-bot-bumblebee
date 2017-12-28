@@ -1,12 +1,12 @@
 package com.github.bumblebee.bot
 
+import com.github.bumblebee.bot.consumer.HandlerRegistry
+import com.github.bumblebee.bot.consumer.UpdateHandler
 import com.github.bumblebee.util.loggerFor
 import org.springframework.aop.framework.AopProxyUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import telegram.polling.HandlerRegistry
-import telegram.polling.UpdateHandler
 import javax.annotation.Resource
 
 @Configuration

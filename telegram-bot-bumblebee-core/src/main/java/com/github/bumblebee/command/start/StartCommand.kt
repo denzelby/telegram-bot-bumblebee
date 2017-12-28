@@ -6,7 +6,7 @@ import com.github.telegram.domain.Update
 import org.apache.commons.io.FileUtils
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import telegram.polling.UpdateHandler
+import com.github.bumblebee.bot.consumer.UpdateHandler
 
 @Component
 class StartCommand(val botApi: BotApi) : UpdateHandler {

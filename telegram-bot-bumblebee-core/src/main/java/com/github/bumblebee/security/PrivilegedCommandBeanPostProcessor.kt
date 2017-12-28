@@ -9,7 +9,7 @@ import org.springframework.aop.framework.ProxyFactory
 import org.springframework.beans.BeansException
 import org.springframework.beans.factory.config.BeanPostProcessor
 import org.springframework.stereotype.Component
-import telegram.polling.UpdateHandler
+import com.github.bumblebee.bot.consumer.UpdateHandler
 import java.lang.reflect.Method
 import java.text.MessageFormat
 import java.util.*

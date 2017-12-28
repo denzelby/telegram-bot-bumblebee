@@ -7,7 +7,7 @@ import com.github.telegram.api.BotApi
 import com.github.telegram.domain.ParseMode
 import com.github.telegram.domain.Update
 import org.springframework.stereotype.Component
-import telegram.polling.UpdateHandler
+import com.github.bumblebee.bot.consumer.UpdateHandler
 import java.text.DecimalFormat
 import java.text.MessageFormat
 

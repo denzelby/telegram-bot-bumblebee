@@ -1,4 +1,4 @@
-package telegram.polling
+package com.github.bumblebee.bot.consumer
 
 import com.github.telegram.domain.Update
 

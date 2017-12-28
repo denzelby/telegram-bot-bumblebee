@@ -1,4 +1,4 @@
-package telegram.polling
+package com.github.bumblebee.bot.consumer
 
 import java.util.*
 
@@ -28,7 +28,7 @@ class HandlerRegistry {
         return this
     }
 
-    operator fun get(alias: String): UpdateHandler? {
+    operator fun get(alias: String?): UpdateHandler? {
         return commands[alias]
     }
 }

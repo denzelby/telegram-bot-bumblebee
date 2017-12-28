@@ -515,7 +515,7 @@ interface BotApi {
      */
     @RequestLine("GET /getUpdates?offset={offset}&limit={limit}&timeout={timeout}")
     fun getUpdates(
-            @Param("offset") offset: Long? = null,
+            @Param("offset") offset: Long,
             @Param("limit") limit: Int = 100,
             @Param("timeout") timeout: Int = 0
     ): Response<List<Update>>

@@ -53,7 +53,6 @@ dependencyManagement {
 
 dependencies {
     compile project(':telegram-bot-api')
-    compile project(':telegram-bot-service')
 
     compile 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
     compile 'org.jetbrains.kotlin:kotlin-reflect'
