@@ -10,17 +10,17 @@ import feign.slf4j.Slf4jLogger
 
 object TelegramBot {
 
-    fun create(token: String): BotApi {
+    fun create(token: String, logLevel: Logger.Level = Logger.Level.NONE): BotApi {
 
         val gson = GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create()!!
+                .create()
 
         return Feign.builder()
                 .decoder(GsonDecoder(gson))
                 .encoder(MultipartEncoder(GsonEncoder(gson)))
                 .logger(Slf4jLogger())
-                .logLevel(Logger.Level.BASIC)
+                .logLevel(logLevel)
                 .target(BotApi::class.java, "https://api.telegram.org/bot$token/")
     }
 }
