@@ -1,16 +1,18 @@
 package com.github.bumblebee.bot.consumer
 
+import com.github.bumblebee.util.loggerFor
 import com.github.telegram.domain.Update
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.time.Instant
-import java.util.function.Consumer
 import java.util.regex.Pattern
 
+/**
+ * Route update to concrete handler using handler registry
+ */
 @Component
-class TelegramUpdateRouter(private val handlerRegistry: HandlerRegistry) : Consumer<Update> {
+class TelegramUpdateRouter(private val handlerRegistry: HandlerRegistry) {
 
-    override fun accept(update: Update) {
+    fun route(update: Update) {
         try {
             if (isOutdatedUpdate(update)) {
                 log.debug("Outdated update skipped")
@@ -46,7 +48,7 @@ class TelegramUpdateRouter(private val handlerRegistry: HandlerRegistry) : Consu
         return false
     }
 
-    private fun parse(message: String?): String? {
+    private fun parse(message: String): String? {
         val matcher = commandPattern.matcher(message)
         return if (matcher.find()) {
             matcher.group()
@@ -54,7 +56,7 @@ class TelegramUpdateRouter(private val handlerRegistry: HandlerRegistry) : Consu
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(TelegramUpdateRouter::class.java)
+        private val log = loggerFor<TelegramUpdateRouter>()
 
         private val updateExpirationSeconds = 2 * 60
         private val commandPattern = Pattern.compile("^/[\\w]+")

@@ -21,14 +21,14 @@ class BumblebeeBot(private val config: BumblebeeConfig,
     }
 
     private fun startPollingThread() {
-        val poller = Thread {
-            longPollingService.init()
+        Thread {
             while (true) {
                 longPollingService.poll()
             }
+        }.apply {
+            isDaemon = true
+            name = "update-poller"
+            start()
         }
-        poller.isDaemon = true
-        poller.name = "update-poller"
-        poller.start()
     }
 }

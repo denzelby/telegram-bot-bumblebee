@@ -1,24 +1,16 @@
 package com.github.bumblebee.polling
 
-import com.github.bumblebee.bot.consumer.TelegramUpdateRouter
+import com.github.bumblebee.bot.consumer.UpdateProcessor
+import com.github.bumblebee.util.loggerFor
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.Update
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 @Service
 class LongPollingService(private val botApi: BotApi,
-                         private val updateConsumer: TelegramUpdateRouter) {
+                         private val updateProcessor: UpdateProcessor) {
 
-    private lateinit var executors: List<ExecutorService>
     private var lastUpdateOffset: Long = 0
-
-    fun init() {
-        log.info("Initializing long polling service")
-        executors = (0..executorsCount).map { Executors.newSingleThreadExecutor() }
-    }
 
     fun poll() {
         try {
@@ -27,7 +19,7 @@ class LongPollingService(private val botApi: BotApi,
 
             if (response.ok) {
                 val updates = response.result.orEmpty()
-                processUpdates(updates)
+                updates.forEach { updateProcessor.process(it) }
 
                 if (updates.isNotEmpty()) {
                     updateLastUpdateOffset(updates)
@@ -40,17 +32,6 @@ class LongPollingService(private val botApi: BotApi,
         }
     }
 
-    private fun processUpdates(updates: List<Update>) {
-        updates.forEach { update ->
-            // updates from the same chats goes to the same executor
-            val executorIndex = update.senderId.hashCode() % executors.size
-            log.debug("Selected executor: {}", executorIndex)
-            executors[executorIndex].submit {
-                updateConsumer.accept(update)
-            }
-        }
-    }
-
     private fun updateLastUpdateOffset(updates: List<Update>) {
         if (updates.isNotEmpty()) {
             lastUpdateOffset = updates.last().updateId + 1
@@ -58,9 +39,8 @@ class LongPollingService(private val botApi: BotApi,
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(LongPollingService::class.java)
+        private val log = loggerFor<LongPollingService>()
 
-        private val executorsCount = 4
         private val pollTimeoutSec = 60
         private val pollItemsBatchSize = 100
     }
