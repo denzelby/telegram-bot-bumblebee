@@ -1,42 +1,67 @@
 package com.github.bumblebee.polling
 
 import com.github.bumblebee.bot.consumer.TelegramUpdateRouter
-import com.github.bumblebee.util.loggerFor
 import com.github.telegram.api.BotApi
+import com.github.telegram.domain.Update
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
-import java.util.concurrent.TimeUnit
 
-// TODO: rework
 @Service
-class LongPollingService(botApi: BotApi, updateConsumer: TelegramUpdateRouter) {
+class LongPollingService(private val botApi: BotApi,
+                         private val updateConsumer: TelegramUpdateRouter) {
 
-    private var executor: ScheduledExecutorService? = null
-    private val updateAction = LongPollingUpdateAction(botApi, updateConsumer::accept)
+    private lateinit var executors: List<ExecutorService>
+    private var lastUpdateOffset: Long = 0
 
-    @Synchronized
-    fun startPolling() {
-
-        if (executor == null) {
-            executor = Executors.newSingleThreadScheduledExecutor()
-        }
-
-        executor!!.scheduleWithFixedDelay(updateAction, 0, 1, TimeUnit.MILLISECONDS)
-
-        log.debug("Polling started")
+    fun init() {
+        log.info("Initializing long polling service")
+        executors = (0..executorsCount).map { Executors.newSingleThreadExecutor() }
     }
 
-    @Synchronized
-    fun stopPolling() {
-        if (executor != null) {
-            executor!!.shutdown()
-        }
+    fun poll() {
+        try {
+            log.debug("Calling getUpdates() with offset {}", lastUpdateOffset)
+            val response = botApi.getUpdates(lastUpdateOffset, pollItemsBatchSize, pollTimeoutSec)
 
-        log.debug("Polling stopped")
+            if (response.ok) {
+                val updates = response.result.orEmpty()
+                processUpdates(updates)
+
+                if (updates.isNotEmpty()) {
+                    updateLastUpdateOffset(updates)
+                }
+            } else {
+                log.error("Update failed, offset = {}", lastUpdateOffset)
+            }
+        } catch (e: RuntimeException) {
+            log.error("Failed to call telegram api", e)
+        }
+    }
+
+    private fun processUpdates(updates: List<Update>) {
+        updates.forEach { update ->
+            // updates from the same chats goes to the same executor
+            val executorIndex = update.senderId.hashCode() % executors.size
+            log.debug("Selected executor: {}", executorIndex)
+            executors[executorIndex].submit {
+                updateConsumer.accept(update)
+            }
+        }
+    }
+
+    private fun updateLastUpdateOffset(updates: List<Update>) {
+        if (updates.isNotEmpty()) {
+            lastUpdateOffset = updates.last().updateId + 1
+        }
     }
 
     companion object {
-        private val log = loggerFor<LongPollingService>()
+        private val log = LoggerFactory.getLogger(LongPollingService::class.java)
+
+        private val executorsCount = 4
+        private val pollTimeoutSec = 60
+        private val pollItemsBatchSize = 100
     }
 }
