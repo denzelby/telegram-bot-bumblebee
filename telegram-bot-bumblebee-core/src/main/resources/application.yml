@@ -1,8 +1,8 @@
 bumblebee:
   # Telegram bot token
-  token: 147100294:AAH9bDDefY8eOsiNlBeLiO0h1OaWHliNeZ8
+  token:
   # Callback URL
-  url: http://github.com/bbe
+  url:
   # Path to certificate to be used in setWebHook call
   certificatePath:
   # Command mapping
@@ -38,19 +38,19 @@ bumblebee:
 ## Youtube search
 youtube:
   api:
-    projectName: bumblebee-google-api
-    key: AIzaSyAgrsC0KStP4iuZK0uG3FJPJIZAabVRUIM
+    projectName:
+    key:
 
 ## Google search API
 google:
   api:
-    key: AIzaSyAgrsC0KStP4iuZK0uG3FJPJIZAabVRUIM
-    customSearchId: 014901753848356591324:aohisof8l1o
+    key:
+    customSearchId:
 
 # Bing Search API
 bing:
   api:
-    accountKey: VugNVj0MWwXMI9HhqkLSrXdTf6Ps5b/C5lrkz3Y57m8=
+    accountKey:
 
 currency:
   chart:
@@ -69,6 +69,3 @@ spring:
     username: postgres
     password: abc123
     driver-class-name: org.postgresql.Driver
-logging:
-  level:
-    feign: debug
