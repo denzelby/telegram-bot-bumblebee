@@ -1,33 +1,31 @@
 package com.github.bumblebee.command.currency;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.xml.sax.SAXException;
-
 import com.github.bumblebee.command.SingleArgumentCommand;
 import com.github.bumblebee.command.currency.domain.DailyExchangeRate;
 import com.github.bumblebee.command.currency.service.BYRExchangeRateChartService;
 import com.github.bumblebee.command.currency.service.BYRExchangeRateStoreService;
 import com.github.bumblebee.command.currency.service.ChartArgumentParser;
 import com.github.bumblebee.service.RandomPhraseService;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.api.InputFile;
+import com.github.telegram.domain.Update;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.xml.sax.SAXException;
 
-import telegram.api.BotApi;
-import telegram.domain.Update;
-import telegram.domain.request.InputFile;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.List;
 
 @Component
 public class CurrencyChartCommand extends SingleArgumentCommand {
 
     private static final Logger log = LoggerFactory.getLogger(CurrencyChartCommand.class);
-    
+
     private static final int BAR_TO_LINE_CHART_THRESHOLD_DAYS = 40;
     private static final int REDUCE_THRESHOLD_DAYS = 5 * 30;
 
@@ -90,9 +88,8 @@ public class CurrencyChartCommand extends SingleArgumentCommand {
             }
 
             byte[] png = chartService.createChartImage(rates, detailed, from, to);
-            InputFile chart = InputFile.photo(new ByteArrayInputStream(png), "chart.png");
+            botApi.sendPhoto(chatId, InputFile.Companion.photo(new ByteArrayInputStream(png), "image"), null, null, null, null );
 
-            botApi.sendPhoto(chatId, chart);
         } catch (IOException | SAXException e) {
             log.error("Chart creation failed", e);
             botApi.sendMessage(chatId, randomPhrase.no(), update.getMessage().getMessageId());

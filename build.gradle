@@ -16,7 +16,7 @@ task stage {
     dependsOn ":telegram-bot-bumblebee-core:build"
 }
 buildscript {
-    ext.kotlin_version = '1.1.51'
+    ext.kotlin_version = '1.2.10'
     repositories {
         mavenCentral()
     }

@@ -6,9 +6,9 @@ import com.github.bumblebee.command.currency.service.CurrencyBidEvalService;
 import com.github.bumblebee.service.RandomPhraseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import telegram.api.BotApi;
-import telegram.domain.Update;
-import telegram.domain.User;
+import com.github.telegram.api.BotApi;
+import com.github.telegram.domain.Update;
+import com.github.telegram.domain.User;
 
 @Component
 public class CurrencyPlaceBidCommand extends SingleArgumentCommand {
@@ -37,7 +37,7 @@ public class CurrencyPlaceBidCommand extends SingleArgumentCommand {
             bid.setOwnerId(bidOwner.getId());
             bid.setOwnerFirstName(bidOwner.getFirstName());
             bid.setOwnerLastName(bidOwner.getLastName());
-            bid.setOwnerUsername(bidOwner.getUsername());
+            bid.setOwnerUsername(bidOwner.getUserName());
 
             bidEvalService.placeBid(bid);
 

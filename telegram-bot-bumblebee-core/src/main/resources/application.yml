@@ -65,7 +65,7 @@ currency:
 
 spring:
   datasource:
-    url:
-    username:
-    password:
-    driver-class-name:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: abc123
+    driver-class-name: org.postgresql.Driver

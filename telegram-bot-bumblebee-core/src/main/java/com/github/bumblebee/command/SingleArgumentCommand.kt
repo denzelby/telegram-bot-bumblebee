@@ -1,15 +1,16 @@
 package com.github.bumblebee.command
 
-import telegram.domain.Update
-import telegram.polling.UpdateHandler
+import com.github.telegram.domain.Update
+import com.github.bumblebee.bot.consumer.UpdateHandler
 
 abstract class SingleArgumentCommand : UpdateHandler {
 
     abstract fun handleCommand(update: Update, chatId: Long, argument: String?)
 
     override fun onUpdate(update: Update): Boolean {
-        val chatId = update.message.chat.id
-        val text = update.message.text
+        // todo: nullability checks
+        val chatId = update.message!!.chat.id
+        val text = update.message?.text ?: ""
         val cmdEndIndex = text.indexOf(' ')
 
         val argument = if (cmdEndIndex > 0 && cmdEndIndex < text.length - 1) {

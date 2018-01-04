@@ -1,1 +1,1 @@
-include ':telegram-bot-api', ':telegram-bot-service', ':telegram-bot-bumblebee-core'
+include ':telegram-bot-api', ':telegram-bot-bumblebee-core'

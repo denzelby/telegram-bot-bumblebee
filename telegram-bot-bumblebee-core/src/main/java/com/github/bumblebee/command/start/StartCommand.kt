@@ -1,12 +1,12 @@
 package com.github.bumblebee.command.start
 
+import com.github.telegram.api.BotApi
+import com.github.telegram.domain.ParseMode
+import com.github.telegram.domain.Update
 import org.apache.commons.io.FileUtils
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import telegram.api.BotApi
-import telegram.domain.Update
-import telegram.domain.request.ParseMode
-import telegram.polling.UpdateHandler
+import com.github.bumblebee.bot.consumer.UpdateHandler
 
 @Component
 class StartCommand(val botApi: BotApi) : UpdateHandler {
@@ -15,8 +15,14 @@ class StartCommand(val botApi: BotApi) : UpdateHandler {
     }
 
     override fun onUpdate(update: Update): Boolean {
-        botApi.sendMessage(update.message.chat.id, helpText, ParseMode.MARKDOWN, null,
-                update.message.messageId, null)
+
+        botApi.sendMessage(
+                chatId = update.message!!.chat.id,
+                text = helpText,
+                parseMode = ParseMode.MARKDOWN,
+                replyToMessageId = update.message!!.messageId
+        )
+
         return true
     }
 
