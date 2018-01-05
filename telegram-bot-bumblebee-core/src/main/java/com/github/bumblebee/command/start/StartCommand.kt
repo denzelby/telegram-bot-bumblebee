@@ -1,17 +1,17 @@
 package com.github.bumblebee.command.start
 
+import com.github.bumblebee.bot.consumer.UpdateHandler
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.ParseMode
 import com.github.telegram.domain.Update
-import org.apache.commons.io.FileUtils
+import org.apache.commons.io.IOUtils
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import com.github.bumblebee.bot.consumer.UpdateHandler
 
 @Component
 class StartCommand(val botApi: BotApi) : UpdateHandler {
     private val helpText: String by lazy {
-        FileUtils.readFileToString(ClassPathResource("start.md").file)
+        IOUtils.toString(ClassPathResource("start.md").inputStream)
     }
 
     override fun onUpdate(update: Update): Boolean {
