@@ -40,6 +40,10 @@ compileTestKotlin {
     }
 }
 
+bootJar {
+    launchScript()
+}
+
 dependencyManagement {
     dependencies {
         dependencySet(group: 'org.jetbrains.kotlin', version: kotlinVersion) {
