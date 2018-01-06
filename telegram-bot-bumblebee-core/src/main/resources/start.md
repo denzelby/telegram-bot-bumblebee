@@ -20,7 +20,8 @@ I support following commands:
      /chart 30.08.2015 - custom range (up to current date)
      /chart 2013 2015 - custom range by years
      /chart 2007 - show whole year
- - *Brent* - cost of oil. Usage: /brent
+ - *Crypto/Brent* - cost of oil, cryptocurrencies. Usage: /brent
+   Aliases: /btc /ltc /eth
  - *Health check*. Usage: /status
  - *Help* (show this message). Usage: /start, /help
  - *Weather* : /w <something you want to know>
