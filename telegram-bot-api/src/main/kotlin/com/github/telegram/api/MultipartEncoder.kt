@@ -17,9 +17,10 @@ import java.nio.charset.Charset
 class MultipartEncoder(private val delegate: Encoder) : Encoder {
 
     @Throws(EncodeException::class)
+    @Suppress("UNCHECKED_CAST")
     override fun encode(obj: Any, bodyType: Type, template: RequestTemplate) {
         if (isMultipart(template)) {
-            encodeAsMultipart(obj as Map<String, *>, bodyType, template)
+            encodeAsMultipart(obj as Map<String, *>, template)
         } else {
             delegate.encode(obj, bodyType, template)
         }
@@ -30,7 +31,7 @@ class MultipartEncoder(private val delegate: Encoder) : Encoder {
         return contentType != null && contentType.any { "multipart/form-data" == it }
     }
 
-    private fun encodeAsMultipart(parts: Map<String, *>, bodyType: Type, template: RequestTemplate) {
+    private fun encodeAsMultipart(parts: Map<String, *>, template: RequestTemplate) {
 
         val builder = MultipartBuilder().type(MultipartBuilder.FORM)
 
