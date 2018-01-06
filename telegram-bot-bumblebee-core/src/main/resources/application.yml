@@ -19,7 +19,7 @@ bumblebee:
     CurrencyUSDActualExchangeRateCommand: /usd
     CurrencyEURActualExchangeRateCommand: /eur
     CurrencyChartCommand: /chart
-    BrentCommand: /brent
+    CurrenciesCommand: /btc /ltc /eth /brent
     AutoCompletePhraseView: /phrases
     YoutubeSubscribeCommand: /subscribe
     YoutubeUnsubscribeCommand: /unsubscribe
