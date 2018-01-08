@@ -6,6 +6,8 @@ enum class BitfinexTickerLabel(val title: String, val code: String) {
     BTCASH("Bitcoin Cash", "tBCHUSD"),
     LTC("Litecoin", "tLTCUSD"),
     RIPPLE("Ripple", "tXRPUSD"),
+    MONERO("Monero", "tXMRUSD"),
+    DASH("Dash", "tDSHUSD"),
     ETH("Ethereum", "tETHUSD");
 
     override fun toString(): String = code
