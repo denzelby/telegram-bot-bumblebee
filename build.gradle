@@ -15,8 +15,9 @@ subprojects {
 task stage {
     dependsOn ":telegram-bot-bumblebee-core:build"
 }
+
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.21'
     repositories {
         mavenCentral()
     }
@@ -29,7 +30,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 compileKotlin {
     kotlinOptions {
