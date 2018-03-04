@@ -20,14 +20,10 @@ class YoutubeSubscriptionService(private val subscriptionRepository: YoutubeSubs
             .logger(Slf4jLogger())
             .target(YoutubeSubscriptionApi::class.java, YoutubeSubscriptionApi.API_ROOT)
 
-    val existingSubscriptions: MutableList<Subscription> = retrieveSubscriptions()
+    val existingSubscriptions: MutableList<Subscription> = subscriptionRepository.findAll().toMutableList()
 
     fun storeSubscription(subscription: Subscription) {
         subscriptionRepository.save(subscription)
-    }
-
-    private fun retrieveSubscriptions(): MutableList<Subscription> {
-        return subscriptionRepository.findAll().toMutableList()
     }
 
     fun deleteSubscription(subscription: Subscription) {
@@ -35,34 +31,41 @@ class YoutubeSubscriptionService(private val subscriptionRepository: YoutubeSubs
     }
 
     fun subscribeChannel(channelId: String): Boolean {
-        val response = youtubeSubscriptionApi.subscribe("subscribe", CHANNEL_URL + channelId, config.url + URL_POSTFIX)
+        val response = youtubeSubscriptionApi.subscribe(
+                hubMode = "subscribe",
+                hubTopicUrl = CHANNEL_URL + channelId,
+                hubCallbackUrl = config.url + URL_POSTFIX
+        )
         return response.status() == 202
     }
 
     fun unsubscribeChannel(channelId: String): Boolean {
-        val response = youtubeSubscriptionApi.subscribe("unsubscribe", CHANNEL_URL + channelId, config.url + URL_POSTFIX)
+        val response = youtubeSubscriptionApi.subscribe(
+                hubMode = "unsubscribe",
+                hubTopicUrl = CHANNEL_URL + channelId,
+                hubCallbackUrl = config.url + URL_POSTFIX
+        )
         return response.status() == 202
     }
 
     fun getChatIds(channelId: String): Set<Long> {
-        return existingSubscriptions
+        return existingSubscriptions.asSequence()
                 .filter { it.channelId == channelId }
-                .flatMap { it.chats }
+                .flatMap { it.chats.asSequence() }
                 .map { it.chatId }
-                .toSet<Long>()
+                .toSet()
     }
 
     fun addPostedVideo(video: PostedVideo) {
         postedVideosRepository.save(video)
     }
 
-    fun retrievePostedVideos(): MutableList<PostedVideo> {
-        return postedVideosRepository.findAll().toMutableList()
+    fun retrievePostedVideos(): Iterable<PostedVideo> {
+        return postedVideosRepository.findAll()
     }
 
     companion object {
         private val CHANNEL_URL = "https://www.youtube.com/xml/feeds/videos.xml?channel_id="
         private val URL_POSTFIX = "/youtube"
     }
-
 }

@@ -1,7 +1,7 @@
 package com.github.bumblebee.webhook
 
 import com.github.bumblebee.bot.consumer.UpdateProcessor
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import com.github.telegram.domain.Update
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestBody
@@ -30,6 +30,6 @@ class WebHookController(private val updateProcessor: UpdateProcessor) {
     fun healthCheck() = HealthCheckResponse("Bumblebee Bot - ok")
 
     companion object {
-        private val log = loggerFor<WebHookController>()
+        private val log = logger<WebHookController>()
     }
 }

@@ -43,4 +43,13 @@ public class AtomFeedEntry {
     public void setChannelId(String channelId) {
         this.channelId = channelId;
     }
+
+    @Override
+    public String toString() {
+        return "AtomFeedEntry{" +
+                "videoId='" + videoId + '\'' +
+                ", channelId='" + channelId + '\'' +
+                ", updated=" + updated +
+                '}';
+    }
 }

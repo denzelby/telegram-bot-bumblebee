@@ -2,7 +2,7 @@ package com.github.bumblebee.command.imagesearch.provider.google
 
 import com.github.bumblebee.command.imagesearch.domain.Image
 import com.github.bumblebee.command.imagesearch.domain.ImageProvider
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import feign.Feign
 import feign.gson.GsonDecoder
 import feign.slf4j.Slf4jLogger
@@ -29,6 +29,6 @@ class GoogleCustomSearchProvider(private val config: GoogleCustomSearchConfig) :
     }
 
     companion object {
-        private val log = loggerFor<GoogleCustomSearchProvider>()
+        private val log = logger<GoogleCustomSearchProvider>()
     }
 }

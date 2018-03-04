@@ -1,7 +1,7 @@
 package com.github.bumblebee.polling
 
 import com.github.bumblebee.bot.consumer.UpdateProcessor
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.Update
 import org.springframework.stereotype.Service
@@ -39,9 +39,9 @@ class LongPollingService(private val botApi: BotApi,
     }
 
     companion object {
-        private val log = loggerFor<LongPollingService>()
+        private val log = logger<LongPollingService>()
 
-        private val pollTimeoutSec = 60
-        private val pollItemsBatchSize = 100
+        private const val pollTimeoutSec = 60
+        private const val pollItemsBatchSize = 100
     }
 }

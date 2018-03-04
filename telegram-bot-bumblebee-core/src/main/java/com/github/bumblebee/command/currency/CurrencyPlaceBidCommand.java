@@ -4,11 +4,11 @@ import com.github.bumblebee.command.SingleArgumentCommand;
 import com.github.bumblebee.command.currency.domain.CurrencyBid;
 import com.github.bumblebee.command.currency.service.CurrencyBidEvalService;
 import com.github.bumblebee.service.RandomPhraseService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import com.github.telegram.api.BotApi;
 import com.github.telegram.domain.Update;
 import com.github.telegram.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CurrencyPlaceBidCommand extends SingleArgumentCommand {

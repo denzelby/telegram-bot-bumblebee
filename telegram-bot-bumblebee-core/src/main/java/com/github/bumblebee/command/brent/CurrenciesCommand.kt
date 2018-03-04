@@ -6,7 +6,7 @@ import com.github.bumblebee.command.brent.bitfinex.BitfinexTicker
 import com.github.bumblebee.command.brent.bitfinex.BitfinexTickerLabel
 import com.github.bumblebee.command.brent.meduza.MeduzaStockProvider
 import com.github.bumblebee.command.brent.meduza.MeduzaStockResponse
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.ParseMode
 import com.github.telegram.domain.Update
@@ -35,7 +35,7 @@ class CurrenciesCommand(private val botApi: BotApi,
         val message = bitfinexFuture.getOrElse("Bitfinex seems to be broken...", 2) + "\n\n" +
                 meduzaFuture.getOrElse("Meduza.io seems to be broken...", 2)
 
-        botApi.sendMessage(update.message!!.chat.id, message, ParseMode.MARKDOWN)
+        botApi.sendMessage(update.senderId, message, ParseMode.MARKDOWN)
         return true
     }
 
@@ -76,7 +76,7 @@ class CurrenciesCommand(private val botApi: BotApi,
     }
 
     companion object {
-        private val log = loggerFor<CurrenciesCommand>()
+        private val log = logger<CurrenciesCommand>()
 
         private val tickersToLoad = BitfinexTickerLabel.values().toList()
 

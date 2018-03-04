@@ -25,9 +25,5 @@ class UserRoleRecord {
         this.role = role
     }
 
-    override fun toString(): String {
-        return "UserRoleRecord(id=$id, userId=$userId, role=$role)"
-    }
-
-
+    override fun toString(): String = "UserRoleRecord(id=$id, userId=$userId, role=$role)"
 }

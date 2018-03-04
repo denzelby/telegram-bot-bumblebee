@@ -18,8 +18,7 @@ class HandlerRegistry {
         get() = handlers
 
     fun register(handler: UpdateHandler, aliases: List<String>): HandlerRegistry {
-
-        aliases.forEach { alias -> commands.put(alias, handler) }
+        aliases.forEach { alias -> commands[alias] = handler }
         return this
     }
 

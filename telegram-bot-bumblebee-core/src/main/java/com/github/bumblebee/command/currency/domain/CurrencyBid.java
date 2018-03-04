@@ -1,13 +1,7 @@
 package com.github.bumblebee.command.currency.domain;
 
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "BB_CURRENCY_BID")

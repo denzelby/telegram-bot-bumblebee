@@ -2,7 +2,7 @@ package com.github.bumblebee.bot
 
 import com.github.bumblebee.bot.consumer.HandlerRegistry
 import com.github.bumblebee.bot.consumer.UpdateHandler
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import org.springframework.aop.framework.AopProxyUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -40,6 +40,6 @@ class BumblebeeBotCommands {
     }
 
     companion object {
-        private val log = loggerFor<BumblebeeBotCommands>()
+        private val log = logger<BumblebeeBotCommands>()
     }
 }

@@ -5,9 +5,9 @@ import com.github.bumblebee.security.PrivilegedCommand;
 import com.github.bumblebee.security.UnauthorizedRequestAware;
 import com.github.bumblebee.security.UserRole;
 import com.github.bumblebee.service.RandomPhraseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.github.telegram.api.BotApi;
 import com.github.telegram.domain.Update;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @PrivilegedCommand(name = "AutoCompleteAdminCommand", role = UserRole.MODERATOR)

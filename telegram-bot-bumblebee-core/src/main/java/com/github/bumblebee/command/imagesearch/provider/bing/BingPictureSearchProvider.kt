@@ -2,7 +2,7 @@ package com.github.bumblebee.command.imagesearch.provider.bing
 
 import com.github.bumblebee.command.imagesearch.domain.Image
 import com.github.bumblebee.command.imagesearch.domain.ImageProvider
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import feign.Feign
 import feign.Logger
 import feign.auth.BasicAuthRequestInterceptor
@@ -43,6 +43,6 @@ class BingPictureSearchProvider(config: BingSearchConfig) : ImageProvider {
     }
 
     companion object {
-        private val log = loggerFor<BingPictureSearchProvider>()
+        private val log = logger<BingPictureSearchProvider>()
     }
 }

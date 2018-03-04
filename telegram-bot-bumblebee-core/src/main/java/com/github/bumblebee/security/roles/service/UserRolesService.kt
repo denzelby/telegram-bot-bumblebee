@@ -24,9 +24,9 @@ class UserRolesService(val rolesRepository: UserRolesRepository) {
 
     @Transactional(readOnly = true)
     fun hasPrivilege(userId: Long, minimumRole: UserRole): Boolean {
-
-        return rolesRepository.findByUserId(userId).stream()
-                .anyMatch { rec -> rec.role!!.rolePriority() >= minimumRole.rolePriority() }
+        return rolesRepository.findByUserId(userId).any {
+            it.role!!.rolePriority() >= minimumRole.rolePriority()
+        }
     }
 
     @Transactional(readOnly = true)

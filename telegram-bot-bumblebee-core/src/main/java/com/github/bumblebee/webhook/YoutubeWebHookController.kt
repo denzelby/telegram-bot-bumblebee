@@ -2,6 +2,7 @@ package com.github.bumblebee.webhook
 
 import com.github.bumblebee.command.youtube.YoutubeUpdateProcessor
 import com.github.bumblebee.command.youtube.service.AtomParser
+import com.github.bumblebee.util.logger
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
@@ -12,7 +13,8 @@ class YoutubeWebHookController(private val processor: YoutubeUpdateProcessor,
     @RequestMapping(method = [(RequestMethod.POST)], path = ["/youtube"],
             headers = ["Content-Type=application/atom+xml"], consumes = [(MediaType.APPLICATION_ATOM_XML_VALUE)])
     fun handleUpdates(@RequestBody message: String) {
-        this.processor.process(parser.parse(message))
+        log.info("Received atom feed: {}", message)
+        processor.process(parser.parse(message))
     }
 
     @RequestMapping(method = [(RequestMethod.GET)], path = ["/youtube"], produces = [(MediaType.TEXT_PLAIN_VALUE)])
@@ -23,4 +25,7 @@ class YoutubeWebHookController(private val processor: YoutubeUpdateProcessor,
         return challenge
     }
 
+    companion object {
+        val log = logger<YoutubeUpdateProcessor>()
+    }
 }

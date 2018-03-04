@@ -13,8 +13,17 @@ import java.util.Date;
 public class PostedVideo {
 
     @Id
-    String videoId;
-    Date postedDate;
+    private String videoId;
+    private Date postedDate;
+
+    @SuppressWarnings("unused")
+    public PostedVideo() {
+    }
+
+    public PostedVideo(String videoId, Date postedDate) {
+        this.videoId = videoId;
+        this.postedDate = postedDate;
+    }
 
     public String getVideoId() {
         return videoId;

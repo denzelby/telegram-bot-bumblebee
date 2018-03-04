@@ -14,13 +14,12 @@ class YoutubeUnsubscribeCommand(private val botApi: BotApi,
                                 private val randomPhraseService: RandomPhraseService) : SingleArgumentCommand() {
 
     override fun handleCommand(update: Update, chatId: Long, channelId: String?) {
-
         if (channelId == null) {
             botApi.sendMessage(chatId, randomPhraseService.surprise())
             return
         }
 
-        for (sub in service.existingSubscriptions) {
+        service.existingSubscriptions.forEach { sub ->
             if (sub.channelId == channelId) {
                 processUnsubscription(sub, channelId, chatId)
                 return

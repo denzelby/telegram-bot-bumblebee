@@ -2,6 +2,7 @@ package com.github.bumblebee.bot.consumer
 
 import com.github.telegram.domain.Update
 
+@FunctionalInterface
 interface UpdateHandler {
     /**
      * Handle telegram update event

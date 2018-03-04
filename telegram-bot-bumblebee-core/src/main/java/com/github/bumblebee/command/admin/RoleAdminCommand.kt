@@ -4,12 +4,11 @@ import com.github.bumblebee.command.SingleArgumentCommand
 import com.github.bumblebee.security.UserRole
 import com.github.bumblebee.security.roles.service.UserRolesService
 import com.github.bumblebee.service.RandomPhraseService
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.Update
 import com.google.api.client.repackaged.com.google.common.base.Joiner
 import org.springframework.stereotype.Component
-import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -22,12 +21,11 @@ class RoleAdminCommand(private val botApi: BotApi,
 
     override fun handleCommand(update: Update, chatId: Long, argument: String?) {
 
-        if (argument == null) {
+        val currentUserId = update.message?.from?.id
+        if (argument == null || currentUserId == null) {
             botApi.sendMessage(chatId, randomPhraseService.no())
             return
         }
-
-        val currentUserId = update.message!!.from!!.id
 
         if (INIT_COMMAND == argument) {
             initializeRolesIfNeeded(currentUserId)
@@ -52,18 +50,18 @@ class RoleAdminCommand(private val botApi: BotApi,
         invokeCommand(argument, currentUserId, chatId)
     }
 
-    private fun invokeCommand(argument: String, currentUserId: Long?, chatId: Long?) {
+    private fun invokeCommand(argument: String, currentUserId: Long, chatId: Long) {
 
         // set role
         var matcher = Pattern.compile(SET_COMMAND).matcher(argument)
         if (matcher.matches()) {
-            val id = java.lang.Long.valueOf(matcher.group(1))
+            val id = matcher.group(1).toLong()
             val role = UserRole.valueOf(matcher.group(2).toUpperCase())
 
             if (hasPrivilegeToAssign(currentUserId, role)) {
                 log.info("Setting role {} to user with id {}", role, id)
                 rolesService.setRoles(id, role)
-                botApi.sendMessage(chatId!!, "Roles had been set.")
+                botApi.sendMessage(chatId, "Roles had been set.")
             } else {
                 deny(chatId)
             }
@@ -74,16 +72,13 @@ class RoleAdminCommand(private val botApi: BotApi,
         // revoke roles from user
         matcher = Pattern.compile(REVOKE_COMMAND).matcher(argument)
         if (matcher.matches()) {
-            val id = java.lang.Long.valueOf(matcher.group(1))
-
-            val existingRole = rolesService.getRoles(id).stream()
-                    .max(Comparator.comparingInt({ it.rolePriority() }))
-                    .orElse(UserRole.USER)
+            val id = matcher.group(1).toLong()
+            val existingRole = rolesService.getRoles(id).maxBy { it.rolePriority() } ?: UserRole.USER
 
             if (hasPrivilegeToAssign(currentUserId, existingRole)) {
                 log.info("Revoking all roles from user with id {}", id)
                 rolesService.revokeRoles(id)
-                botApi.sendMessage(chatId!!, "Roles revoked.")
+                botApi.sendMessage(chatId, "Roles revoked.")
             } else {
                 deny(chatId)
             }
@@ -92,13 +87,12 @@ class RoleAdminCommand(private val botApi: BotApi,
         }
 
         // drop all roles
-        if (REVOKE_ALL == argument && rolesService.hasPrivilege(currentUserId!!, UserRole.SYSTEM)) {
-
+        if (REVOKE_ALL == argument && rolesService.hasPrivilege(currentUserId, UserRole.SYSTEM)) {
             log.info("Revoking all roles")
             rolesService.revokeAllRoles()
             initializeRolesIfNeeded(currentUserId)
 
-            botApi.sendMessage(chatId!!, "Roles has been reset.")
+            botApi.sendMessage(chatId, "Roles has been reset.")
 
             return
         }
@@ -112,21 +106,22 @@ class RoleAdminCommand(private val botApi: BotApi,
                 sb.append(record.role)
                 sb.append("\n")
             }
-            botApi.sendMessage(chatId!!, sb.toString())
+            botApi.sendMessage(chatId, sb.toString())
 
             return
         }
 
-        botApi.sendMessage(chatId!!, "I don't think that I got what you want...")
+        botApi.sendMessage(chatId, "I don't think that I got what you want...")
     }
 
-    private fun deny(chatId: Long?) {
-        botApi.sendMessage(chatId!!, "You cannot give higher permission than you already have.")
+    private fun deny(chatId: Long) {
+        botApi.sendMessage(chatId, "You cannot give higher permission than you already have.")
     }
 
-    private fun hasPrivilegeToAssign(userId: Long?, role: UserRole): Boolean {
-        return rolesService.getRoles(userId!!).stream()
-                .anyMatch { currentRole -> currentRole.rolePriority() >= role.rolePriority() }
+    private fun hasPrivilegeToAssign(userId: Long, role: UserRole): Boolean {
+        return rolesService.getRoles(userId).any { currentRole ->
+            currentRole.rolePriority() >= role.rolePriority()
+        }
     }
 
     private fun initializeRolesIfNeeded(currentUserId: Long) {
@@ -138,8 +133,7 @@ class RoleAdminCommand(private val botApi: BotApi,
     }
 
     companion object {
-
-        private val log = loggerFor<RoleAdminCommand>()
+        private val log = logger<RoleAdminCommand>()
 
         private val INIT_COMMAND = "init"
         private val SET_COMMAND = "set ([0-9]+) (" + allRoles() + ")"

@@ -20,4 +20,11 @@ public class AtomFeed {
     public void setEntry(AtomFeedEntry entry) {
         this.entry = entry;
     }
+
+    @Override
+    public String toString() {
+        return "AtomFeed{" +
+                "entry=" + entry +
+                '}';
+    }
 }

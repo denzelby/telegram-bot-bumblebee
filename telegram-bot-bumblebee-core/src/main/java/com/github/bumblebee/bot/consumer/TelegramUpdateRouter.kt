@@ -1,6 +1,6 @@
 package com.github.bumblebee.bot.consumer
 
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import com.github.telegram.domain.Update
 import org.springframework.stereotype.Component
 import java.time.Instant
@@ -56,7 +56,7 @@ class TelegramUpdateRouter(private val handlerRegistry: HandlerRegistry) {
     }
 
     companion object {
-        private val log = loggerFor<TelegramUpdateRouter>()
+        private val log = logger<TelegramUpdateRouter>()
 
         private val updateExpirationSeconds = 2 * 60
         private val commandPattern = Pattern.compile("^/[\\w]+")

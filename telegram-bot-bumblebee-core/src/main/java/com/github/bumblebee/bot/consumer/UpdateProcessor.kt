@@ -1,7 +1,8 @@
 package com.github.bumblebee.bot.consumer
 
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import com.github.telegram.domain.Update
+import com.google.common.util.concurrent.ThreadFactoryBuilder
 import org.springframework.stereotype.Component
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -14,8 +15,16 @@ import java.util.concurrent.Executors
 class UpdateProcessor(private val updateRouter: TelegramUpdateRouter) {
 
     private val executors: List<ExecutorService> by lazy {
-        loggerFor<UpdateProcessor>().info("Initializing long polling service executors")
-        (0..executorsCount).map { Executors.newSingleThreadExecutor() }
+        log.info("Initializing long polling service executors")
+        (0 until executorsCount).map { i ->
+            Executors.newSingleThreadExecutor(ThreadFactoryBuilder()
+                    .setNameFormat("update-handler-$i-t%d")
+                    .setUncaughtExceptionHandler { thread, exception ->
+                        log.error("Uncaught exception in thread ${thread.name}", exception)
+                    }
+                    .build()
+            )
+        }
     }
 
     fun process(update: Update) {
@@ -27,6 +36,7 @@ class UpdateProcessor(private val updateRouter: TelegramUpdateRouter) {
     }
 
     companion object {
+        private val log = logger<UpdateProcessor>()
         private val executorsCount = 4
     }
 }

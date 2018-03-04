@@ -1,6 +1,6 @@
 package com.github.bumblebee.webhook.registration
 
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import com.github.telegram.api.BotApi
 import com.github.telegram.api.InputFile
 import org.springframework.stereotype.Service
@@ -25,6 +25,6 @@ class TelegramWebHookRegistrator(private val botApi: BotApi) {
     }
 
     companion object {
-        private val log = loggerFor<TelegramWebHookRegistrator>()
+        private val log = logger<TelegramWebHookRegistrator>()
     }
 }

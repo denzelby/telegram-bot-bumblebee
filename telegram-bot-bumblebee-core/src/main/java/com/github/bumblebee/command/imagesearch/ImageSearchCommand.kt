@@ -4,7 +4,7 @@ import com.github.bumblebee.command.SingleArgumentCommand
 import com.github.bumblebee.command.imagesearch.domain.Image
 import com.github.bumblebee.command.imagesearch.domain.ImageProvider
 import com.github.bumblebee.service.RandomPhraseService
-import com.github.bumblebee.util.loggerFor
+import com.github.bumblebee.util.logger
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.ChatAction
 import com.github.telegram.domain.Update
@@ -57,14 +57,14 @@ open class ImageSearchCommand(private val botApi: BotApi,
                     return true
                 }
             } catch (e: Exception) {
-                log.error("Image send failed, retrying. Url={}, cause={}", picture.url, e.message)
+                log.error("Image send failed, retrying. Url=${picture.url}, cause=${e.message}")
             }
         }
         return false
     }
 
     companion object {
-        private val log = loggerFor<ImageSearchCommand>()
+        private val log = logger<ImageSearchCommand>()
         private val ignoredContentTypes = setOf("image/svg+xml", "image/animatedgif")
     }
 }

@@ -1,7 +1,13 @@
 package com.github.bumblebee.command.currency.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import com.github.bumblebee.command.currency.dao.CurrencyBidRepository;
+import com.github.bumblebee.command.currency.domain.CurrencyBid;
+import com.google.api.client.util.Lists;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -9,15 +15,8 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import com.github.bumblebee.command.currency.dao.CurrencyBidRepository;
-import com.github.bumblebee.command.currency.domain.CurrencyBid;
-import com.google.api.client.util.Lists;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CurrencyBidEvalServiceTest {

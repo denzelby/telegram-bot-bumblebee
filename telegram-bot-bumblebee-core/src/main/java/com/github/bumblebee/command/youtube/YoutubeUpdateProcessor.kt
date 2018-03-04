@@ -10,7 +10,7 @@ import java.util.*
 @Component
 class YoutubeUpdateProcessor(private val botApi: BotApi,
                              private val service: YoutubeSubscriptionService) {
-    private val postedVideos: MutableList<PostedVideo> = service.retrievePostedVideos()
+    private val postedVideos: MutableList<PostedVideo> = service.retrievePostedVideos().toMutableList()
 
     fun process(feed: AtomFeed) {
         val videoId = feed.entry.videoId
@@ -21,21 +21,18 @@ class YoutubeUpdateProcessor(private val botApi: BotApi,
     }
 
     private fun postVideo(feed: AtomFeed) {
-        for (chatId in service.getChatIds(feed.entry.channelId)) {
+        service.getChatIds(feed.entry.channelId).forEach { chatId ->
             botApi.sendMessage(chatId, VIDEO_URL + feed.entry.videoId)
         }
     }
 
     private fun markVideoAsPosted(videoId: String) {
-        val postedVideo = PostedVideo()
-        postedVideo.videoId = videoId
-        postedVideo.postedDate = Date()
-        postedVideos.add(postedVideo)
-        service.addPostedVideo(postedVideo)
+        val video = PostedVideo(videoId, Date())
+        postedVideos.add(video)
+        service.addPostedVideo(video)
     }
 
     companion object {
         private val VIDEO_URL = "https://www.youtube.com/watch?v="
     }
-
 }

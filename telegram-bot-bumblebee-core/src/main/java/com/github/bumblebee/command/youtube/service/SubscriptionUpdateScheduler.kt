@@ -6,17 +6,17 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 @Component
-class SubscriptionUpdateSheduler(private val service: YoutubeSubscriptionService) {
+class SubscriptionUpdateScheduler(private val service: YoutubeSubscriptionService) {
 
     @Scheduled(fixedRate = delay)
     fun checkOverdueSubscriptions() {
         val date = Date()
-        for (sub in service.existingSubscriptions) {
-            val interval = date.time - sub.updatedDate.time
+        service.existingSubscriptions.forEach { subscription ->
+            val interval = date.time - subscription.updatedDate.time
             if (interval > overdueInterval) {
-                sub.updatedDate = date
-                if (service.subscribeChannel(sub.channelId))
-                    service.storeSubscription(sub)
+                subscription.updatedDate = date
+                if (service.subscribeChannel(subscription.channelId))
+                    service.storeSubscription(subscription)
             }
         }
     }
@@ -25,5 +25,4 @@ class SubscriptionUpdateSheduler(private val service: YoutubeSubscriptionService
         private const val delay = (60 * 1000 * 60 * 4).toLong() //4 Hours in millis
         private val overdueInterval = TimeUnit.DAYS.toMillis(4)
     }
-
 }
