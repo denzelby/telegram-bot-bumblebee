@@ -4,7 +4,7 @@ bumblebee:
   # Callback URL
   url:
   # Path to certificate to be used in setWebHook call
-  certificatePath:
+  certificate-path:
   # Command mapping
   commands:
     StartCommand: /start /help
@@ -36,30 +36,30 @@ bumblebee:
 ## Youtube search
 youtube:
   api:
-    projectName:
+    project-name:
     key:
 
 ## Google search API
 google:
   api:
     key:
-    customSearchId:
+    custom-search-id:
 
 # Bing Search API
 bing:
   api:
-    accountKey:
+    account-key:
 
 currency:
   chart:
-    dateFormat: dd.MM.yyyy
-    defaultCurrencies:
+    date-format: dd.MM.yyyy
+    default-currencies:
       - USD
       - EUR
     localization:
-      chartTitle: Курсы валют
-      chartDateAxis: Дата
-      chartRateAxis: Курс
+      char-title: Курсы валют
+      chart-date-axis: Дата
+      chart-rate-axis: Курс
 
 spring:
   datasource:
