@@ -3,7 +3,6 @@ package com.github.bumblebee.command.currency;
 import com.github.bumblebee.command.SingleArgumentCommand;
 import com.github.bumblebee.command.currency.domain.SupportedCurrency;
 import com.github.bumblebee.command.currency.service.BYRExchangeRateRetrieveService;
-import com.github.bumblebee.command.currency.service.CurrencyBidEvalService;
 import com.github.bumblebee.service.RandomPhraseService;
 import com.github.telegram.api.BotApi;
 import com.github.telegram.domain.Update;
@@ -25,8 +24,8 @@ public class CurrencyActualExchangeRateCommand extends SingleArgumentCommand {
     private final BYRExchangeRateRetrieveService exchangeRateRetrieveService;
 
     @Autowired
-    public CurrencyActualExchangeRateCommand(BotApi botApi, RandomPhraseService randomPhrase,
-                                             CurrencyBidEvalService bidEvalService,
+    public CurrencyActualExchangeRateCommand(BotApi botApi,
+                                             RandomPhraseService randomPhrase,
                                              BYRExchangeRateRetrieveService exchangeRateRetrieveService) {
         this.botApi = botApi;
         this.randomPhrase = randomPhrase;

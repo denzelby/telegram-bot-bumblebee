@@ -27,7 +27,7 @@ public class ChartArgumentParserTest {
     private ChartArgumentParser parser;
 
     @Before
-    public void init() throws Exception {
+    public void init() {
         when(config.getDateFormat()).thenReturn("dd.MM.yyyy");
         when(config.getDefaultCurrencies()).thenReturn(
                 Lists.newArrayList(USD.name(), EUR.name()));
@@ -72,12 +72,12 @@ public class ChartArgumentParserTest {
 
     @Test
     public void shouldParseSingleFutureDateToDefaults() {
-        testRange("xyz 42 01.02.2018 bamboo", currentMonthStart(), LocalDate.now());
+        testRange("xyz 42 01.02.2050 bamboo", currentMonthStart(), LocalDate.now());
     }
 
     @Test
     public void shouldParseFutureDatesToCurrentDate() {
-        testRange("xyz 42 04.06.2014 01.02.2018 bamboo", LocalDate.of(2014, 6, 4), LocalDate.now());
+        testRange("xyz 42 04.06.2014 01.02.2050 bamboo", LocalDate.of(2014, 6, 4), LocalDate.now());
     }
 
     @Test

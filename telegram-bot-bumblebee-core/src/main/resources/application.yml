@@ -13,8 +13,6 @@ bumblebee:
     FirstImageSearchCommand: /g /p /i
     RandomImageSearchCommand: /r /rg /rp /ri /gr /rr /ir
     # Currency 'hunger games'
-    CurrencyPlaceBidCommand: /bid
-    CurrencyShowActualBidsCommand: /bids
     CurrencyActualExchangeRateCommand: /rate
     CurrencyUSDActualExchangeRateCommand: /usd
     CurrencyEURActualExchangeRateCommand: /eur
@@ -69,3 +67,5 @@ spring:
     username: postgres
     password: abc123
     driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false

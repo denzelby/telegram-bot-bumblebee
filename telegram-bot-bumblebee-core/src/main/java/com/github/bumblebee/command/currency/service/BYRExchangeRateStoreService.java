@@ -36,7 +36,7 @@ public class BYRExchangeRateStoreService {
 
     public List<DailyExchangeRate> getRates(LocalDate from, LocalDate to, List<String> currencies) throws IOException, SAXException {
 
-        Assert.isTrue(from.isBefore(to) || from.isEqual(to));
+        Assert.isTrue(from.isBefore(to) || from.isEqual(to), "'to' cannot be after 'from' date");
 
         List<DailyExchangeRate> dbRates = repository
                 .findByDateBetweenAndCurrencyIn(toDate(from), toDate(to), currencies);

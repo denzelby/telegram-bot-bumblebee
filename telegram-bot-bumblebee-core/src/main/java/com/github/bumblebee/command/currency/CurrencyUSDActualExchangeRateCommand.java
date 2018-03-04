@@ -2,7 +2,6 @@ package com.github.bumblebee.command.currency;
 
 import com.github.bumblebee.command.currency.domain.SupportedCurrency;
 import com.github.bumblebee.command.currency.service.BYRExchangeRateRetrieveService;
-import com.github.bumblebee.command.currency.service.CurrencyBidEvalService;
 import com.github.bumblebee.service.RandomPhraseService;
 import com.github.telegram.api.BotApi;
 import com.github.telegram.domain.Update;
@@ -13,8 +12,10 @@ import org.springframework.stereotype.Component;
 public class CurrencyUSDActualExchangeRateCommand extends CurrencyActualExchangeRateCommand {
 
     @Autowired
-    public CurrencyUSDActualExchangeRateCommand(BotApi botApi, RandomPhraseService randomPhrase, CurrencyBidEvalService bidEvalService, BYRExchangeRateRetrieveService exchangeRateRetrieveService) {
-        super(botApi, randomPhrase, bidEvalService, exchangeRateRetrieveService);
+    public CurrencyUSDActualExchangeRateCommand(BotApi botApi,
+                                                RandomPhraseService randomPhrase,
+                                                BYRExchangeRateRetrieveService exchangeRateRetrieveService) {
+        super(botApi, randomPhrase, exchangeRateRetrieveService);
     }
 
     @Override
