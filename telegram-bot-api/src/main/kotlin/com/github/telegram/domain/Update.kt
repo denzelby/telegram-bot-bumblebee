@@ -29,7 +29,7 @@ data class Update(
                 inlineQuery != null -> inlineQuery.from.id
                 chosenInlineResult != null -> chosenInlineResult.from.id
                 callbackQuery != null -> callbackQuery.from.id
-                else -> throw IllegalStateException("Everything is null.")
+                else -> throw IllegalStateException("Cannot evaluate sender for update: $this")
             }
         }
 }
