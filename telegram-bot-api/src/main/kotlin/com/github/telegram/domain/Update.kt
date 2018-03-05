@@ -18,6 +18,8 @@ data class Update(
         @Name("update_id") val updateId: Long,
         @Name("message") val message: Message?,
         @Name("edited_message") val editedMessage: Message?,
+        @Name("channel_post") val channelPost: Message?,
+        @Name("edited_channel_post") val editedChannelPost: Message?,
         @Name("inline_query") val inlineQuery: InlineQuery?,
         @Name("chosen_inline_result") val chosenInlineResult: ChosenInlineResult?,
         @Name("callback_query") val callbackQuery: CallbackQuery?) {
@@ -26,6 +28,8 @@ data class Update(
             return when {
                 message != null -> message.chat.id
                 editedMessage != null -> editedMessage.chat.id
+                channelPost != null -> channelPost.chat.id
+                editedChannelPost != null -> editedChannelPost.chat.id
                 inlineQuery != null -> inlineQuery.from.id
                 chosenInlineResult != null -> chosenInlineResult.from.id
                 callbackQuery != null -> callbackQuery.from.id
