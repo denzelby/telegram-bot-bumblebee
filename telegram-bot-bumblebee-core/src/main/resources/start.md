@@ -4,6 +4,7 @@ I support following commands:
  - *Image search*. Usage: /g, /p, /i <search criteria>
  - *Random image search*. Usage: /r /gr, /pr, /ir <search criteria>
  - *Youtube search*. Usage: /v, /y, <search criteria>
+ - *Notify all* (will notify only chat admins). Usage: /here /all /channel /sup
  - *Autocomplete pattern add*. Usage: /autocomplete <phrase to complete/complete phrase>
  - *Autocomplete phrases view*. Usage: /phrases
  - *Exchange rates* (to BYR): /rate <currency>

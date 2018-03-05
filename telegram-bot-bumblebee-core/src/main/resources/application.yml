@@ -28,6 +28,7 @@ bumblebee:
     RoleAdminCommand: /roles
     # Weather
     WeatherCommand: /weather /w
+    NotifyChatCommand: /here /everyone /all /sup
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks

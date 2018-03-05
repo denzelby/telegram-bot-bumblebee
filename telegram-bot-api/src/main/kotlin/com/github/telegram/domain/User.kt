@@ -1,6 +1,6 @@
 package com.github.telegram.domain
 
-import com.google.gson.annotations.SerializedName
+import com.google.gson.annotations.SerializedName as Name
 
 /**
  * This object represents a Telegram user or bot.
@@ -11,7 +11,9 @@ import com.google.gson.annotations.SerializedName
  * @property userName User‘s or bot’s username.
  */
 data class User(
-        val id: Long,
-        @SerializedName("first_name") val firstName: String,
-        @SerializedName("last_name") val lastName: String?,
-        @SerializedName("username") val userName: String?)
+        @Name("id") val id: Long,
+        @Name("is_bot") val isBot: Boolean,
+        @Name("first_name") val firstName: String,
+        @Name("last_name") val lastName: String?,
+        @Name("username") val userName: String?,
+        @Name("language_code") val languageCode: String?)

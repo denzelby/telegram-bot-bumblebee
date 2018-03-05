@@ -478,17 +478,18 @@ interface BotApi {
 
     @RequestLine("GET /getChatAdministrators?chat_id={chat_id}")
     fun getChatAdministrators(
-            @Param("chat_id") chatId: String
+            @Param("chat_id") chatId: Long
     ): Response<List<ChatMember>>
 
     @RequestLine("GET /getChatMembersCount?chat_id={chat_id}")
     fun getChatMembersCount(
-            @Param("chat_id") chatId: String
+            @Param("chat_id") chatId: Long
     ): Response<Int>
 
-    @RequestLine("GET /getChatMember?chat_id={chat_id}")
+    @RequestLine("GET /getChatMember?chat_id={chat_id}&user_id={user_id}")
     fun getChatMember(
-            @Param("chat_id") chatId: String
+            @Param("chat_id") chatId: Long,
+            @Param("user_id") userId: Long
     ): Response<ChatMember>
 
     @RequestLine("POST /answerCallbackQuery")
