@@ -18,7 +18,7 @@ class MessageStatisticsHandler(private val botApi: BotApi, private val statistic
         return false
     }
 
-    @Scheduled(cron = "59 23 * * *")
+    @Scheduled(cron = "0 59 23 * * *")
     fun postStatistics() {
         statisticsService.getChatsWithStatistic()
                 .forEach { botApi.sendMessage(it, statisticsService.buildStatisticsForCurrentDayInChat(it)) }

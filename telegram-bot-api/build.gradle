@@ -6,7 +6,7 @@ apply plugin: 'kotlin'
 sourceCompatibility = 1.8
 
 buildscript {
-    ext.kotlinVersion = '1.2.10'
+    ext.kotlinVersion = '1.2.30'
     repositories {
         mavenCentral()
     }
