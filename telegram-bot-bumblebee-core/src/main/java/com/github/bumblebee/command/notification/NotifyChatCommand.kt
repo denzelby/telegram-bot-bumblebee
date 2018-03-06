@@ -24,7 +24,7 @@ class NotifyChatCommand(private val botApi: BotApi,
             val mentions = members.asSequence()
                     .filter { !it.user.isBot }
                     .map { it.user.userName }
-                    .filter { it != null }
+                    .filterNotNull()
                     .joinToString(separator = " ") { "@$it" }
 
             val message = if (mentions.isNotEmpty()) mentions else randomPhraseService.no()
