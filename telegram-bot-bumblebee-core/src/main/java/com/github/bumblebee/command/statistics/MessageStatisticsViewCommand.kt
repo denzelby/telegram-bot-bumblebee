@@ -13,15 +13,11 @@ class MessageStatisticsViewCommand(private val botApi: BotApi,
                                    private val randomPhraseService: RandomPhraseService) : SingleArgumentCommand() {
 
     override fun handleCommand(update: Update, chatId: Long, argument: String?) {
-        if (argument == null) {
-            botApi.sendMessage(chatId, statisticsService.buildStatisticsForCurrentDayInChat(chatId))
-            return
+        when (argument) {
+            null -> botApi.sendMessage(chatId, statisticsService.buildStatisticsForCurrentDayInChat(chatId))
+            "me" -> botApi.sendMessage(chatId, statisticsService.buildDayStatisticForUserInChat(chatId, update.senderId))
+            else -> botApi.sendMessage(chatId, randomPhraseService.surprise())
         }
-        if(argument == "me") {
-            botApi.sendMessage(chatId, statisticsService.buildDayStatisticForUserInChat(chatId, update.senderId))
-            return
-        }
-        botApi.sendMessage(chatId, randomPhraseService.surprise())
 
     }
 

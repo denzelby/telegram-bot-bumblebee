@@ -10,7 +10,7 @@ interface StatisticsRepository : CrudRepository<Statistic, Long> {
 
     fun findStatisticByPostedDateAndChatId(postedDate: LocalDate, chatId: Long): List<Statistic>?
 
-    fun findStatisticByPostedDate(postedDate: LocalDate): List<Statistic>?
+    fun findStatisticByPostedDate(postedDate: LocalDate): MutableList<Statistic>?
 
     fun findStatisticByAuthorIdAndPostedDateAndChatId (authorId: Long, postedDate: LocalDate, chatId: Long): Statistic?
 }
