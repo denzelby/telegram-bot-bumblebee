@@ -18,7 +18,5 @@ class MessageStatisticsViewCommand(private val botApi: BotApi,
             "me" -> botApi.sendMessage(chatId, statisticsService.buildDayStatisticForUserInChat(chatId, update.senderId))
             else -> botApi.sendMessage(chatId, randomPhraseService.surprise())
         }
-
     }
-
 }

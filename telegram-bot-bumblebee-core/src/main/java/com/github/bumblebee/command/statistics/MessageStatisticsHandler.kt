@@ -8,19 +8,19 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
 @Component
-class MessageStatisticsHandler(private val botApi: BotApi, private val statisticsService: StatisticsService) : ChainedMessageListener() {
+class MessageStatisticsHandler(private val botApi: BotApi,
+                               private val statisticsService: StatisticsService) : ChainedMessageListener() {
 
     override fun onMessage(chatId: Long, message: String?, update: Update): Boolean {
-        if (message == null) {
-            return false
-        }
-        statisticsService.saveOrUpdateUserStatistic(update.message!!.from!!.id, chatId, update.message?.from?.userName)
+        val userId = update.message?.from?.id ?: return false
+        statisticsService.saveOrUpdateUserStatistic(userId, chatId, update.message?.from?.userName)
         return false
     }
 
     @Scheduled(cron = "0 59 23 * * *")
     fun postStatistics() {
-        statisticsService.getChatsWithStatistic()
-                .forEach { botApi.sendMessage(it, statisticsService.buildStatisticsForCurrentDayInChat(it)) }
+        statisticsService.getChatsWithStatistic().forEach { chatId ->
+            botApi.sendMessage(chatId, statisticsService.buildStatisticsForCurrentDayInChat(chatId))
+        }
     }
 }

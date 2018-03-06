@@ -55,7 +55,7 @@ class StatisticsService(private val repository: StatisticsRepository) {
     }
 
     private fun buildUserStat(userId: Long, chatId: Long, userName: String?): Statistic {
-        return Statistic(LocalDate.now(), Integer.valueOf(1), chatId, userId, userName)
+        return Statistic(LocalDate.now(), 1, chatId, userId, userName)
     }
 
     fun buildStatisticsForCurrentDayInChat(chatId: Long): String {
@@ -76,6 +76,4 @@ class StatisticsService(private val repository: StatisticsRepository) {
             stringBuilder.toString()
         } else "Your statistic is empty for today"
     }
-
-
 }
