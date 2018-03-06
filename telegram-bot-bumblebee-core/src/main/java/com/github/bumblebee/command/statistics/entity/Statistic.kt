@@ -35,4 +35,8 @@ class Statistic {
         this.authorId = authorId
         this.authorName = authorName
     }
+
+    override fun toString(): String {
+        return "Statistic(id=$id, postedDate=$postedDate, messageCount=$messageCount, chatId=$chatId, authorId=$authorId, authorName=$authorName)"
+    }
 }
