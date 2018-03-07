@@ -30,7 +30,7 @@ bumblebee:
     WeatherCommand: /weather /w
     NotifyChatCommand: /here /everyone /all /sup
     # Statistics
-    MessageStatisticsViewCommand: /stat
+    MessageStatisticsViewCommand: /stat /stats
   # Webhook settings
   webhook:
     enabled: false # false - long polling will be used, true - webhooks
