@@ -63,10 +63,11 @@ class StatisticsService(private val repository: StatisticsRepository) {
         return Instant.ofEpochSecond(date.toLong()).atZone(ZoneId.systemDefault()).toLocalDate()
     }
 
-    private fun formatUserName(from: User): String {
-        val fullName = "${from.firstName} ${from.lastName}"
-        return if (fullName.isNotBlank()) fullName
-        else (from.userName ?: from.id.toString())
+    private fun formatUserName(from: User): String = when {
+        !from.lastName.isNullOrBlank() -> "${from.firstName} ${from.lastName}"
+        !from.firstName.isBlank() -> from.firstName
+        !from.userName.isNullOrBlank() -> from.userName!!
+        else -> from.id.toString()
     }
 
     companion object {
