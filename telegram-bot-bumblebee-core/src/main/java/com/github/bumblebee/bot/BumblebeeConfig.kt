@@ -14,6 +14,7 @@ class BumblebeeConfig {
     lateinit var token: String
     var url: String = ""
     var certificatePath: String? = null
+    var timezone: String? = null
     var commands: Map<String, String> = HashMap()
     var webhook: WebhookConfig = WebhookConfig()
 

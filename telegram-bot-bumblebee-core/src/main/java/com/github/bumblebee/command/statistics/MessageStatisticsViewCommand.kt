@@ -25,7 +25,7 @@ class MessageStatisticsViewCommand(private val botApi: BotApi,
         }
     }
 
-    @Scheduled(cron = "0 00 18 * * *")
+    @Scheduled(cron = "0 00 21 * * *")
     fun postPeriodicStatistics() {
         statistics.getStatistics().forEach { chatId, stats ->
             postStatistics(chatId, stats)

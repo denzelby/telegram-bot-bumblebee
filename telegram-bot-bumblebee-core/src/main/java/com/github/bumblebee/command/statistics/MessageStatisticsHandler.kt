@@ -2,6 +2,7 @@ package com.github.bumblebee.command.statistics
 
 import com.github.bumblebee.command.ChainedMessageListener
 import com.github.bumblebee.command.statistics.service.StatisticsService
+import com.github.bumblebee.util.logger
 import com.github.telegram.domain.ChatType
 import com.github.telegram.domain.Update
 import org.springframework.scheduling.annotation.Scheduled
@@ -22,8 +23,9 @@ class MessageStatisticsHandler(private val statistics: StatisticsService) : Chai
         return false
     }
 
-    @Scheduled(cron = "0 01 21 * * *")
+    @Scheduled(cron = "0 00 00 * * *")
     fun cleanup() {
+        logger<MessageStatisticsHandler>().info("Statistics cleanup")
         statistics.cleanupStats(LocalDate.now())
     }
 }

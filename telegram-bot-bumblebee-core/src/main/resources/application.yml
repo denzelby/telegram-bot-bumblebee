@@ -6,6 +6,7 @@ bumblebee:
   # Path to certificate to be used in setWebHook call
   certificate-path:
   # Command mapping
+  timezone: Europe/Minsk
   commands:
     StartCommand: /start /help
     StatusCommand: /status
@@ -72,3 +73,6 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false
+  logging:
+    level:
+      com.github.bumblebee.command.statistics: DEBUG
