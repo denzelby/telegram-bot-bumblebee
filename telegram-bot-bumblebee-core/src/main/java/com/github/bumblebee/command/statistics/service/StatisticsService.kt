@@ -2,78 +2,74 @@ package com.github.bumblebee.command.statistics.service
 
 import com.github.bumblebee.command.statistics.dao.StatisticsRepository
 import com.github.bumblebee.command.statistics.entity.Statistic
+import com.github.bumblebee.util.logger
+import com.github.telegram.domain.Message
+import com.github.telegram.domain.User
 import org.springframework.stereotype.Service
-import java.lang.StringBuilder
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
+import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 @Service
 class StatisticsService(private val repository: StatisticsRepository) {
 
-    private val existingStatistics: MutableMap<Long, MutableList<Statistic>> = fillStatisticsMap()
+    private val stats: MutableMap<Long, MutableList<Statistic>> = loadPersistentStat()
 
-    private fun getAllUserStatisticsForCurrentDayAndChat(chatId: Long): MutableList<Statistic>? {
-        return existingStatistics[chatId]
-                ?.filterTo(mutableListOf()) { it.postedDate == LocalDate.now() }
+    private fun loadPersistentStat(): MutableMap<Long, MutableList<Statistic>> {
+        return repository.findStatisticByPostedDate(LocalDate.now())
+                .groupByTo(ConcurrentHashMap()) { it.chatId }
     }
 
-    private fun fillStatisticsMap(): MutableMap<Long, MutableList<Statistic>> {
-        return getAllUserStatisticsForCurrentDay().groupByTo(mutableMapOf()) { it.chatId }
-    }
+    fun getStatistics(): Map<Long, List<Statistic>> = stats
 
-    fun getChatsWithStatistic(): Set<Long> {
-        return existingStatistics.keys
-    }
+    fun handleMessage(message: Message, from: User) {
+        stats.compute(message.chat.id, { _, existingChatStats ->
+            val chatStats = existingChatStats ?: mutableListOf()
 
-    private fun getAllUserStatisticsForCurrentDay(): MutableList<Statistic> {
-        return repository.findStatisticByPostedDate(LocalDate.now()).orEmpty().toMutableList()
-    }
-
-    private fun getSortedStatisticsByMessagesCountInChat(chatId: Long): List<Statistic>? {
-        return getAllUserStatisticsForCurrentDayAndChat(chatId)?.sortedBy { statistic -> statistic.messageCount }
-    }
-
-    private fun getUserStatisticForCurrentDayInChat(userId: Long, chatId: Long): Statistic? {
-        return getSortedStatisticsByMessagesCountInChat(chatId)?.find { it.authorId == userId }
-    }
-
-    fun saveOrUpdateUserStatistic(userId: Long, chatId: Long, userName: String?) {
-        val existingStat = getAllUserStatisticsForCurrentDayAndChat(chatId)
-        if (existingStat == null) {
-            val userStat = buildUserStat(userId, chatId, userName)
-            existingStatistics[chatId] = mutableListOf(userStat)
-            repository.save(userStat)
-        } else {
-            var userStat = existingStat.find { it.authorId == userId }
-            if (userStat != null) {
-                userStat.messageCount += 1
-            } else {
-                userStat = buildUserStat(userId, chatId, userName)
-                existingStatistics[chatId]?.add(userStat)
+            // get or create Statistics object
+            val userStat = Optional.ofNullable(chatStats.find { it.authorId == from.id }).orElseGet {
+                val stat = createInitialStat(message)
+                chatStats.add(stat)
+                stat
             }
+
+            userStat.messageCount++
+            userStat.authorName = formatUserName(from)
             repository.save(userStat)
+
+            log.debug("Saved stat: {}", userStat)
+            chatStats
+        })
+    }
+
+    fun cleanupStats(date: LocalDate) {
+        log.debug("Stat before cleanup: {}", stats)
+        stats.values.forEach { chatStats ->
+            chatStats.removeIf { date != it.postedDate }
         }
+        log.debug("Stat after cleanup: {}", stats)
     }
 
-    private fun buildUserStat(userId: Long, chatId: Long, userName: String?): Statistic {
-        return Statistic(LocalDate.now(), 1, chatId, userId, userName)
+    private fun createInitialStat(message: Message): Statistic = with(Statistic()) {
+        postedDate = message.postedDate()
+        chatId = message.chat.id
+        authorId = message.from!!.id
+        this
     }
 
-    fun buildStatisticsForCurrentDayInChat(chatId: Long): String {
-        return getSortedStatisticsByMessagesCountInChat(chatId)?.joinToString(separator = "\n",
-                prefix = "Day message statistics:\n",
-                transform = { statistic -> statistic.authorName + ": " + statistic.messageCount })
-                ?: "Statistics is empty for today"
+    private fun Message.postedDate(): LocalDate {
+        return Instant.ofEpochSecond(date.toLong()).atZone(ZoneId.systemDefault()).toLocalDate()
     }
 
-    fun buildDayStatisticForUserInChat(chatId: Long, userId: Long): String {
-        val stringBuilder = StringBuilder()
-        stringBuilder.append("Your message statistics for this day:").append("\n")
-        val statistic = getUserStatisticForCurrentDayInChat(userId, chatId)
-        return if (statistic != null) {
-            stringBuilder.append(statistic.authorName)
-                    .append(": ")
-                    .append(statistic.messageCount)
-            stringBuilder.toString()
-        } else "Your statistic is empty for today"
+    private fun formatUserName(from: User): String {
+        val fullName = "${from.firstName} ${from.lastName}"
+        return if (fullName.isNotBlank()) fullName
+        else (from.userName ?: from.id.toString())
+    }
+
+    companion object {
+        val log = logger<StatisticsService>()
     }
 }
