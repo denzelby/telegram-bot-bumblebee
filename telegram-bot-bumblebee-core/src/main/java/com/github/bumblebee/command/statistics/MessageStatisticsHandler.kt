@@ -5,11 +5,13 @@ import com.github.bumblebee.command.statistics.service.StatisticsService
 import com.github.bumblebee.util.logger
 import com.github.telegram.domain.ChatType
 import com.github.telegram.domain.Update
+import org.springframework.context.annotation.DependsOn
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 
 @Component
+@DependsOn("timeZoneConfig")
 class MessageStatisticsHandler(private val statistics: StatisticsService) : ChainedMessageListener() {
 
     override fun onMessage(chatId: Long, message: String?, update: Update): Boolean {
@@ -25,7 +27,8 @@ class MessageStatisticsHandler(private val statistics: StatisticsService) : Chai
 
     @Scheduled(cron = "0 00 00 * * *")
     fun cleanup() {
-        logger<MessageStatisticsHandler>().info("Statistics cleanup")
-        statistics.cleanupStats(LocalDate.now())
+        val now = LocalDate.now()
+        logger<MessageStatisticsHandler>().info("Statistics cleanup, current date: $now")
+        statistics.cleanupStats(now)
     }
 }

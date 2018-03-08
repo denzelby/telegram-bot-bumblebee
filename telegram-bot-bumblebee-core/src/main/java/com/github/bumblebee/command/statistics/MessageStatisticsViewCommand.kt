@@ -7,10 +7,12 @@ import com.github.bumblebee.service.RandomPhraseService
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.ParseMode
 import com.github.telegram.domain.Update
+import org.springframework.context.annotation.DependsOn
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
 @Component
+@DependsOn("timeZoneConfig")
 class MessageStatisticsViewCommand(private val botApi: BotApi,
                                    private val statistics: StatisticsService,
                                    private val phrases: RandomPhraseService) : SingleArgumentCommand() {
