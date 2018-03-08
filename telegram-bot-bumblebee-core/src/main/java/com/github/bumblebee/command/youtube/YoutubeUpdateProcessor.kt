@@ -1,7 +1,7 @@
 package com.github.bumblebee.command.youtube
 
-import com.github.bumblebee.command.youtube.entity.AtomFeed
 import com.github.bumblebee.command.youtube.entity.PostedVideo
+import com.github.bumblebee.command.youtube.entity.VideoNotification
 import com.github.bumblebee.command.youtube.service.YoutubeSubscriptionService
 import com.github.telegram.api.BotApi
 import org.springframework.stereotype.Component
@@ -12,17 +12,16 @@ class YoutubeUpdateProcessor(private val botApi: BotApi,
                              private val service: YoutubeSubscriptionService) {
     private val postedVideos: MutableList<PostedVideo> = service.retrievePostedVideos().toMutableList()
 
-    fun process(feed: AtomFeed) {
-        val videoId = feed.entry.videoId
-        if (!postedVideos.any { it.videoId == videoId }) {
-            postVideo(feed)
-            markVideoAsPosted(videoId)
+    fun process(videoNotification: VideoNotification) {
+        if (!postedVideos.any { it.videoId == videoNotification.videoId }) {
+            postVideo(videoNotification)
+            markVideoAsPosted(videoNotification.videoId)
         }
     }
 
-    private fun postVideo(feed: AtomFeed) {
-        service.getChatIds(feed.entry.channelId).forEach { chatId ->
-            botApi.sendMessage(chatId, VIDEO_URL + feed.entry.videoId)
+    private fun postVideo(videoNotification: VideoNotification) {
+        service.getChatIds(videoNotification.channelId).forEach { chatId ->
+            botApi.sendMessage(chatId, VIDEO_URL + videoNotification.videoId)
         }
     }
 
