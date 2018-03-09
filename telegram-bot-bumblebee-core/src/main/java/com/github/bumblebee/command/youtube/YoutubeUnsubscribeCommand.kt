@@ -19,7 +19,7 @@ class YoutubeUnsubscribeCommand(private val botApi: BotApi,
             return
         }
 
-        service.existingSubscriptions.forEach { sub ->
+        service.getSubscriptions().forEach { sub ->
             if (sub.channelId == channelId) {
                 processUnsubscription(sub, channelId, chatId)
                 return
@@ -28,7 +28,7 @@ class YoutubeUnsubscribeCommand(private val botApi: BotApi,
         botApi.sendMessage(chatId, "Channel to unsubscribe not exist!")
     }
 
-    private fun processUnsubscription(sub: Subscription, channelId: String, chatId: Long?) {
+    private fun processUnsubscription(sub: Subscription, channelId: String, chatId: Long) {
         val chats = sub.chats
         for (chat in chats) {
             if (chat.chatId == chatId) {
@@ -39,19 +39,18 @@ class YoutubeUnsubscribeCommand(private val botApi: BotApi,
                 if (chats.size > 1) {
                     chats.remove(chat)
                     service.storeSubscription(sub)
-                    botApi.sendMessage(chatId!!, "Chat successfully unsubscribed!")
+                    botApi.sendMessage(chatId, "Chat successfully unsubscribed!")
                     return
                 }
             }
         }
     }
 
-    private fun removeChannel(sub: Subscription, channelId: String, chatId: Long?) {
+    private fun removeChannel(sub: Subscription, channelId: String, chatId: Long) {
         if (service.unsubscribeChannel(channelId)) {
             service.deleteSubscription(sub)
-            service.existingSubscriptions.remove(sub)
-            botApi.sendMessage(chatId!!, "Channel removed!")
+            service.getSubscriptions().remove(sub)
+            botApi.sendMessage(chatId, "Channel removed!")
         }
     }
-
 }

@@ -11,7 +11,7 @@ class SubscriptionUpdateScheduler(private val service: YoutubeSubscriptionServic
     @Scheduled(fixedRate = delay)
     fun checkOverdueSubscriptions() {
         val date = Date()
-        service.existingSubscriptions.forEach { subscription ->
+        service.getSubscriptions().forEach { subscription ->
             val interval = date.time - subscription.updatedDate.time
             if (interval > overdueInterval) {
                 subscription.updatedDate = date

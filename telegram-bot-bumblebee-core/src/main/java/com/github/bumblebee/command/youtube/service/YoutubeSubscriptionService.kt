@@ -20,7 +20,9 @@ class YoutubeSubscriptionService(private val subscriptionRepository: YoutubeSubs
             .logger(Slf4jLogger())
             .target(YoutubeSubscriptionApi::class.java, YoutubeSubscriptionApi.API_ROOT)
 
-    val existingSubscriptions: MutableList<Subscription> = subscriptionRepository.findAll().toMutableList()
+    private val existingSubscriptions: MutableList<Subscription> = subscriptionRepository.findAll().toMutableList()
+
+    fun getSubscriptions(): MutableList<Subscription> = existingSubscriptions
 
     fun storeSubscription(subscription: Subscription) {
         subscriptionRepository.save(subscription)

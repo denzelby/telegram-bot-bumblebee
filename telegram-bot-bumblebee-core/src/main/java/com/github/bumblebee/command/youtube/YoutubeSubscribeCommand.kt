@@ -16,8 +16,6 @@ class YoutubeSubscribeCommand(private val botApi: BotApi,
                               private val service: YoutubeSubscriptionService,
                               private val randomPhraseService: RandomPhraseService) : SingleArgumentCommand() {
 
-    private val subscriptionList: MutableList<Subscription> = service.existingSubscriptions.toMutableList()
-
     override fun handleCommand(update: Update, chatId: Long, channelId: String?) {
 
         if (channelId == null) {
@@ -25,7 +23,7 @@ class YoutubeSubscribeCommand(private val botApi: BotApi,
             return
         }
 
-        subscriptionList
+        service.getSubscriptions()
                 .filter { it.channelId == channelId }
                 .forEach {
                     if (checkForExistingChatInSubscription(it, chatId)) {
@@ -44,7 +42,6 @@ class YoutubeSubscribeCommand(private val botApi: BotApi,
         } else {
             botApi.sendMessage(chatId, "Wrong channel, cannot subscribe!")
         }
-
     }
 
     private fun checkForExistingChatInSubscription(sub: Subscription, chatId: Long?): Boolean {
@@ -61,7 +58,7 @@ class YoutubeSubscribeCommand(private val botApi: BotApi,
         subscription.channelId = argument
         subscription.updatedDate = Date()
         subscription.chats.add(Chat(chatId, subscription))
-        subscriptionList.add(subscription)
+        service.getSubscriptions().add(subscription)
         service.storeSubscription(subscription)
     }
 }
