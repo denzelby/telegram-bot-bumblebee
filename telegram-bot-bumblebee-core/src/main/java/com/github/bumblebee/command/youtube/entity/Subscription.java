@@ -52,4 +52,14 @@ public class Subscription {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
+
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "subId=" + subId +
+                ", channelId='" + channelId + '\'' +
+                ", updatedDate=" + updatedDate +
+                ", chats=" + chats +
+                '}';
+    }
 }

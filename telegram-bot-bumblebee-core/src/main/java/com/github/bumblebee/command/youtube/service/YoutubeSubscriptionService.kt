@@ -6,6 +6,7 @@ import com.github.bumblebee.command.youtube.dao.YoutubePostedVideosRepository
 import com.github.bumblebee.command.youtube.dao.YoutubeSubscriptionRepository
 import com.github.bumblebee.command.youtube.entity.PostedVideo
 import com.github.bumblebee.command.youtube.entity.Subscription
+import com.github.bumblebee.util.logger
 import feign.Feign
 import feign.slf4j.Slf4jLogger
 import org.springframework.stereotype.Service
@@ -51,6 +52,8 @@ class YoutubeSubscriptionService(private val subscriptionRepository: YoutubeSubs
     }
 
     fun getChatIds(channelId: String): Set<Long> {
+        // todo: remove this after troubleshooting
+        logger<YoutubeSubscriptionService>().info("existing subscriptions: {}", existingSubscriptions)
         return existingSubscriptions.asSequence()
                 .filter { it.channelId == channelId }
                 .flatMap { it.chats.asSequence() }

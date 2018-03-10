@@ -3,6 +3,7 @@ package com.github.bumblebee.command.youtube
 import com.github.bumblebee.command.youtube.entity.PostedVideo
 import com.github.bumblebee.command.youtube.entity.VideoNotification
 import com.github.bumblebee.command.youtube.service.YoutubeSubscriptionService
+import com.github.bumblebee.util.logger
 import com.github.telegram.api.BotApi
 import org.springframework.stereotype.Component
 import java.util.*
@@ -20,8 +21,11 @@ class YoutubeUpdateProcessor(private val botApi: BotApi,
     }
 
     private fun postVideo(videoNotification: VideoNotification) {
+        log.info("Posting video: {}", videoNotification)
         service.getChatIds(videoNotification.channelId).forEach { chatId ->
-            botApi.sendMessage(chatId, VIDEO_URL + videoNotification.videoId)
+            val url = VIDEO_URL + videoNotification.videoId
+            log.info("Posting video to chat {}: {}", chatId, url)
+            botApi.sendMessage(chatId, url)
         }
     }
 
@@ -32,6 +36,7 @@ class YoutubeUpdateProcessor(private val botApi: BotApi,
     }
 
     companion object {
+        val log = logger<YoutubeUpdateProcessor>()
         private val VIDEO_URL = "https://www.youtube.com/watch?v="
     }
 }
