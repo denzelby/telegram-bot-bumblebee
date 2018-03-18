@@ -4,6 +4,7 @@ import com.github.bumblebee.command.SingleArgumentCommand
 import com.github.bumblebee.command.statistics.entity.Statistic
 import com.github.bumblebee.command.statistics.service.StatisticsService
 import com.github.bumblebee.service.RandomPhraseService
+import com.github.bumblebee.util.logger
 import com.github.telegram.api.BotApi
 import com.github.telegram.domain.ParseMode
 import com.github.telegram.domain.Update
@@ -29,20 +30,28 @@ class MessageStatisticsViewCommand(private val botApi: BotApi,
 
     @Scheduled(cron = "0 00 21 * * *")
     fun postPeriodicStatistics() {
+        log.info("Posting periodic statistics")
         statistics.getStatistics().forEach { chatId, stats ->
-            postStatistics(chatId, stats)
+            val total = total(stats)
+            if (total >= AUTOPOST_STAT_THRESHOLD) {
+                botApi.sendMessage(chatId, render(stats, total), ParseMode.MARKDOWN)
+            } else {
+                log.info("Skipping posting stats to chat {}, too few messages in total", chatId)
+            }
         }
     }
 
     private fun postStatistics(chatId: Long, stats: List<Statistic>?, filter: (Statistic) -> Boolean = { true }) {
-        if (stats != null)
-            botApi.sendMessage(chatId, render(stats, filter), ParseMode.MARKDOWN)
-        else
+        if (stats != null) {
+            botApi.sendMessage(chatId, render(stats, total(stats), filter), ParseMode.MARKDOWN)
+        } else {
             botApi.sendMessage(chatId, phrases.no())
+        }
     }
 
-    private fun render(stats: List<Statistic>, filter: (Statistic) -> Boolean = { true }): String {
-        val total = stats.sumBy { it.messageCount }
+    private fun total(stats: List<Statistic>) = stats.sumBy { it.messageCount }
+
+    private fun render(stats: List<Statistic>, total: Int, filter: (Statistic) -> Boolean = { true }): String {
         return stats
                 .filter(filter)
                 .sortedByDescending { it.messageCount }
@@ -52,5 +61,10 @@ class MessageStatisticsViewCommand(private val botApi: BotApi,
                         transform = { "*${it.authorName}*: ${it.messageCount} (${String.format("%.2f", it.messageCount * 100.0 / total)}%)" },
                         postfix = "\n\n$total messages total"
                 )
+    }
+
+    companion object {
+        private const val AUTOPOST_STAT_THRESHOLD = 10
+        private val log = logger<MessageStatisticsViewCommand>()
     }
 }
