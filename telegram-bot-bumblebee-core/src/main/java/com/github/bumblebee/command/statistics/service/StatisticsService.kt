@@ -54,6 +54,7 @@ class StatisticsService(private val repository: StatisticsRepository) {
 
     fun getAllStatInChatByUsers(chatId: Long): Map<String?, Int> = repository.findStatisticByChatId(chatId)
             .groupBy { it.authorName }
+            .mapKeys { it.value.sortedByDescending { it.postedDate}.first().authorName }
             .mapValues { it.value.sumBy { it.messageCount } }
 
     private fun createInitialStat(message: Message): Statistic = with(Statistic()) {
