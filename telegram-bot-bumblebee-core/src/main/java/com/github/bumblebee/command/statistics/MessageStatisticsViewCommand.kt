@@ -24,6 +24,7 @@ class MessageStatisticsViewCommand(private val botApi: BotApi,
             "me" -> postStatistics(chatId, statistics.getStatistics()[chatId]) { stat ->
                 stat.authorId == update.message?.from?.id
             }
+            "all" -> postStatistics(chatId, statistics.getAllStatInChatByUsers(chatId))
             else -> botApi.sendMessage(chatId, phrases.surprise())
         }
     }
@@ -49,7 +50,23 @@ class MessageStatisticsViewCommand(private val botApi: BotApi,
         }
     }
 
+    private fun postStatistics(chatId: Long, stats: Map<String?, Int>, filter: (Statistic) -> Boolean = { true }) {
+        val total = stats.values.sum()
+        botApi.sendMessage(chatId, render(stats, total), ParseMode.MARKDOWN)
+    }
+
     private fun total(stats: List<Statistic>) = stats.sumBy { it.messageCount }
+
+    private fun render(stats: Map<String?, Int>, total: Int): String {
+        return stats.entries
+                .sortedByDescending { it.value }
+                .joinToString(
+                        prefix = "Top flooders ever:\n",
+                        separator = "\n",
+                        transform = { "*${it.key}*: ${it.value} (${String.format("%.2f", it.value * 100.0 / total)}%)" },
+                        postfix = "\n\n$total messages total"
+                )
+    }
 
     private fun render(stats: List<Statistic>, total: Int, filter: (Statistic) -> Boolean = { true }): String {
         return stats

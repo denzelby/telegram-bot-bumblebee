@@ -8,4 +8,6 @@ import java.time.LocalDate
 @Repository
 interface StatisticsRepository : CrudRepository<Statistic, Long> {
     fun findStatisticByPostedDate(postedDate: LocalDate): List<Statistic>
+
+    fun findStatisticByChatId(chatId: Long): List<Statistic>
 }
