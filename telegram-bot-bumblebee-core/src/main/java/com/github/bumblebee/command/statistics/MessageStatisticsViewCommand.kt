@@ -50,7 +50,7 @@ class MessageStatisticsViewCommand(private val botApi: BotApi,
         }
     }
 
-    private fun postStatistics(chatId: Long, stats: Map<String?, Int>, filter: (Statistic) -> Boolean = { true }) {
+    private fun postStatistics(chatId: Long, stats: Map<String?, Int>) {
         val total = stats.values.sum()
         botApi.sendMessage(chatId, render(stats, total), ParseMode.MARKDOWN)
     }
