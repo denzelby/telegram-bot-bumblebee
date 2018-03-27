@@ -52,6 +52,10 @@ class StatisticsService(private val repository: StatisticsRepository) {
         log.debug("Stat after cleanup: {}", stats)
     }
 
+    fun getAllStatInChatByUsers(chatId: Long): Map<String?, Int> = repository.findStatisticByChatId(chatId)
+            .groupBy { it.authorName }
+            .mapValues { it.value.sumBy { it.messageCount } }
+
     private fun createInitialStat(message: Message): Statistic = with(Statistic()) {
         postedDate = message.postedDate()
         chatId = message.chat.id
