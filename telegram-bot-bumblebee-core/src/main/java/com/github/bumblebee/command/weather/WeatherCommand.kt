@@ -34,6 +34,6 @@ class WeatherCommand(private val botApi: BotApi) : SingleArgumentCommand() {
     companion object {
         private val MAP_URL_DYNAMIC = "http://meteoinfo.by/radar/UMMN/radar-map.gif"
         private val MAP_URL_LATEST = "http://meteoinfo.by/radar/UMMN/UMMN_latest.png"
-        private val TEMPERATURE_URL = "http://www.foreca.ru/meteogram.php?loc_id=100625144&lang=ru"
+        private val TEMPERATURE_URL = "https://www.foreca.ru/meteogram.php?loc_id=100625144&lang=ru_RU"
     }
 }
