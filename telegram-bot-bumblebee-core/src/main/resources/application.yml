@@ -22,7 +22,6 @@ bumblebee:
     AutoCompletePhraseView: /phrases
     YoutubeSubscribeCommand: /subscribe
     YoutubeUnsubscribeCommand: /unsubscribe
-    YoutubeChatCommand: /youchat
     # Autocomplete administration
     AutoCompleteAdminCommand: /autocomplete
     # Admin commads
