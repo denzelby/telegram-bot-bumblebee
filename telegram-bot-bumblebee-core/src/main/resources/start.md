@@ -7,7 +7,7 @@ I support following commands:
  - *Youtube search*: /v, /y <search criteria>
  - *Youtube subscriptions* - subscribe chat on youtube channel updates.
    Examples:
-     /subscribe <channel id>, where channel id could be extracted from channel url: youtube.com /channel/**UCtinbF-Q-fVthA0qrFQTgXQ**
+     /subscribe <channel id>, where channel id could be extracted from channel url: youtube.com /channel/*UCtinbF-Q-fVthA0qrFQTgXQ*
      /unsubscribe <channel id>
  - *Autocomplete pattern add*: /autocomplete <phrase to complete/complete phrase>
  - *Autocomplete phrases view*: /phrases
