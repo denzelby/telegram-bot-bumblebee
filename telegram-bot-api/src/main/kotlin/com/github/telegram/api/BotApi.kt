@@ -130,6 +130,13 @@ interface BotApi {
         @Param("reply_markup") replyMarkup: ReplyMarkup?
     ): Response<Message>
 
+    @RequestLine("POST /deleteMessage")
+    @Headers("Content-type: application/json")
+    fun deleteMessage(
+        @Param("chat_id") chatId: Long,
+        @Param("message_id") messageId: Long
+    ): Response<Boolean>
+
     @RequestLine("POST /sendPhoto")
     @Headers("Content-type: application/json")
     fun sendPhoto(
