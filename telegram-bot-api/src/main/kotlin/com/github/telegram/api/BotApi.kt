@@ -75,6 +75,61 @@ interface BotApi {
             @Param("disable_notification") disableNotification: Boolean? = null
     ): Response<Message>
 
+    @RequestLine("POST /editMessageText")
+    @Headers("Content-type: application/json")
+    fun editMessageText(
+        @Param("chat_id") chatId: Long,
+        @Param("message_id") messageId: Long,
+        @Param("text") text: String,
+        @Param("parse_mode") parseMode: String? = null,
+        @Param("disable_web_page_preview") disableWebPagePreview: Boolean? = null,
+        @Param("reply_markup") replyMarkup: ReplyMarkup? = null
+    ): Response<Message>
+
+    @RequestLine("POST /editMessageText")
+    @Headers("Content-type: application/json")
+    fun editMessageText(
+        @Param("inline_message_id") inlineMessageId: String,
+        @Param("text") text: String,
+        @Param("parse_mode") parseMode: String? = null,
+        @Param("disable_web_page_preview") disableWebPagePreview: Boolean? = null,
+        @Param("reply_markup") replyMarkup: ReplyMarkup? = null
+    ): Response<Message>
+
+    @RequestLine("POST /editMessageCaption")
+    @Headers("Content-type: application/json")
+    fun editMessageCaption(
+        @Param("chat_id") chatId: Long,
+        @Param("message_id") messageId: Long,
+        @Param("caption") caption: String,
+        @Param("parse_mode") parseMode: String? = null,
+        @Param("reply_markup") replyMarkup: ReplyMarkup? = null
+    ): Response<Message>
+
+    @RequestLine("POST /editMessageCaption")
+    @Headers("Content-type: application/json")
+    fun editMessageCaption(
+        @Param("inline_message_id") inlineMessageId: Long,
+        @Param("caption") caption: String,
+        @Param("parse_mode") parseMode: String? = null,
+        @Param("reply_markup") replyMarkup: ReplyMarkup? = null
+    ): Response<Message>
+
+    @RequestLine("POST /editMessageReplyMarkup")
+    @Headers("Content-type: application/json")
+    fun editMessageReplyMarkup(
+        @Param("chat_id") chatId: Long,
+        @Param("message_id") messageId: Long,
+        @Param("reply_markup") replyMarkup: ReplyMarkup?
+    ): Response<Message>
+
+    @RequestLine("POST /editMessageReplyMarkup")
+    @Headers("Content-type: application/json")
+    fun editMessageReplyMarkup(
+        @Param("inline_message_id") inlineMessageId: Long,
+        @Param("reply_markup") replyMarkup: ReplyMarkup?
+    ): Response<Message>
+
     @RequestLine("POST /sendPhoto")
     @Headers("Content-type: application/json")
     fun sendPhoto(

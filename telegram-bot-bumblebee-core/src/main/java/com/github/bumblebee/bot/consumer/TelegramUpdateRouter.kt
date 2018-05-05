@@ -1,5 +1,6 @@
 package com.github.bumblebee.bot.consumer
 
+import com.github.bumblebee.command.CallbackAware
 import com.github.bumblebee.util.logger
 import com.github.telegram.domain.Update
 import org.springframework.stereotype.Component
@@ -33,18 +34,26 @@ class TelegramUpdateRouter(private val handlerRegistry: HandlerRegistry) {
     private fun isOutdatedUpdate(update: Update): Boolean {
         val unixTime = update.message?.date
         return unixTime != null && Instant.ofEpochSecond(unixTime.toLong())
-                .isBefore(Instant.now().minusSeconds(updateExpirationSeconds.toLong()))
+            .isBefore(Instant.now().minusSeconds(updateExpirationSeconds.toLong()))
     }
 
     private fun invokeCommand(update: Update): Boolean {
-        val text = update.message?.text
-        if (text != null && text.startsWith("/")) {
-            val handler = handlerRegistry[parse(text)]
-            if (handler != null) {
+        update.message?.text?.takeIf { it.startsWith("/") }?.let { alias ->
+            handlerRegistry.getByAlias(parse(alias))?.let { handler ->
                 handler.onUpdate(update)
                 return true
             }
         }
+
+        update.callbackQuery?.let { callbackQuery ->
+            callbackQuery.data?.let { rawData ->
+                CallbackAware.parse(rawData)?.let { (callbackId, data) ->
+                    handlerRegistry.getByCallbackId(callbackId)?.onCallback(data, callbackQuery)
+                    return true
+                }
+            }
+        }
+
         return false
     }
 

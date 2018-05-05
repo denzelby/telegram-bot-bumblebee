@@ -19,4 +19,4 @@ data class CallbackQuery(
         val from: User,
         val message: Message?,
         @Name("inline_message_id") val inlineMessageId: String?,
-        val data: String)
+        val data: String?)
