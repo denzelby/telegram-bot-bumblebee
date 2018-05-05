@@ -101,7 +101,7 @@ class MessageStatisticsViewCommand(
         botApi.sendChatAction(chatId, ChatAction.UPLOAD_PHOTO)
 
         val (weekStart, weekEnd) = getWeekRange(date)
-        val image = chartService.getWeeklyStats(-1001045406626, weekStart, weekEnd)
+        val image = chartService.getWeeklyStats(chatId, weekStart, weekEnd)
         if (image.isPresent) {
             val keyboard = createStatsSelectorButtons(weekStart)
             val photo = InputFile.photo(ByteArrayInputStream(image.get()), "image")
