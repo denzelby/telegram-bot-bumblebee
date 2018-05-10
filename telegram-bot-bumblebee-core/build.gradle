@@ -1,15 +1,11 @@
 buildscript {
-    ext {
-        springBootVersion = '2.0.0.RELEASE'
-        kotlinVersion = '1.2.30'
-    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
     }
 }
 
@@ -44,7 +40,7 @@ bootJar {
 
 dependencyManagement {
     dependencies {
-        dependencySet(group: 'org.jetbrains.kotlin', version: kotlinVersion) {
+        dependencySet(group: 'org.jetbrains.kotlin', version: kotlin_version) {
             entry 'kotlin-stdlib-jre8'
             entry 'kotlin-stdlib-jre7'
             entry 'kotlin-stdlib'
