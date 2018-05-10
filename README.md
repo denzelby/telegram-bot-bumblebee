@@ -1,4 +1,4 @@
-[![Build Status](https://drone.io/github.com/denzelby/telegram-bot-bumblebee/status.png)](https://drone.io/github.com/denzelby/telegram-bot-bumblebee/latest)
+[![CircleCI](https://circleci.com/gh/denzelby/telegram-bot-bumblebee/tree/master.svg?style=svg)](https://circleci.com/gh/denzelby/telegram-bot-bumblebee/tree/master)
 
 # Bumblebee - telegram bot
 
