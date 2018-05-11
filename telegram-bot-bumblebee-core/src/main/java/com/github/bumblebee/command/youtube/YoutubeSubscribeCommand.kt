@@ -16,12 +16,14 @@ class YoutubeSubscribeCommand(private val botApi: BotApi,
                               private val service: YoutubeSubscriptionService,
                               private val randomPhraseService: RandomPhraseService) : SingleArgumentCommand() {
 
-    override fun handleCommand(update: Update, chatId: Long, channelId: String?) {
+    override fun handleCommand(update: Update, chatId: Long, argument: String?) {
 
-        if (channelId == null) {
+        if (argument == null) {
             botApi.sendMessage(chatId, randomPhraseService.surprise())
             return
         }
+
+        val channelId: String = argument
 
         service.getSubscriptions()
                 .filter { it.channelId == channelId }
@@ -48,12 +50,12 @@ class YoutubeSubscribeCommand(private val botApi: BotApi,
         return sub.chats.any { it.chatId == chatId }
     }
 
-    private fun addNewChatToSubscription(sub: Subscription, chatId: Long?) {
+    private fun addNewChatToSubscription(sub: Subscription, chatId: Long) {
         sub.chats.add(Chat(chatId, sub))
         service.storeSubscription(sub)
     }
 
-    private fun createAndStoreNewSubscription(argument: String, chatId: Long?) {
+    private fun createAndStoreNewSubscription(argument: String, chatId: Long) {
         val subscription = Subscription()
         subscription.channelId = argument
         subscription.updatedDate = Date()
