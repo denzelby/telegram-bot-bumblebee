@@ -48,11 +48,6 @@ google:
     key:
     custom-search-id:
 
-# Bing Search API
-bing:
-  api:
-    account-key:
-
 currency:
   chart:
     date-format: dd.MM.yyyy

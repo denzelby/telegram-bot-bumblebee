@@ -29,6 +29,7 @@ open class ImageSearchCommand(private val botApi: BotApi,
         providers.forEach { provider ->
             val images = search(provider, argument)
             if (images.isNotEmpty()) {
+                log.debug("Provider '{}' found {} results for: {}", provider.name(), images.size, argument)
                 val isSent = sendFirstImage(images, chatId, argument)
                 if (isSent) {
                     return
