@@ -27,7 +27,7 @@ class CurrencyActualExchangeRateCommand(
                 botApi.sendMessage(chatId, "NBRB doesn't know.", update.message!!.messageId)
             }
         } catch (e: Exception) {
-            log.error("Currency retrieve failed for " + currencyName, e)
+            log.error("Currency retrieve failed for $currencyName", e)
             botApi.sendMessage(chatId, randomPhrase.no(), update.message!!.messageId)
         }
     }

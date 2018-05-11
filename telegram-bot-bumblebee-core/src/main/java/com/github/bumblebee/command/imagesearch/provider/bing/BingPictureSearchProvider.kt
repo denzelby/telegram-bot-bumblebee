@@ -24,21 +24,14 @@ class BingPictureSearchProvider(config: BingSearchConfig) : ImageProvider {
     private val ignoredTypes = hashSetOf("image/animatedgif")
 
     override fun search(query: String): List<Image> {
-
         val response = imageSearchApi.queryPictures("'$query'")
-        val data = response.data
-
-        if (data?.results != null && !data.results.isEmpty()) {
-            val searchResults = data.results
-            log.info("> {}: {} results", query, searchResults.size)
-
-            return searchResults
-                    .filter { pic ->
-                        !ignoredTypes.contains(pic.contentType) &&
-                                !FilenameUtils.getExtension(pic.mediaUrl).isEmpty()
-                    }
+        response.data?.results?.let { items ->
+            return items.filter { pic ->
+                !ignoredTypes.contains(pic.contentType) && FilenameUtils.getExtension(pic.mediaUrl).isNotEmpty()
+            }
         }
-        log.error("Bad Bing response: {}", data)
+
+        log.error("Bad Bing response: {}", response.data)
         return emptyList()
     }
 

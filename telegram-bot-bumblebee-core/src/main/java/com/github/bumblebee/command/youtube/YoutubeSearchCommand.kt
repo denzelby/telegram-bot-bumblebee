@@ -46,12 +46,10 @@ class YoutubeSearchCommand(private val botApi: BotApi,
             return Optional.empty()
         }
         try {
-            val videoId = queryFirstVideoId(searchQuery)
-            if (videoId != null) {
+            queryFirstVideoId(searchQuery)?.let { videoId ->
                 return Optional.of(VIDEO_URL + videoId)
-            } else {
-                log.warn("Video search failed, retrying... (remaining attempts {})", retries)
             }
+            log.warn("Video search failed, retrying... (remaining attempts {})", retries)
         } catch (e: IOException) {
             log.error("Error during youtube search", e)
         }

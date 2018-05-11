@@ -10,10 +10,10 @@ import java.io.File
 class TelegramWebHookRegistrator(private val botApi: BotApi) {
 
     fun registerWebHook(url: String, certificatePath: String?): Boolean {
-        val webHookUrl = url + "/webhook"
+        val webHookUrl = "$url/webhook"
         log.info("Registering webhook: {}, certificate path: {}", webHookUrl, certificatePath)
 
-        val certificate = if (certificatePath != null) InputFile.document(File(certificatePath)) else null
+        val certificate = certificatePath?.let { InputFile.document(File(it)) }
         val response = botApi.setWebhook(webHookUrl, certificate)
         log.info("Webhook registration: result = {}, description = {}", response.result, response.description)
         return response.ok && response.result!!

@@ -25,8 +25,7 @@ class CurrencyChartCommand(protected val botApi: BotApi,
 
     override fun handleCommand(update: Update, chatId: Long, argument: String?) {
         val (from, to) = argumentParser.getRange(argument)
-        val errorMessage = validateRange(from, to)
-        if (errorMessage != null) {
+        validateRange(from, to)?.let { errorMessage ->
             botApi.sendMessage(chatId, errorMessage, update.message!!.messageId)
             return
         }

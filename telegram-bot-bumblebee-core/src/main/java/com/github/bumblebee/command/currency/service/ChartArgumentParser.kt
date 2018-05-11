@@ -22,9 +22,8 @@ class ChartArgumentParser(private val chartConfig: CurrencyChartConfig) {
         val tokenizer = StringTokenizer(argument, " ")
         val result = Lists.newArrayListWithExpectedSize<String>(tokenizer.countTokens())
         while (tokenizer.hasMoreTokens()) {
-            val supportedCurrency = SupportedCurrency.parse(tokenizer.nextToken())
-            if (supportedCurrency != null) {
-                result.add(supportedCurrency.name)
+            SupportedCurrency.parse(tokenizer.nextToken())?.let {
+                result.add(it.name)
             }
         }
         return if (result.isEmpty()) chartConfig.defaultCurrencies else result
