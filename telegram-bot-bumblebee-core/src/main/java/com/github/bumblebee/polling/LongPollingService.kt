@@ -21,9 +21,7 @@ class LongPollingService(private val botApi: BotApi,
                 val updates = response.result.orEmpty()
                 updates.forEach { updateProcessor.process(it) }
 
-                if (updates.isNotEmpty()) {
-                    updateLastUpdateOffset(updates)
-                }
+                updateLastUpdateOffset(updates)
             } else {
                 log.error("Update failed, offset = {}", lastUpdateOffset)
             }

@@ -17,8 +17,10 @@ class WebHookController(private val updateProcessor: UpdateProcessor) {
      *
      * @param update https://core.telegram.org/bots/api#update
      */
-    @RequestMapping(method = [(RequestMethod.POST)], path = ["/webhook"],
-            consumes = [(MediaType.APPLICATION_JSON_VALUE)], produces = [(MediaType.APPLICATION_JSON_VALUE)])
+    @RequestMapping(
+        method = [(RequestMethod.POST)], path = ["/webhook"],
+        consumes = [(MediaType.APPLICATION_JSON_VALUE)], produces = [(MediaType.APPLICATION_JSON_VALUE)]
+    )
     fun handleUpdates(@RequestBody update: Update) {
         log.debug("Webhook update: {}", update.updateId)
         updateProcessor.process(update)
