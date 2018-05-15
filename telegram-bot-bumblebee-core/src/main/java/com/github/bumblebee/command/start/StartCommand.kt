@@ -11,19 +11,15 @@ import org.springframework.stereotype.Component
 @Component
 class StartCommand(val botApi: BotApi) : UpdateHandler {
     private val helpText: String by lazy {
-        IOUtils.toString(ClassPathResource("start.md").inputStream)
+        ClassPathResource("start.md").inputStream.use { IOUtils.toString(it) }
     }
 
     override fun onUpdate(update: Update): Boolean {
-
         botApi.sendMessage(
-                chatId = update.message!!.chat.id,
-                text = helpText,
-                parseMode = ParseMode.MARKDOWN,
-                replyToMessageId = update.message!!.messageId
+            chatId = update.message!!.chat.id,
+            text = helpText,
+            parseMode = ParseMode.MARKDOWN
         )
-
         return true
     }
-
 }
