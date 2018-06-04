@@ -55,8 +55,8 @@ dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
     compile 'org.jetbrains.kotlin:kotlin-reflect'
 
-    compile 'com.google.api-client:google-api-client:1.19.1'
-    compile 'com.google.apis:google-api-services-youtube:v3-rev152-1.20.0'
+    compile 'com.google.api-client:google-api-client:1.23.0'
+    compile 'com.google.apis:google-api-services-youtube:v3-rev198-1.23.0'
     compile ('org.springframework.boot:spring-boot-starter-web') {
         exclude module: 'spring-boot-starter-tomcat'
     }
@@ -64,7 +64,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.postgresql:postgresql:42.2.2'
     compile 'org.flywaydb:flyway-core:5.0.3'
-    compile 'org.jfree:jfreechart:1.0.19'
+    compile 'org.jfree:jfreechart:1.5.0'
     compile 'com.fasterxml.jackson.module:jackson-module-kotlin'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'

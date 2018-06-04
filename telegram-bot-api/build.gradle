@@ -28,15 +28,15 @@ compileTestKotlin {
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
 
-    compile 'com.netflix.feign:feign-jaxrs:8.12.1'
-    compile 'com.netflix.feign:feign-gson:8.12.1'
-    compile 'com.netflix.feign:feign-okhttp:8.12.1'
-    compile 'com.netflix.feign:feign-slf4j:8.12.1'
+    compile 'com.netflix.feign:feign-jaxrs:8.18.0'
+    compile 'com.netflix.feign:feign-gson:8.18.0'
+    compile 'com.netflix.feign:feign-okhttp:8.18.0'
+    compile 'com.netflix.feign:feign-slf4j:8.18.0'
 
-    compile 'commons-io:commons-io:2.4'
-    compile 'org.slf4j:slf4j-api:1.7.12'
-    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'commons-io:commons-io:2.6'
+    compile 'org.slf4j:slf4j-api'
+    compile 'com.google.code.gson:gson:2.8.5'
 
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile 'junit:junit'
+    testCompile 'org.mockito:mockito-all'
 }
