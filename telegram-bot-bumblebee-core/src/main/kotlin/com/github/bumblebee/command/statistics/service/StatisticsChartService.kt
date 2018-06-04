@@ -7,8 +7,8 @@ import org.jfree.chart.*
 import org.jfree.chart.plot.PlotOrientation
 import org.jfree.chart.renderer.category.BarRenderer
 import org.jfree.chart.renderer.category.StandardBarPainter
+import org.jfree.chart.ui.RectangleInsets
 import org.jfree.data.category.DefaultCategoryDataset
-import org.jfree.ui.RectangleInsets
 import org.springframework.stereotype.Service
 import java.awt.BasicStroke
 import java.awt.Color
@@ -34,7 +34,7 @@ class StatisticsChartService(private val repository: StatisticsRepository) {
 
     private fun render(chart: JFreeChart): ByteArray {
         val image = chart.createBufferedImage(640, 480)
-        return ChartUtilities.encodeAsPNG(image)
+        return ChartUtils.encodeAsPNG(image)
     }
 
     private fun createChart(stats: List<Statistic>, weekStart: LocalDate, weekEnd: LocalDate): JFreeChart {

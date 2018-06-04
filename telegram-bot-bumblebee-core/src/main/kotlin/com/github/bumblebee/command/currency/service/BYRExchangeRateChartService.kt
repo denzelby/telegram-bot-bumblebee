@@ -3,7 +3,7 @@ package com.github.bumblebee.command.currency.service
 import com.github.bumblebee.command.currency.config.CurrencyChartConfig
 import com.github.bumblebee.command.currency.domain.DailyExchangeRate
 import org.jfree.chart.ChartFactory
-import org.jfree.chart.ChartUtilities
+import org.jfree.chart.ChartUtils
 import org.jfree.chart.JFreeChart
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator
 import org.jfree.chart.plot.PlotOrientation
@@ -27,7 +27,7 @@ class BYRExchangeRateChartService(private val currencyChartConfig: CurrencyChart
         else
             createLineChart(sortedRates)
         val image = chart.createBufferedImage(getWidth(chart), DEFAULT_CHART_HEIGHT)
-        return ChartUtilities.encodeAsPNG(image)
+        return ChartUtils.encodeAsPNG(image)
     }
 
     private fun createLineChart(rates: List<DailyExchangeRate>): JFreeChart {
@@ -57,8 +57,8 @@ class BYRExchangeRateChartService(private val currencyChartConfig: CurrencyChart
         val categoryPlot = chart.categoryPlot
         val renderer = categoryPlot.renderer
         // draw values on bars
-        renderer.baseItemLabelGenerator = StandardCategoryItemLabelGenerator()
-        renderer.setBaseItemLabelsVisible(true)
+        renderer.defaultItemLabelGenerator = StandardCategoryItemLabelGenerator()
+        renderer.defaultItemLabelsVisible = true
         categoryPlot.renderer = renderer
 
         // top margin

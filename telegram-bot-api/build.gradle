@@ -26,17 +26,17 @@ compileTestKotlin {
     }
 }
 dependencies {
-    compile 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
-    compile 'com.netflix.feign:feign-jaxrs:8.18.0'
-    compile 'com.netflix.feign:feign-gson:8.18.0'
-    compile 'com.netflix.feign:feign-okhttp:8.18.0'
-    compile 'com.netflix.feign:feign-slf4j:8.18.0'
+    compile 'com.netflix.feign:feign-jaxrs:8.12.1'
+    compile 'com.netflix.feign:feign-gson:8.12.1'
+    compile 'com.netflix.feign:feign-okhttp:8.12.1'
+    compile 'com.netflix.feign:feign-slf4j:8.12.1'
 
     compile 'commons-io:commons-io:2.6'
-    compile 'org.slf4j:slf4j-api'
+    compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'com.google.code.gson:gson:2.8.5'
 
-    testCompile 'junit:junit'
-    testCompile 'org.mockito:mockito-all'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.19'
 }

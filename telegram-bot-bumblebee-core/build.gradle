@@ -41,8 +41,8 @@ bootJar {
 dependencyManagement {
     dependencies {
         dependencySet(group: 'org.jetbrains.kotlin', version: kotlin_version) {
-            entry 'kotlin-stdlib-jre8'
-            entry 'kotlin-stdlib-jre7'
+            entry 'kotlin-stdlib-jdk8'
+            entry 'kotlin-stdlib-jdk7'
             entry 'kotlin-stdlib'
             entry 'kotlin-reflect'
         }
@@ -52,7 +52,7 @@ dependencyManagement {
 dependencies {
     compile project(':telegram-bot-api')
 
-    compile 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     compile 'org.jetbrains.kotlin:kotlin-reflect'
 
     compile 'com.google.api-client:google-api-client:1.23.0'
