@@ -67,6 +67,9 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false
+    properties:
+      hibernate:
+        jdbc.lob.non_contextual_creation: true
   logging:
     level:
       com.github.bumblebee.command.statistics: DEBUG
