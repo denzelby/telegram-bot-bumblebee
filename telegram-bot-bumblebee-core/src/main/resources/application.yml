@@ -72,4 +72,4 @@ spring:
         jdbc.lob.non_contextual_creation: true
   logging:
     level:
-      com.github.bumblebee.command.statistics: DEBUG
+      com.github.bumblebee: DEBUG

@@ -25,7 +25,7 @@ class StatisticsService(private val repository: StatisticsRepository) {
     fun getStatistics(): Map<Long, List<Statistic>> = stats
 
     fun handleMessage(message: Message, from: User) {
-        stats.compute(message.chat.id, { _, existingChatStats ->
+        stats.compute(message.chat.id) { _, existingChatStats ->
             val chatStats = existingChatStats ?: mutableListOf()
 
             // get or create Statistics object
@@ -41,7 +41,7 @@ class StatisticsService(private val repository: StatisticsRepository) {
 
             log.debug("Saved stat: {}", userStat)
             chatStats
-        })
+        }
     }
 
     fun cleanupStats(date: LocalDate) {
