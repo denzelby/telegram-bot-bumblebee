@@ -43,16 +43,18 @@ class AutoCompleteHandler(
     private fun splitPhrases(pattern: String, limit: Int = 0) = pattern.split('/', limit = limit)
 
     override fun onMessage(chatId: Long, message: String?, update: Update): Boolean {
-        completions[message]?.let { phrases ->
-            phrases.forEach { phrase ->
-                if (phrase.startsWith(STICKER_PREFIX)) {
-                    botApi.sendSticker(chatId, phrase.removePrefix(STICKER_PREFIX))
-                } else {
-                    botApi.sendMessage(chatId, phrase)
+        message?.let {
+            completions[it]?.let { phrases ->
+                phrases.forEach { phrase ->
+                    if (phrase.startsWith(STICKER_PREFIX)) {
+                        botApi.sendSticker(chatId, phrase.removePrefix(STICKER_PREFIX))
+                    } else {
+                        botApi.sendMessage(chatId, phrase)
+                    }
+                    Thread.sleep(400)
                 }
-                Thread.sleep(400)
+                return true
             }
-            return true
         }
         return false
     }
