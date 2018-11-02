@@ -33,7 +33,7 @@ class CurrencyActualExchangeRateCommand(
     }
 
     private fun getCurrencyNameOrDefault(argument: String?, defaultCurrency: SupportedCurrency): String {
-        return if (!argument.isNullOrEmpty()) argument!!.trim { it <= ' ' }.toUpperCase()
+        return if (!argument.isNullOrEmpty()) argument.trim { it <= ' ' }.toUpperCase()
         else defaultCurrency.name
     }
 
