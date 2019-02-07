@@ -9,7 +9,7 @@ import feign.codec.Encoder
 import okio.Buffer
 import org.apache.commons.io.IOUtils
 import java.lang.reflect.Type
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 
 /**
  * Poor mans support of multipart form data for Feign.
@@ -26,10 +26,8 @@ class MultipartEncoder(private val delegate: Encoder) : Encoder {
         }
     }
 
-    private fun isMultipart(template: RequestTemplate): Boolean {
-        val contentType = template.headers()["Content-type"]
-        return contentType != null && contentType.any { "multipart/form-data" == it }
-    }
+    private fun isMultipart(template: RequestTemplate): Boolean =
+        template.headers()["Content-type"]?.any { "multipart/form-data" == it } == true
 
     private fun encodeAsMultipart(parts: Map<String, *>, template: RequestTemplate) {
 
@@ -48,7 +46,7 @@ class MultipartEncoder(private val delegate: Encoder) : Encoder {
         requestBody.writeTo(buffer)
 
         template.header("Content-type", requestBody.contentType().toString())
-        template.body(buffer.readByteArray(), Charset.defaultCharset())
+        template.body(buffer.readByteArray(), StandardCharsets.UTF_8)
     }
 
     private fun addInputFilePart(builder: MultipartBuilder, partName: String, inputFile: InputFile) {
