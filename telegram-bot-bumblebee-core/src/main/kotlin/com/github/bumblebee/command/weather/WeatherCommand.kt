@@ -10,9 +10,9 @@ class WeatherCommand(private val botApi: BotApi) : SingleArgumentCommand() {
 
     override fun handleCommand(update: Update, chatId: Long, argument: String?) {
         when (WeatherArgument.of(argument) ?: WeatherArgument.TEMPERATURE) {
-            WeatherCommand.WeatherArgument.MAP_DYNAMIC -> botApi.sendDocument(chatId, MAP_URL_DYNAMIC.withTimestamp())
-            WeatherCommand.WeatherArgument.MAP_LATEST -> botApi.sendPhoto(chatId, MAP_URL_LATEST.withTimestamp())
-            WeatherCommand.WeatherArgument.TEMPERATURE -> botApi.sendPhoto(chatId, TEMPERATURE_URL.withTimestamp())
+            WeatherArgument.MAP_DYNAMIC -> botApi.sendDocument(chatId, MAP_URL_DYNAMIC.withTimestamp())
+            WeatherArgument.MAP_LATEST -> botApi.sendPhoto(chatId, MAP_URL_LATEST.withTimestamp())
+            WeatherArgument.TEMPERATURE -> botApi.sendPhoto(chatId, TEMPERATURE_URL.withTimestamp())
         }
     }
 
@@ -23,7 +23,7 @@ class WeatherCommand(private val botApi: BotApi) : SingleArgumentCommand() {
 
         companion object {
             fun of(code: String?): WeatherArgument? {
-                return WeatherArgument.values().firstOrNull {
+                return values().firstOrNull {
                     it.arguments.any { it.equals(code, ignoreCase = true)  }
                 }
             }
