@@ -33,7 +33,7 @@ class MultipartEncoder(private val delegate: Encoder) : Encoder {
 
         val builder = MultipartBuilder().type(MultipartBuilder.FORM)
 
-        parts.forEach { partName, value ->
+        parts.forEach { (partName, value) ->
             if (value is InputFile) {
                 addInputFilePart(builder, partName, value)
             } else {
